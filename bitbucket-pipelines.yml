@@ -13,13 +13,15 @@ definitions:
             # !!!!
 
             - curl https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip -o terraform_0.12.21_linux_amd64.zip
-            - sudo apt-get -y install unzip 
+            - apt-get -y install unzip 
             - unzip terraform_0.12.21_linux_amd64.zip
 
             - echo ${GCP_SECRET} > credentials.json
             - terraform init
             - terraform validate
             - terraform plan
+
+            # temp
             - terraform apply -input=false -auto-approve -no-color
 
 pipelines:
