@@ -1,5 +1,3 @@
-image: hashicorp/terraform
-
 definitions:
   steps:
     - step: &terraform-test
