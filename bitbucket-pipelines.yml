@@ -1,10 +1,10 @@
-image: google/cloud-sdk
+image: hashicorp/terraform
 
 definitions:
   steps:
     - step: &terraform-test
         name: Testing terraform configuration
-        image: google/cloud-sdk
+        image: hashicorp/terraform
         script:
             - cd ./terraform/dev/
 
@@ -13,17 +13,18 @@ definitions:
             - export KUBERNETES_SERVICE_HOST=
             # !!!!
 
-            - curl https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip -o terraform_0.12.21_linux_amd64.zip
-            - apt-get -y install unzip 
-            - unzip terraform_0.12.21_linux_amd64.zip
+
+            - sudo apt-get update && sudo apt-get install -y apt-transport-https
+            - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+            - apt-get update
+            - apt-get install -y kubectl
 
             - echo ${GCP_SECRET} > credentials.json
-            - ./terraform init
-            - ./terraform validate
-            - ./terraform plan
-
-            # temp
-            - ./terraform apply -input=false -auto-approve -no-color
+            - terraform init
+            - terraform validate
+            - terraform plan
+            - terraform apply -input=false -auto-approve -no-color
 
 pipelines:
     default:
