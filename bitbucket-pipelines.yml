@@ -24,12 +24,12 @@ definitions:
 
             - cd ./terraform/dev/
             - echo ${GCP_SECRET} > credentials.json
+
+            # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
+            # !!!!
+            - export KUBERNETES_SERVICE_HOST=
+            # !!!!
             
-            #- apt update && apt-get install -y apt-transport-https && apt-get install -y curl
-            #- curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-            #- echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
-            #- apt-get update
-            #- apt-get install -y kubectl
             - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
             - unzip terraform_0.12.21_linux_amd64.zip
             - ./terraform init
