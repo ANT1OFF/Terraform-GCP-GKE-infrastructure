@@ -6,13 +6,11 @@ definitions:
         name: Testing terraform configuration
         image: hashicorp/terraform:full
         script:
-            - echo ${GCP_SECRET} > credentials.json
             - cd ./terraform/dev/
+            - echo ${GCP_SECRET} > credentials.json
             - terraform init
             - terraform validate
             - terraform plan
-
-
 
 pipelines:
     default:
