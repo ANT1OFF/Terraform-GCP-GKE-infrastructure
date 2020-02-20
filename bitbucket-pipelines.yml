@@ -13,18 +13,29 @@ definitions:
             - export KUBERNETES_SERVICE_HOST=
             # !!!!
 
-
-            - sudo apt-get update && sudo apt-get install -y apt-transport-https
-            - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-            - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-            - apt-get update
-            - apt-get install -y kubectl
-
             - echo ${GCP_SECRET} > credentials.json
             - terraform init
             - terraform validate
             - terraform plan
+
+
+    - step: &terraform-deploy
+        name: Testing terraform configuration
+        image: hashicorp/terraform
+        script:
+            - cd ./terraform/dev/
+            - echo ${GCP_SECRET} > credentials.json
+            
+            
+            - apt-get update && apt-get install -y apt-transport-https && apt-get install -y curl
+            - curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+            - echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+            - apt-get update
+            - apt-get install -y kubectl
+            
+            
             - terraform apply -input=false -auto-approve -no-color
+              
 
 pipelines:
     default:
@@ -33,5 +44,6 @@ pipelines:
     branches:
         master:
             - step: *terraform-test
+            - step: *terraform-deploy
               
             
