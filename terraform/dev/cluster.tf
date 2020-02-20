@@ -60,6 +60,13 @@ resource "kubernetes_service" "hello-world" {
   }
 }
 
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE DEPLOYMENT IN THE CLUSTER
+# ---------------------------------------------------------------------------------------------------------------------
+
+
 locals {
   app_label = "hello"
 }
@@ -100,6 +107,11 @@ resource "kubernetes_deployment" "hello" {
   }
 }
 
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE DEPLOYMENT IN THE CLUSTER
+# ---------------------------------------------------------------------------------------------------------------------
 
 locals {
   app_label2 = "test-rest"
@@ -145,18 +157,18 @@ resource "kubernetes_deployment" "test-rest" {
           }
           command = ["/cloud_sql_proxy",
                       "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:5432",
-                      "-credential_file=/secrets/cloudsql/proxyCreds.json"]
+                      "-credential_file=/secrets/cloudsql/${local.proxy_file_name}"]
           volume_mount {
-            name = "cloudsql-instance-credentials"
+            name = local.proxy_volume_and_secret_name
             mount_path = "/secrets/cloudsql"
             read_only = true
           }
         }
 
         volume {
-          name = "cloudsql-instance-credentials"
+          name = local.proxy_volume_and_secret_name
           secret {
-            secret_name = "cloudsql-instance-credentials"
+            secret_name = local.proxy_volume_and_secret_name
           }
         }
       }
@@ -164,14 +176,23 @@ resource "kubernetes_deployment" "test-rest" {
   }
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE CLUSTER SECRETS
+# ---------------------------------------------------------------------------------------------------------------------
 
+locals {
+  proxy_file_name = "proxyCreds.json"
+  proxy_volume_and_secret_name ="cloudsql-instance-credentials"
+}
 
 resource "kubernetes_secret" "proxy-credentials" {
   metadata {
-    name = "cloudsql-instance-credentials"
+    name = local.proxy_volume_and_secret_name
   }
 
   data = {
-    "proxyCreds.json" = file("proxyCreds.json")
+    (local.proxy_file_name) = file(local.proxy_file_name)
   }
 }
+
+
