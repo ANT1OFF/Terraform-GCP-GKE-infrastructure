@@ -4,6 +4,7 @@ definitions:
   steps:
     - step: &terraform-test
         name: Testing terraform configuration
+        image: google/cloud-sdk
         script:
             - cd ./terraform/dev/
 
@@ -17,12 +18,12 @@ definitions:
             - unzip terraform_0.12.21_linux_amd64.zip
 
             - echo ${GCP_SECRET} > credentials.json
-            - terraform init
-            - terraform validate
-            - terraform plan
+            - ./terraform init
+            - ./terraform validate
+            - ./terraform plan
 
             # temp
-            - terraform apply -input=false -auto-approve -no-color
+            - ./terraform apply -input=false -auto-approve -no-color
 
 pipelines:
     default:
