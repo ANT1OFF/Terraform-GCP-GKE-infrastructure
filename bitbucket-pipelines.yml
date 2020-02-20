@@ -5,8 +5,6 @@ definitions:
     - step: &terraform-test
         name: Testing terraform configuration
         image: hashicorp/terraform:full
-        caches:
-          - docker
         script:
             - echo ${GCP_SECRET} > credentials.json
             - cd ./terraform/dev/
