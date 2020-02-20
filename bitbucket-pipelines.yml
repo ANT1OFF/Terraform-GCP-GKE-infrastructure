@@ -19,7 +19,7 @@ definitions:
 
     - step: &terraform-deploy
         name: Testing terraform configuration
-        image: bitnami/kubectl
+        image: kiwigrid/gcloud-kubectl-helm
         script:
 
             - cd ./terraform/dev/
