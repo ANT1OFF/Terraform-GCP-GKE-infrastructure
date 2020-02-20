@@ -12,6 +12,7 @@ definitions:
             # !!!!
 
             - echo ${GCP_SECRET} > credentials.json
+            - echo ${PROXY_SECRET} > proxyCreds.json
             - terraform init
             - terraform validate
             - terraform plan
@@ -24,6 +25,7 @@ definitions:
 
             - cd ./terraform/dev/
             - echo ${GCP_SECRET} > credentials.json
+            - echo ${PROXY_SECRET} > proxyCreds.json
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
             # !!!!

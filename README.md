@@ -6,4 +6,8 @@ Currently this repo is for testing purposes only as we try to figure out which t
 
 ## Prerequisites
 
-- Service account 
+- Service account with the roles (may be reduced at a later date):
+    - Editor
+    - Project IAM Admin
+
+- Bucket to store state

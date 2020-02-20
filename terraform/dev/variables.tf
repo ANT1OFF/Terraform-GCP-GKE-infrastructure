@@ -55,3 +55,43 @@ variable "ingress" {
   type = bool
   default = false
 }
+
+variable "sql_database" {
+  type = bool
+  default = false
+}
+
+variable "sql_version" {
+  type = string
+}
+
+variable "sql_tier" {
+  type = string
+  default = "db-f1-micro"
+}
+
+variable "psql_availability" {
+  type = string
+  default = "ZONAL"
+}
+
+variable "sql_autoresize" {
+  type = bool
+  default = true
+}
+
+variable "sql_disk_size" {
+  type = number
+  default = 10
+}
+
+variable "sql_disk_type" {
+  type = string
+  default = "PD_SSD"
+}
+
+variable "image_name" {
+  type = string
+  default = "nginx"
+}
+

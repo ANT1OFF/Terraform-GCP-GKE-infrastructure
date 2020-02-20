@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
-    bucket  = "b2020-tf-state-dev"
+    bucket  = "b2020-tf-state-dev"  # TODO: make variable or similar?
     prefix  = "terraform/state"
     credentials = "credentials.json"
   }

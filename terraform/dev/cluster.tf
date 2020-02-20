@@ -18,12 +18,13 @@ module "kubernetes-engine" {
 
   ip_range_pods          = module.vpc.subnets_secondary_ranges[0][0].range_name
   ip_range_services      = module.vpc.subnets_secondary_ranges[0][1].range_name
+  horizontal_pod_autoscaling = true
 
   node_pools = [
     {
       name               = "default-node-pool"
-      machine_type       = "n1-standard-2"
-      min_count          = 1
+      machine_type       = "n1-standard-2"  # TODO: make variable ?
+      min_count          = 3
       max_count          = 100
       image_type         = "COS"
       auto_repair        = true
@@ -46,7 +47,8 @@ resource "kubernetes_service" "hello-world" {
   }
   spec {
     selector = {
-      App = "${kubernetes_deployment.hello.spec[0].template[0].metadata[0].labels.App}"
+      #App = "${kubernetes_deployment.hello.spec[0].template[0].metadata[0].labels.App}"
+      App = local.app_label2
     }
     session_affinity = "ClientIP"
     port {
@@ -58,11 +60,15 @@ resource "kubernetes_service" "hello-world" {
   }
 }
 
+locals {
+  app_label = "hello"
+}
+
 resource "kubernetes_deployment" "hello" {
   metadata {
     name = "terraform-hello"
     labels = {
-      App = "hello"
+      App = local.app_label
     }
   }
 
@@ -70,20 +76,20 @@ resource "kubernetes_deployment" "hello" {
     replicas = 6
     selector {
       match_labels = {
-        App = "hello"
+        App = local.app_label
       }
     }
 
     template {
       metadata {
         labels = {
-          App = "hello"
+          App = local.app_label
         }
       }
 
       spec {
         container {
-          image = "gcr.io/bachelor-2020/hello-world@sha256:52cd3259e461429ea5123623503920622fad5deb57f44e14167447d1cb1c777b"
+          image = var.image_name
           name  = "hello"
           port {
             container_port = 8080
@@ -91,5 +97,79 @@ resource "kubernetes_deployment" "hello" {
         }
       }
     }
+  }
+}
+
+
+locals {
+  app_label2 = "test-rest"
+}
+
+resource "kubernetes_deployment" "test-rest" {
+  metadata {
+    name = "terraform-test-rest"
+    labels = {
+      App = local.app_label2
+    }
+  }
+
+  spec {
+    replicas = 6
+    selector {
+      match_labels = {
+        App = local.app_label2
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          App = local.app_label2
+        }
+      }
+
+      spec {
+        container {
+          image = "gcr.io/bachelor-2020/test-rest:v1.14"
+          name  = "test-rest"
+          port {
+            container_port = 8080
+          }
+        }
+
+        container {
+          image = "gcr.io/cloudsql-docker/gce-proxy:1.16"
+          name = "sql-proxy"
+          port {
+            container_port = 5432 # swap for mysql
+          }
+          command = ["/cloud_sql_proxy",
+                      "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:5432",
+                      "-credential_file=/secrets/cloudsql/proxyCreds.json"]
+          volume_mount {
+            name = "cloudsql-instance-credentials"
+            mount_path = "/secrets/cloudsql"
+            read_only = true
+          }
+        }
+
+        volume {
+          name = "cloudsql-instance-credentials"
+          secret {
+            secret_name = "cloudsql-instance-credentials"
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_secret" "proxy-credentials" {
+  metadata {
+    name = "cloudsql-instance-credentials"
+  }
+
+  data = {
+    "proxyCreds.json" = file("proxyCreds.json")
   }
 }
