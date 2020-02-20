@@ -164,6 +164,8 @@ resource "kubernetes_deployment" "test-rest" {
   }
 }
 
+
+
 resource "kubernetes_secret" "proxy-credentials" {
   metadata {
     name = "cloudsql-instance-credentials"

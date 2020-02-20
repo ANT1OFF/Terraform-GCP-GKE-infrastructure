@@ -8,9 +8,9 @@ zone-for-cluster = ["europe-west1-b"]
 
 network_name = "vpc-network"
 subnet_name = "vpc-subnet"
-ip_range_sub = "10.10.10.0/24"
-ip_range_pods = "10.10.11.0/24"
-ip_range_services = "10.10.12.0/24"
+ip_range_sub = "10.42.0.0/20"
+ip_range_pods = "10.43.0.0/20"
+ip_range_services = "10.44.0.0/20"
 
 ingress = true
 image_name = "gcr.io/bachelor-2020/hello-world@sha256:52cd3259e461429ea5123623503920622fad5deb57f44e14167447d1cb1c777b"
