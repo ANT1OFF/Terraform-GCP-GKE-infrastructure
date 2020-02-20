@@ -1,2 +1,2 @@
 credentials.json
-terraform/dev/.terraform/
+terraform/dev/.terraform/*
