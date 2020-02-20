@@ -1,14 +1,16 @@
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE CLUSTER
 # ---------------------------------------------------------------------------------------------------------------------
-
+locals {
+  cluster_name = "deploy-service"
+}
 
 module "kubernetes-engine" {
   source  = "terraform-google-modules/kubernetes-engine/google"
   version = "7.2.0"
   
   project_id = var.project_id
-  name       = "${local.cluster_type}-cluster${var.cluster_name_suffix}"
+  name       = "${local.cluster_name}-cluster${var.cluster_name_suffix}"
   region     = var.region
   zones      = var.zone-for-cluster
   network    = module.vpc.network_name
