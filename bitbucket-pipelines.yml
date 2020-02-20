@@ -19,7 +19,7 @@ definitions:
 
 
     - step: &terraform-deploy
-        name: Testing terraform configuration
+        name: Deploying terraform configuration
         image: kiwigrid/gcloud-kubectl-helm
         script:
 
