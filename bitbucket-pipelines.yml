@@ -33,6 +33,9 @@ definitions:
             - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
             - unzip terraform_0.12.21_linux_amd64.zip
             - ./terraform init
+
+            - gcloud auth activate-service-account --password-file=credentials.json
+            
             - ./terraform apply -input=false -auto-approve -no-color
               
 
