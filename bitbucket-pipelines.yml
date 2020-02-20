@@ -1,16 +1,25 @@
 image: hashicorp/terraform:full
+
+definitions:
+  steps:
+    - step: &terraform-test
+        name: Testing terraform configuration
+        image: hashicorp/terraform:full
+        caches:
+          - docker
+        script:
+            - echo ${GCP_SECRET} > credentials.json
+            - cd ./terraform/dev/
+            - terraform init
+            - terraform validate
+            - terraform plan
+
+
+
 pipelines:
     default:
-        - step:
-            script:
-                #- terraform init
-                #- terraform validate
-                #- terraform plan
+      - step: *terraform-test
+
     branches:
         master:
-            - step:
-                script:
-                    #- terraform init
-                    #- terraform validate
-                    #- terraform plan
-                    #- terraform apply -input=false -auto-approve -no-color
+            - step: *terraform-test
