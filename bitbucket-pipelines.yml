@@ -34,8 +34,8 @@ definitions:
             - unzip terraform_0.12.21_linux_amd64.zip
             - ./terraform init
 
-            - gcloud auth activate-service-account --password-file=credentials.json
-            
+            - gcloud auth activate-service-account --key-file=credentials.json
+
             - ./terraform apply -input=false -auto-approve -no-color
               
 
