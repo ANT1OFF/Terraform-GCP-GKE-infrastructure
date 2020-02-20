@@ -12,4 +12,4 @@ ip_range_sub = "10.10.10.0/24"
 ip_range_pods = "10.10.11.0/24"
 ip_range_services = "10.10.12.0/24"
 
-ingress = false
+ingress = true
