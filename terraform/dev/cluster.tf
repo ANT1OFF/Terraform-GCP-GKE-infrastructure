@@ -5,6 +5,13 @@ locals {
   cluster_name = "deploy-service"
 }
 
+data "google_compute_subnetwork" "subnetwork" {
+  name       = var.network_name
+  project    = var.project_id
+  region     = var.region
+  depends_on = [module.vpc]
+}
+
 module "kubernetes-engine" {
   source  = "terraform-google-modules/kubernetes-engine/google"
   version = "7.2.0"
@@ -13,11 +20,12 @@ module "kubernetes-engine" {
   name       = "${local.cluster_name}-cluster${var.cluster_name_suffix}"
   region     = var.region
   zones      = var.zone-for-cluster
-  network    = module.vpc.network_name
+
+  network = module.vpc.network_name
   subnetwork = module.vpc.subnets_names[0]
 
-  ip_range_pods          = module.vpc.subnets_secondary_ranges[0][0].range_name
-  ip_range_services      = module.vpc.subnets_secondary_ranges[0][1].range_name
+  ip_range_pods          = "${local.subnet_name}-pods" #module.vpc.subnets_secondary_ranges[0][0].range_name
+  ip_range_services      = "${local.subnet_name}-services" #module.vpc.subnets_secondary_ranges[0][1].range_name
   horizontal_pod_autoscaling = true
 
   node_pools = [
@@ -59,54 +67,6 @@ resource "kubernetes_service" "hello-world" {
     type = "LoadBalancer"
   }
 }
-
-
-
-# ---------------------------------------------------------------------------------------------------------------------
-# CREATE DEPLOYMENT IN THE CLUSTER
-# ---------------------------------------------------------------------------------------------------------------------
-
-
-locals {
-  app_label = "hello"
-}
-
-resource "kubernetes_deployment" "hello" {
-  metadata {
-    name = "terraform-hello"
-    labels = {
-      App = local.app_label
-    }
-  }
-
-  spec {
-    replicas = 6
-    selector {
-      match_labels = {
-        App = local.app_label
-      }
-    }
-
-    template {
-      metadata {
-        labels = {
-          App = local.app_label
-        }
-      }
-
-      spec {
-        container {
-          image = var.image_name
-          name  = "hello"
-          port {
-            container_port = 8080
-          }
-        }
-      }
-    }
-  }
-}
-
 
 
 # ---------------------------------------------------------------------------------------------------------------------

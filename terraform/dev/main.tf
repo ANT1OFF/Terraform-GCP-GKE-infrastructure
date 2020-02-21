@@ -11,7 +11,6 @@ terraform {
 # PREPARE PROVIDERS
 # ---------------------------------------------------------------------------------------------------------------------
 
-
 provider "google" {
   version = "~> 3.9.0"
   region  = var.region
@@ -49,16 +48,17 @@ module "vpc" {
           subnet_name           = local.subnet_name
           subnet_ip             = var.ip_range_sub
           subnet_region         = var.region
+          subnet_private_access = "true"
       },
   ]
   secondary_ranges = {
         sub-02 = [
             {
-                range_name    = "${local.subnet_name}-secondary-01-pods"
+                range_name    = "${local.subnet_name}-pods"
                 ip_cidr_range = var.ip_range_pods
             },
             {
-                range_name    = "${local.subnet_name}-secondary-02-services"
+                range_name    = "${local.subnet_name}-services"
                 ip_cidr_range = var.ip_range_services
             },            
         ]
