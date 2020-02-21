@@ -14,12 +14,16 @@ resource "google_sql_database_instance" "master" {
 }
 
 resource "google_sql_database" "mydb" {
-  name     = "my_db"
+  name     = var.sql_db_name
   instance = google_sql_database_instance.master[0].name
 }
 
 resource "google_sql_user" "users" {
-  name     = "test"
+  name     = var.sql_user
   instance = google_sql_database_instance.master[0].name
-  password = "testPass"
+  password = random_password.db_password.result
+}
+
+resource "random_password" "db_password" {
+  length = 16
 }

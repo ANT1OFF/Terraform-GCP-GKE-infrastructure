@@ -142,10 +142,37 @@ resource "kubernetes_deployment" "test-rest" {
 
       spec {
         container {
-          image = "gcr.io/bachelor-2020/test-rest:v1.14"
+          image = "gcr.io/bachelor-2020/test-rest:v1.15"
           name  = "test-rest"
           port {
             container_port = 8080
+          }
+
+          # TODO: make dynamic (including names of secrets), allow for passing secrets by other means
+          env {
+            name = "DB_HOST"
+            value = "localhost" # should connect to sql proxy
+          }
+          env {
+            name = "DB_PORT"
+            # setting port to 5432 if sql_version contains "POSTGRES", otherwise 3306 (mysql standard port)
+            value = length(regexall(".*POSTGRES.*", var.sql_version)) > 0 ? 5432 : 3306
+          }
+          env {
+            name = "DB_USER"
+            value = var.sql_user
+          }
+          env {
+            name = "DB_PASSWORD"
+            value = random_password.db_password.result
+          }
+          env {
+            name = "DB_NAME"
+            value = var.sql_db_name
+          }
+          env {
+            name = "DB_SSLMODE"
+            value = "disable" # communication is encrypted by sql-proxy
           }
         }
 
@@ -153,7 +180,7 @@ resource "kubernetes_deployment" "test-rest" {
           image = "gcr.io/cloudsql-docker/gce-proxy:1.16"
           name = "sql-proxy"
           port {
-            container_port = 5432 # swap for mysql
+            container_port = length(regexall(".*POSTGRES.*", var.sql_version)) > 0 ? 5432 : 3306
           }
           command = ["/cloud_sql_proxy",
                       "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:5432",
