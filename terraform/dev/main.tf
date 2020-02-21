@@ -75,6 +75,6 @@ module "service_accounts" {
   source        = "terraform-google-modules/service-accounts/google"
   project_id    = var.project_id
   prefix        = "tf"
-  names         = ["gke-np-1-service-account"]
+  names         = ["gke-np-2-service-account"]
   project_roles = ["${var.project_id}=>roles/storage.objectViewer"]
 }
