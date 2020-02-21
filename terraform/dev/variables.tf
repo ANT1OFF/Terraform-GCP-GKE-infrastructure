@@ -90,8 +90,17 @@ variable "sql_disk_type" {
   default = "PD_SSD"
 }
 
+variable "sql_user" {
+  type = string
+  default = "appuser"
+}
+
+variable "sql_db_name" {
+  type = string
+  default = "default_db_name"
+}
+
 variable "image_name" {
   type = string
   default = "nginx"
 }
-
