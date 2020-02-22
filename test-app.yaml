@@ -24,6 +24,7 @@ spec:
   # ----- Everything above this comment are the same as a deployment -----
     blueGreen:
       autoPromotionEnabled: true
+      activeService: hello-world
       previewService: hello-world-preview
       previewReplicaCount: 2
       scaleDownDelaySeconds: 60
@@ -84,3 +85,6 @@ spec:
   backend:
     serviceName: hello-world-preview
     servicePort: 80
+
+
+
