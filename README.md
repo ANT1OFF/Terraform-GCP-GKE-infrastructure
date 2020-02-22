@@ -11,3 +11,6 @@ Currently this repo is for testing purposes only as we try to figure out which t
     - Project IAM Admin
 
 - Bucket to store state
+
+## Connect to Argo UI
+```kubectl port-forward svc/argocd-server -n argocd 8080:443```

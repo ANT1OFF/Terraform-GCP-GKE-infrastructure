@@ -12,6 +12,8 @@ definitions:
             # !!!!
 
             - echo ${GCP_SECRET} > credentials.json
+            - gcloud auth activate-service-account --key-file=credentials.json
+
             - echo ${PROXY_SECRET} > proxyCreds.json
             - terraform init
             - terraform validate
@@ -25,6 +27,7 @@ definitions:
 
             - cd ./terraform/dev/
             - echo ${GCP_SECRET} > credentials.json
+            - gcloud auth activate-service-account --key-file=credentials.json
             - echo ${PROXY_SECRET} > proxyCreds.json
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
@@ -36,7 +39,7 @@ definitions:
             - unzip terraform_0.12.21_linux_amd64.zip
             - ./terraform init
 
-            - gcloud auth activate-service-account --key-file=credentials.json
+            
 
             - ./terraform apply -input=false -auto-approve -no-color
               
