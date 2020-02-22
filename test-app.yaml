@@ -1,5 +1,5 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: apps/v1 #argoproj.io/v1alpha1
+kind: Deployment #Rollout
 metadata:
   name: hello-world
 spec:
@@ -22,12 +22,12 @@ spec:
   revisionHistoryLimit: 3
   strategy:
   # ----- Everything above this comment are the same as a deployment -----
-    blueGreen:
-      autoPromotionEnabled: true
-      activeService: hello-world
-      previewService: hello-world-preview
-      previewReplicaCount: 2
-      scaleDownDelaySeconds: 60
+  #  blueGreen:
+  #    autoPromotionEnabled: true
+  #    activeService: hello-world
+  #    previewService: hello-world-preview
+  #    previewReplicaCount: 2
+  #    scaleDownDelaySeconds: 60
 
 ---
 
