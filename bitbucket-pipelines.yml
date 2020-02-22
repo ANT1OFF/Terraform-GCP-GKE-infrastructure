@@ -12,7 +12,7 @@ definitions:
             # !!!!
 
             - echo ${GCP_SECRET} > credentials.json
-            - gcloud auth activate-service-account --key-file=credentials.json
+            
 
             - echo ${PROXY_SECRET} > proxyCreds.json
             - terraform init

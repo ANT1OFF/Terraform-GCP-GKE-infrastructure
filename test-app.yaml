@@ -18,7 +18,9 @@ spec:
           name: hello-world
           ports:
             - containerPort: 8080
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -31,6 +33,7 @@ spec:
     app: hello-world
 
 ---
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 namespace: default
