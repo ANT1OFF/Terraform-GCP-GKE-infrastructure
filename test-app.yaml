@@ -29,3 +29,16 @@ spec:
       targetPort: 8080
   selector:
     app: hello-world
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+namespace: default
+metadata:
+  name: hello-world-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: hello-world-ip
+spec:
+  backend:
+    serviceName: hello-world-service
+    servicePort: 80
