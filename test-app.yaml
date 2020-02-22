@@ -42,5 +42,5 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: hello-world-ip
 spec:
   backend:
-    serviceName: hello-world-service
+    serviceName: hello-world
     servicePort: 80
