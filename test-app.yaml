@@ -21,7 +21,7 @@ spec:
   minReadySeconds: 30
   revisionHistoryLimit: 3
   strategy:
-   ----- Everything above this comment are the same as a deployment -----
+   #----- Everything above this comment are the same as a deployment -----
     blueGreen:
       autoPromotionEnabled: true
       activeService: hello-world
