@@ -1,17 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
 metadata:
-  name: rollout-canary
+  name: rollout-bluegreen
 spec:
   replicas: 10
   revisionHistoryLimit: 5
+  minReadySeconds: 30
   selector:
     matchLabels:
-      app: rollout-canary
+      app: rollout-bluegreen
   template:
     metadata:
       labels:
-        app: rollout-canary
+        app: rollout-bluegreen
     spec:
       containers:
       - name: rollouts-demo
@@ -19,26 +20,27 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-  strategy:
-    canary: #Indicates that the rollout should use the Canary strategy
-      maxSurge: "20%"
-      canaryService: rollout-canary-preview
-      maxUnavailable: 0,
-      steps:
-      - setWeight: 10
-      - pause:
-          duration: 3600 # 1 hour
-      - setWeight: 20
-      - pause: {}
+strategy:
+    blueGreen:
+      # Name of the service that the rollout modifies as the active service.
+      activeService: rollout-bluegreen-active
+      # Name of the service that the rollout modifies as the preview service.
+      previewService: rollout-bluegreen-preview 
+      # The number of replicas to run under the preview service before the switchover. Once the rollout is resumed the new replicaset will be full scaled up before the switch occurs +optional
+      previewReplicaCount: 2
+      # Indicates if the rollout should automatically promote the new ReplicaSet to the active service or enter a paused state. If not specified, the default value is true. +optional
+      autoPromotionEnabled: false
+      # Adds a delay before scaling down the previous replicaset. If omitted, the Rollout waits 30 seconds before scaling down the previous ReplicaSet. A minimum of 30 seconds is recommended to ensure IP table propagation across the nodes in a cluster. See https://github.com/argoproj/argo-rollouts/issues/19#issuecomment-476329960 for more information
+      scaleDownDelaySeconds: 30
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: rollout-canary-active
+  name: rollout-bluegreen-active
 spec:
   selector:
-    app: rollout-canary
+    app: rollout-bluegreen
   type: NodePort
   ports:
   - protocol: TCP
@@ -49,10 +51,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: rollout-canary-preview
+  name: rollout-bluegreen-preview
 spec:
   selector:
-    app: rollout-canary
+    app: rollout-bluegreen
   type: NodePort
   ports:
   - protocol: TCP
@@ -63,12 +65,12 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: rollout-canary-active-ingress
+  name: rollout-bluegreen-active-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: rollout-canary-active
+    kubernetes.io/ingress.global-static-ip-name: rollout-bluegreen-active
 spec:
   backend:
-    serviceName: rollout-canary-active
+    serviceName: rollout-bluegreen-active
     servicePort: 80
 
 
@@ -77,12 +79,12 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: rollout-canary-preview-ingress
+  name: rollout-bluegreen-preview-ingress
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: rollout-canary-preview
+    kubernetes.io/ingress.global-static-ip-name: rollout-bluegreen-preview
 spec:
   backend:
-    serviceName: rollout-canary-preview
+    serviceName: rollout-bluegreen-preview
     servicePort: 80
 
 
