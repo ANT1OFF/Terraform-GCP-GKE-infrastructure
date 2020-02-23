@@ -39,7 +39,7 @@ resource "kubernetes_namespace" "argo-rollout" {
 
 resource "null_resource" "argo-rollout-workload" {
   provisioner "local-exec" {
-    command = "kubectl -n argocd apply -f ./manifests/argo-rollout.yaml"
+    command = "kubectl -n argo-rollouts apply -f ./manifests/argo-rollout.yaml"
   }
   depends_on = [
     kubernetes_namespace.argo-rollout,
