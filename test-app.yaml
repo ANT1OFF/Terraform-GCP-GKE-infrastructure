@@ -20,7 +20,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-strategy:
+  strategy:
     blueGreen:
       # Name of the service that the rollout modifies as the active service.
       activeService: rollout-bluegreen-active
