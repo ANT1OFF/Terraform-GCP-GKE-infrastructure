@@ -65,6 +65,12 @@ module "vpc" {
     }
 }
 
+# Reference outputs from this data source to make a (cluster) module depend on
+# "module.gcp-network" without "depends_on"
+data "google_compute_subnetwork" "subnet" {
+  name = reverse(split("/", module.vpc.subnets_names[0]))[0]
+}
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # IAM CONFIGURATION
