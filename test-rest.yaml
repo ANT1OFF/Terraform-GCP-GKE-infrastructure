@@ -84,7 +84,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: test-rest
+  name: test-rest-service
 spec:
   selector:
     app: test-rest
@@ -105,7 +105,7 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: test-rest
 spec:
   backend:
-    serviceName: test-rest
+    serviceName: test-rest-service
     servicePort: 80
 
 
