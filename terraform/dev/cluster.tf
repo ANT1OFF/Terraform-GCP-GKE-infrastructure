@@ -111,6 +111,18 @@ resource "kubernetes_deployment" "test-rest" {
             container_port = 8080
           }
 
+          dynamic "env" {
+            for_each = [for s in var.secrets: {
+              name = s.name
+              value = s.value
+            }]
+
+            content {
+              name = env.value.name
+              value = env.value.value
+            }
+          }
+
           # TODO: make dynamic (including names of secrets), allow for passing secrets by other means
           env {
             name = "DB_HOST"
