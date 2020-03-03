@@ -5,7 +5,7 @@ metadata:
   labels:
     app: test-rest
 spec:
-  replicas: 5
+  replicas: 10
   revisionHistoryLimit: 5
   minReadySeconds: 30
   selector:
@@ -104,6 +104,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: test-rest
 spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: test-rest-service
+          servicePort: 80
   backend:
     serviceName: test-rest-service
     servicePort: 80
