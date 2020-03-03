@@ -18,17 +18,8 @@ provider "google" {
   credentials = file("credentials.json")
 }
 
-
-provider "kubernetes" {
-  load_config_file       = false
-  host                   = "https://${module.kubernetes-engine.endpoint}"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(module.kubernetes-engine.ca_certificate)
-}
-
-data "google_client_config" "default" {
-}
-
+#data "google_client_config" "default" {
+#}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE A NETWORK TO DEPLOY THE CLUSTER TO
@@ -65,12 +56,6 @@ module "vpc" {
     }
 }
 
-# Reference outputs from this data source to make a (cluster) module depend on
-# "module.gcp-network" without "depends_on"
-data "google_compute_subnetwork" "subnet" {
-  name = reverse(split("/", module.vpc.subnets_names[0]))[0]
-}
-
 
 # ---------------------------------------------------------------------------------------------------------------------
 # IAM CONFIGURATION
@@ -84,3 +69,28 @@ module "service_accounts" {
   names         = ["gke-np-2-service-account"]
   project_roles = ["${var.project_id}=>roles/storage.objectViewer"]
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# GKE CONFIGURATION
+# ---------------------------------------------------------------------------------------------------------------------
+
+# Reference outputs from this data source to make a (cluster) module depend on
+# "module.gcp-network" without "depends_on"
+data "google_compute_subnetwork" "subnet" {
+  name = reverse(split("/", module.vpc.subnets_names[0]))[0]
+}
+
+module "gke" {
+  source = "../modules/gke"
+  project_id = var.project_id
+  subnet_name = local.subnet_name
+  cluster_name = var.cluster_name
+  service_account_email = module.service_accounts.email
+  region = var.region
+
+  # This appears to be one of the only ways to ensure the cluster creation happens after network creaton
+  # without a "depends_on" clause, which are not available for modules.
+  vpc_network_name = reverse(split("/", data.google_compute_subnetwork.subnet.network))[0]
+  vpc_subnets_name = module.vpc.subnets_names[0]
+}
+

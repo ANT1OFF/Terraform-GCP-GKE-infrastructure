@@ -17,3 +17,4 @@ image_name = "gcr.io/bachelor-2020/hello-world@sha256:52cd3259e461429ea512362350
 
 sql_version = "POSTGRES_11"
 sql_database = true
+

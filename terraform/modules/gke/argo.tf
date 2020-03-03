@@ -48,7 +48,7 @@ resource "null_resource" "argo-rollout-workload" {
 
 resource "null_resource" "argo-rollout-cluster-admin" {
   provisioner "local-exec" {
-    command = "kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${module.service_accounts.email}"
+    command = "kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${var.service_account_email}"
   }
   depends_on = [
     null_resource.argo-rollout-workload,
