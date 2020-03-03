@@ -104,3 +104,11 @@ variable "image_name" {
   type = string
   default = "nginx"
 }
+
+variable "secrets" {
+  type = list(object({
+    name = string
+    value = string
+}))
+  default = []
+}
