@@ -59,7 +59,7 @@ spec:
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.16
           command: ["/cloud_sql_proxy",
-                    "-instances=bachelor-2020:europe-west1:terraform-20200303173438591800000001-instance=tcp:5432",
+                    "-instances=bachelor-2020:europe-west1:terraform-20200303173438591800000001=tcp:5432",
                     # If running on a VPC, the Cloud SQL proxy can connect via Private IP. See:
                     # https://cloud.google.com/sql/docs/mysql/private-ip for more info.
                     # "-ip_address_types=PRIVATE",
