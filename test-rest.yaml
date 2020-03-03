@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: test-rest-deployment
 spec:
-  replicas: 10
+  replicas: 5
   revisionHistoryLimit: 5
   minReadySeconds: 30
   selector:
@@ -17,56 +17,41 @@ spec:
       containers:
       - name: test-rest
         image: gcr.io/bachelor-2020/test-rest:v1.15
-        resources:
-          requests:
-            memory: "32Mi"
-            cpu: "100m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
         - containerPort: 8080
         env:
-          - name: DB_HOST
-            valueFrom:
-              secretKeyRef:
-                name: db-secrets
-                key: DB_HOST
-          - name: DB_PORT
-            valueFrom:
-              secretKeyRef:
-                name: db-secrets
-                key: DB_PORT
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: db-secrets
-                key: DB_USER
-          - name: DB_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: db-secrets
-                key: DB_PASSWORD
-          - name: DB_NAME
-            valueFrom:
-              secretKeyRef:
-                name: db-secrets
-                key: DB_NAME
-          - name: DB_NAME
-            valueFrom:
-              secretKeyRef:
-                name: db-secrets
-                key: DB_NAME
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DB_PORT
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DB_NAME
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: DB_NAME
       - name: proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.16
-        resources:
-          requests:
-            memory: "32Mi"
-            cpu: "100m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-            
         command: ["/cloud_sql_proxy",
                   "-instances=bachelor-2020:europe-west1:terraform-20200303173438591800000001-instance=tcp:5432",
                   # If running on a VPC, the Cloud SQL proxy can connect via Private IP. See:
