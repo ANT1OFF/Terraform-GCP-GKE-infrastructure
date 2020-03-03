@@ -12,7 +12,8 @@ module "kubernetes-engine" {
   zones      = var.zone-for-cluster
   network    = var.vpc_network_name
   subnetwork = var.vpc_subnets_name
-  logging_service = "logging.googleapis.com/kubernetes"
+  logging_service    = "logging.googleapis.com/kubernetes"
+  monitoring_service = "monitoring.googleapis.com/kubernetes"
 
   ip_range_pods              = "${var.subnet_name}-pods" #module.vpc.subnets_secondary_ranges[0][0].range_name
   ip_range_services          = "${var.subnet_name}-services" #module.vpc.subnets_secondary_ranges[0][1].range_name
@@ -32,6 +33,20 @@ module "kubernetes-engine" {
   ]
 }
 
+resource "google_project_service" "monitoring" {
+  service            = "monitoring.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "container" {
+  service            = "container.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "logging" {
+  service            = "logging.googleapis.com"
+  disable_on_destroy = false
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE CLUSTER SECRETS
