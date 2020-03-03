@@ -69,6 +69,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: rollout-bluegreen-active
 spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: rollout-bluegreen-active
+          servicePort: 80
   backend:
     serviceName: rollout-bluegreen-active
     servicePort: 80
@@ -83,6 +90,13 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: rollout-bluegreen-preview
 spec:
+  rules:
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: rollout-bluegreen-preview
+          servicePort: 80
   backend:
     serviceName: rollout-bluegreen-preview
     servicePort: 80
