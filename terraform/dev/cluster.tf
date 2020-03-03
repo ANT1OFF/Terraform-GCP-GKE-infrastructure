@@ -24,7 +24,7 @@ module "kubernetes-engine" {
   # fake a dependency on vpc network
   # force cluster creation to wait on network creation without a
   # depends_on link (still not implemented in 0.12)
-  network    = reverse(split("/", data.google_compute_subnetwork.subnet.network))[0]
+  network    = reverse(split("/", data.google_compute_subnetwork.subnet.network))[0] #module.vpc.network_name #
   subnetwork = module.vpc.subnets_names[0]
 
   ip_range_pods              = "${local.subnet_name}-pods" #module.vpc.subnets_secondary_ranges[0][0].range_name
