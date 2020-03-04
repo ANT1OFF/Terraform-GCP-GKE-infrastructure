@@ -4,7 +4,7 @@ definitions:
         name: Testing terraform configuration
         image: hashicorp/terraform
         script:
-            - cd ./terraform/dev/
+            - cd ./terraform/environments/dev/
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
             # !!!!
@@ -25,7 +25,7 @@ definitions:
         image: kiwigrid/gcloud-kubectl-helm
         script:
 
-            - cd ./terraform/dev/
+            - cd ./terraform/environments/dev/
             - echo ${GCP_SECRET} > credentials.json
             - gcloud auth activate-service-account --key-file=credentials.json
             - echo ${PROXY_SECRET} > proxyCreds.json
@@ -46,11 +46,11 @@ definitions:
 
 pipelines:
     default:
-      - step: *terraform-test
+      #- step: *terraform-test
 
     branches:
         master:
-            - step: *terraform-test
-            - step: *terraform-deploy
+            #- step: *terraform-test
+            #- step: *terraform-deploy
               
             
