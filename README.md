@@ -10,10 +10,6 @@ Currently this repo is for testing purposes only as we try to figure out which t
     - Editor
     - Project IAM Admin
 
-    - Create keys for both service accounts and add to project in "./terraform/dev/", files needs to be renamed to the following:
-        - "credentials.json"
-        - "proxyCreds.json"
-
 - Bucket to store state
 
 ## Connect to Argo UI
