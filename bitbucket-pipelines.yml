@@ -36,7 +36,7 @@ definitions:
             - cd /tmp/
             - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
             - unzip terraform_0.12.21_linux_amd64.zip
-            - export PATH="$PATH:/bin"
+            - export PATH="$PATH:/tmp"
 
             - cd ${BITBUCKET_CLONE_DIR}/terraform/scripts/
             - /bin/bash tf-init.sh
