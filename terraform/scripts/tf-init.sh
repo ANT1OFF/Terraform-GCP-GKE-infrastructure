@@ -37,7 +37,7 @@ file="$1"
 # if env not provided
 if [ -z "$file" ]
 then
-      file="env.txt"
+      file="./env.txt"
 fi
 
 # Load and set envs from env.txt
