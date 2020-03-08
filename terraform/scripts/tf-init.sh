@@ -7,7 +7,7 @@ sprint () {
     echo
 }
 
-tf-in () {
+tfin () {
 
     sprint "Running terrafom init"
 
@@ -19,7 +19,7 @@ tf-in () {
     fi
 }
 
-tf-val () {
+tfval () {
 
     sprint "Running terrafom validate"
 
@@ -47,8 +47,8 @@ set +a
 
 sprint "Moving to /dev/vpc"
 cd ../dev/vpc
-tf-in
-tf-val
+tfin
+tfval
 if (($? > 0))
 then
     echo "Init failed exiting"
@@ -57,6 +57,6 @@ fi
 
 sprint "Moving to /dev"
 cd ..
-tf-in
-tf-val
+tfin
+tfval
 
