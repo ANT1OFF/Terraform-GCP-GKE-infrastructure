@@ -8,7 +8,7 @@ definitions:
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
             # !!!!
-            #- export KUBERNETES_SERVICE_HOST=
+            - export KUBERNETES_SERVICE_HOST=
             # !!!!
 
             - echo ${GCP_SECRET} > credentials.json
@@ -30,7 +30,7 @@ definitions:
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
             # !!!!
-            #- export KUBERNETES_SERVICE_HOST=
+            - export KUBERNETES_SERVICE_HOST=
             # !!!!
 
             - cd /tmp/
