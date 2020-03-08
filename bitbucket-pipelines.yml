@@ -14,7 +14,7 @@ definitions:
             - echo ${GCP_SECRET} > credentials.json
             - echo ${PROXY_SECRET} > proxyCreds.json
             - cd ../scripts/
-            - ./tf-init.sh
+            - /bin/bash tf-init.sh
 
 
 
@@ -39,8 +39,8 @@ definitions:
             - export PATH="$PATH:/bin"
 
             - cd ${BITBUCKET_CLONE_DIR}/terraform/scripts/
-            - ./tf-init.sh
-            - ./tf-apply.sh
+            - /bin/bash tf-init.sh
+            - /bin/bash tf-apply.sh
               
 
 pipelines:
