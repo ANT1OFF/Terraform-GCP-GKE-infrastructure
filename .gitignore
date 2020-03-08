@@ -1,5 +1,6 @@
 credentials.json
 proxyCreds.json
-terraform/dev/.terraform/*
+terraform/dev/.terraform
 terraform/dev/terraform
 .idea
+.terraform/

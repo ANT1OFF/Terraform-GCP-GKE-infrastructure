@@ -8,16 +8,14 @@ definitions:
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
             # !!!!
-            - export KUBERNETES_SERVICE_HOST=
+            #- export KUBERNETES_SERVICE_HOST=
             # !!!!
 
             - echo ${GCP_SECRET} > credentials.json
-            
-
             - echo ${PROXY_SECRET} > proxyCreds.json
-            - terraform init
-            - terraform validate
-            - terraform plan
+            - cd ../scripts/
+            - ./tf-init.sh
+
 
 
     - step: &terraform-deploy
@@ -32,16 +30,17 @@ definitions:
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
             # !!!!
-            - export KUBERNETES_SERVICE_HOST=
+            #- export KUBERNETES_SERVICE_HOST=
             # !!!!
-            
+
+            - cd /bin/
             - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
             - unzip terraform_0.12.21_linux_amd64.zip
-            - ./terraform init
+            - export PATH="$PATH:/bin"
 
-            
-
-            - ./terraform apply -input=false -auto-approve -no-color
+            - cd ${BITBUCKET_CLONE_DIR}/terraform/scripts/
+            - ./tf-init.sh
+            - ./tf-apply.sh
               
 
 pipelines:
