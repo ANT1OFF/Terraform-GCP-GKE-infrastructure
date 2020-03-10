@@ -56,39 +56,20 @@ spec:
                   key: DB_NAME
             # [END cloudsql_secrets]
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: test-rest-service
+  name: test-rest-service-external
 spec:
+  type: LoadBalancer
   selector:
     app: test-rest
-  type: NodePort
   ports:
-  - protocol: TCP
+  - name: http
     port: 80
     targetPort: 8080
 
 
----
-
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: test-rest-ingress
-  annotations:
-    kubernetes.io/ingress.global-static-ip-name: test-rest
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /*
-        backend:
-          serviceName: test-rest-service
-          servicePort: 80
-  backend:
-    serviceName: test-rest-service
-    servicePort: 80
 
 
 
