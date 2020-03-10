@@ -17,11 +17,6 @@ variable "cluster_name" {
   default = "tf-gke-cluster-default"
 }
 
-variable "cluster_name_suffix" {
-  type = string
-  default = ""
-}
-
 variable "subnet_name" {
   type = string
 }

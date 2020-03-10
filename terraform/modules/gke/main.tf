@@ -7,7 +7,7 @@ module "kubernetes-engine" {
   version = "7.2.0"
   
   project_id = var.project_id
-  name       = "${var.cluster_name}-cluster${var.cluster_name_suffix}"
+  name       = var.cluster_name
   region     = var.region
   zones      = var.zone-for-cluster
   network    = var.vpc_network_name
@@ -47,24 +47,3 @@ resource "google_project_service" "logging" {
   service            = "logging.googleapis.com"
   disable_on_destroy = false
 }
-
-# ---------------------------------------------------------------------------------------------------------------------
-# CREATE CLUSTER SECRETS
-# ---------------------------------------------------------------------------------------------------------------------
-
-locals {
-  proxy_file_name = "proxyCreds.json"
-  proxy_volume_and_secret_name ="cloudsql-instance-credentials"
-}
-
-resource "kubernetes_secret" "proxy-credentials" {
-  metadata {
-    name = local.proxy_volume_and_secret_name
-  }
-
-  data = {
-    (local.proxy_file_name) = file(local.proxy_file_name)
-  }
-}
-
-

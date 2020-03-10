@@ -2,18 +2,31 @@
 # DEPLOY argocd and argo-rollouts
 # ---------------------------------------------------------------------------------------------------------------------
 
-
 resource "null_resource" "get-kubectl" {
   provisioner "local-exec" {
     command = "gcloud container clusters get-credentials ${module.kubernetes-engine.name} --region ${var.region} --project ${var.project_id}"
   }
+  depends_on = [
+    module.kubernetes-engine
+  ]
 }
 
+resource "null_resource" "sleep" {
+  provisioner "local-exec" {
+    command = "sleep 5"
+  }
+  depends_on = [
+    null_resource.get-kubectl
+  ]
+}
 
 resource "kubernetes_namespace" "argo" {
   metadata {
     name = "argocd"
   }
+  depends_on = [
+    null_resource.sleep
+  ]
 }
 
 resource "null_resource" "argo-workload" {
@@ -24,9 +37,6 @@ resource "null_resource" "argo-workload" {
     kubernetes_namespace.argo, null_resource.get-kubectl
   ]
 }
-
-
-
 
 resource "kubernetes_namespace" "argo-rollout" {
   metadata {
@@ -49,6 +59,57 @@ resource "null_resource" "argo-rollout-workload" {
 resource "null_resource" "argo-rollout-cluster-admin" {
   provisioner "local-exec" {
     command = "kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${var.service_account_email}"
+  }
+  depends_on = [
+    null_resource.argo-rollout-workload,
+  ]
+}
+
+#resource "kubernetes_ingress" "argocd-server-ingress" {
+#  metadata {
+#    name = "argocd-server-ingress"
+#    annotations {
+#      kubernetes.io/ingress.class = "nginx"
+#      nginx.ingress.kubernetes.io/force-ssl-redirect = true
+#      nginx.ingress.kubernetes.io/ssl-passthrough = true
+#    }
+#  }
+#  spec {
+#    rule {
+#      http {
+#        path {
+#          backend {
+#            service_name = "argocd-server"
+#            service_port = https
+#          }
+#
+#          path = "/"
+#        }
+#      }
+#    }
+#
+#    tls {
+#      secret_name = "argocd-secret"
+#    }
+#  }
+#  depends_on = [
+#    null_resource.argo-rollout-workload,
+#  ]
+#}
+
+resource "kubernetes_service" "argocd-server-lb" {
+  metadata {
+    name = "terraform-argocd-server-lb"
+  }
+  spec {
+    selector = {
+      "app.kubernetes.io/name" = "argocd-server"
+    }
+    session_affinity = "ClientIP"
+    port {
+      port = 443
+    }
+    type = "LoadBalancer"
   }
   depends_on = [
     null_resource.argo-rollout-workload,

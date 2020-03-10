@@ -1,5 +1,6 @@
 #!/bin/bash
 #run from script folder
+# TODO: make run on all dirs as input
 
 sprint () {
     echo "$1"
@@ -15,15 +16,30 @@ then
       file="env.txt"
 fi
 
+if [ ! -r "$file" ]
+then
+    echo "Could not read env file, exiting"
+    exit 1
+fi
+
 # Load and set envs from env.txt
 set -a
 . ${file}
 set +a
 
-cd ../dev/
-sprint "Running terrafom destroy in /dev"
+cd "../dev/sql" || { echo "Could not cd, exiting"; exit 1; }
+sprint "Running terrafom destroy in /dev/sql"
 terraform destroy -auto-approve
 
-cd ./vpc
+cd ".." || { echo "Could not cd, exiting"; exit 1; }
+sprint "Running terrafom destroy in /dev"
+
+# terrform does not like deleting these resources
+terraform state rm 'module.gke.kubernetes_namespace.argo-rollout'
+terraform state rm 'module.gke.kubernetes_namespace.argo' 
+
+terraform destroy -auto-approve
+
+cd "./vpc" || { echo "Could not cd, exiting"; exit 1; }
 sprint "Running terrafom destroy in /dev/vpc"
 terraform destroy -auto-approve
