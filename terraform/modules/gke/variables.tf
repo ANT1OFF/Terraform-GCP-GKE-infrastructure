@@ -30,3 +30,5 @@ variable "vpc_network_name" {
 
 variable "vpc_subnets_name" {
 }
+
+variable "credentials" {}
