@@ -11,22 +11,22 @@ resource "null_resource" "get-kubectl" {
   ]
 }
 
-# resource "null_resource" "sleep" {
-#   provisioner "local-exec" {
-#     command = "sleep 5"
-#   }
-#   depends_on = [
-#     null_resource.get-kubectl
-#   ]
-# }
+resource "null_resource" "sleep" {
+  provisioner "local-exec" {
+    command = "sleep 5"
+  }
+  depends_on = [
+    null_resource.get-kubectl
+  ]
+}
 
 resource "kubernetes_namespace" "argo" {
   metadata {
     name = "argocd"
   }
-  # depends_on = [
-  #   null_resource.sleep
-  # ]
+  depends_on = [
+    null_resource.sleep
+  ]
 }
 
 resource "null_resource" "argo-workload" {
