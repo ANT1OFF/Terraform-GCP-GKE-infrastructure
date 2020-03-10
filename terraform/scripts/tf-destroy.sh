@@ -34,10 +34,6 @@ terraform destroy -auto-approve
 cd ".." || { echo "Could not cd, exiting"; exit 1; }
 sprint "Running terrafom destroy in /dev"
 
-# terrform does not like deleting these resources
-terraform state rm 'module.gke.kubernetes_namespace.argo-rollout'
-terraform state rm 'module.gke.kubernetes_namespace.argo' 
-
 terraform destroy -auto-approve
 
 cd "./vpc" || { echo "Could not cd, exiting"; exit 1; }
