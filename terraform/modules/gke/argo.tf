@@ -65,41 +65,10 @@ resource "null_resource" "argo-rollout-cluster-admin" {
   ]
 }
 
-#resource "kubernetes_ingress" "argocd-server-ingress" {
-#  metadata {
-#    name = "argocd-server-ingress"
-#    annotations {
-#      kubernetes.io/ingress.class = "nginx"
-#      nginx.ingress.kubernetes.io/force-ssl-redirect = true
-#      nginx.ingress.kubernetes.io/ssl-passthrough = true
-#    }
-#  }
-#  spec {
-#    rule {
-#      http {
-#        path {
-#          backend {
-#            service_name = "argocd-server"
-#            service_port = https
-#          }
-#
-#          path = "/"
-#        }
-#      }
-#    }
-#
-#    tls {
-#      secret_name = "argocd-secret"
-#    }
-#  }
-#  depends_on = [
-#    null_resource.argo-rollout-workload,
-#  ]
-#}
-
 resource "kubernetes_service" "argocd-server-lb" {
   metadata {
     name = "terraform-argocd-server-lb"
+    namespace = "argocd"
   }
   spec {
     selector = {

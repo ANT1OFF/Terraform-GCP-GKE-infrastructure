@@ -218,7 +218,7 @@ resource "kubernetes_secret" "database" {
     DB_USER = var.sql_user
     DB_PASSWORD = random_password.db_password.result
     DB_NAME = var.sql_db_name
-    DB_SSLMODE = "prefer" # communication is encrypted by sql-proxy
+    DB_SSLMODE = "disable" # communication is encrypted by sql-proxy
   }
 }
 

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: test-rest
-          image: gcr.io/bachelor-2020/test-rest:v1.15
+          image: gcr.io/bachelor-2020/test-rest:v1.16
           ports:
             - containerPort: 8080
           env:
