@@ -2,19 +2,25 @@ definitions:
   steps:
     - step: &terraform-test
         name: Testing terraform configuration
-        image: hashicorp/terraform
+        image: kiwigrid/gcloud-kubectl-helm
         script:
             - cd ./terraform/dev/
+            - echo ${GCP_SECRET} > credentials.json
+            - gcloud auth activate-service-account --key-file=credentials.json
+            - echo ${PROXY_SECRET} > proxyCreds.json
 
             # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
             # !!!!
             - export KUBERNETES_SERVICE_HOST=
             # !!!!
 
-            - echo ${GCP_SECRET} > credentials.json
-            - echo ${PROXY_SECRET} > proxyCreds.json
-            - cd ../scripts/
-            - /bin/sh tf-init.sh
+            - cd /tmp/
+            - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
+            - unzip terraform_0.12.21_linux_amd64.zip
+            - export PATH="$PATH:/tmp"
+
+            - cd ${BITBUCKET_CLONE_DIR}/terraform/scripts/
+            - /bin/bash tf-init.sh
 
 
 

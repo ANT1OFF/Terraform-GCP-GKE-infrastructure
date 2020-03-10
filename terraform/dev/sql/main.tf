@@ -45,6 +45,8 @@ resource "google_sql_database" "mydb" {
 
   name     = var.sql_db_name
   instance = google_sql_database_instance.master[0].name
+
+  depends_on = [google_sql_database_instance.master]
 }
 
 resource "google_sql_user" "users" {
@@ -53,6 +55,8 @@ resource "google_sql_user" "users" {
   name     = var.sql_user
   instance = google_sql_database_instance.master[0].name
   password = random_password.db_password.result
+
+  depends_on = [google_sql_database_instance.master, random_password.db_password]
 }
 
 resource "random_password" "db_password" {
@@ -220,6 +224,8 @@ resource "kubernetes_secret" "database" {
     DB_NAME = var.sql_db_name
     DB_SSLMODE = "disable" # communication is encrypted by sql-proxy
   }
+
+  depends_on = [random_password.db_password]
 }
 
 

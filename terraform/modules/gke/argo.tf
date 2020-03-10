@@ -6,9 +6,9 @@ resource "null_resource" "get-kubectl" {
   provisioner "local-exec" {
     command = "gcloud container clusters get-credentials ${module.kubernetes-engine.name} --region ${var.region} --project ${var.project_id}"
   }
-  # depends_on = [
-  #   module.kubernetes-engine
-  # ]
+  depends_on = [
+    module.kubernetes-engine
+  ]
 }
 
 resource "null_resource" "sleep" {
