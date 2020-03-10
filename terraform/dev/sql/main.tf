@@ -115,7 +115,7 @@ resource "kubernetes_deployment" "sql-proxy" {
           name = "sql-proxy"
           command = ["/cloud_sql_proxy",
                       "-dir=/cloudsql",
-                      "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:5432",  # additional databases may be included here
+                      "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:0.0.0.0:5432",  # additional databases may be included here
                       "-credential_file=/secrets/cloudsql/${local.proxy_file_name}",
                       "term_timeout=10s"]
           lifecycle {
