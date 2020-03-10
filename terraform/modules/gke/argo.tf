@@ -3,6 +3,10 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "null_resource" "get-kubectl" {
+  
+  triggers = {
+    always_run = "${timestamp()}"
+  }
   provisioner "local-exec" {
     command = "gcloud container clusters get-credentials ${module.kubernetes-engine.name} --region ${var.region} --project ${var.project_id}"
   }
