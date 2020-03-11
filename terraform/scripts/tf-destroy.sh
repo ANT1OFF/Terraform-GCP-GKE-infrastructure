@@ -1,6 +1,11 @@
 #!/bin/bash
-#run from script folder
-# TODO: make run on all dirs as input
+# run from some folder bellow or in the terraform folder of the repo
+# destroys all terraform configs in dirlist
+
+dirlist="/dev/vpc 
+         /dev 
+         /dev/sql 
+         /dev/argo"
 
 sprint () {
     echo "$1"
@@ -8,12 +13,28 @@ sprint () {
     echo
 }
 
+dir=$(basename "$(pwd)")
+while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
+do
+    cd ..
+    dir=$(basename "$(pwd)")
+done
+
+if [ "$dir" != "terraform" ] 
+then
+    echo "Could not find terraform dir in parrent folders, exiting"
+    exit 1
+fi
+
+basedir=$(pwd)
+
 file="$1"
 
 # if env not provided
 if [ -z "$file" ]
 then
-      file="env.txt"
+    cd "${basedir}/scripts" || { echo "Could not cd, exiting"; exit 1; }
+    file="env.txt"
 fi
 
 if [ ! -r "$file" ]
@@ -27,15 +48,15 @@ set -a
 . ${file}
 set +a
 
-cd "../dev/sql" || { echo "Could not cd, exiting"; exit 1; }
-sprint "Running terrafom destroy in /dev/sql"
-terraform destroy -auto-approve
-
-cd ".." || { echo "Could not cd, exiting"; exit 1; }
-sprint "Running terrafom destroy in /dev"
-
-terraform destroy -auto-approve
-
-cd "./vpc" || { echo "Could not cd, exiting"; exit 1; }
-sprint "Running terrafom destroy in /dev/vpc"
-terraform destroy -auto-approve
+for tfdir in $dirlist
+do
+    echo "Moving to $tfdir"
+    cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
+    if terraform destroy -auto-approve ;
+    then
+        echo "$tfdir destroyed"
+    else
+        echo "Could not destroy $tfdir, exiting"
+        exit 1
+    fi
+done

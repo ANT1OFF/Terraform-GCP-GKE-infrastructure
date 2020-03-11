@@ -1,44 +1,66 @@
 #!/bin/bash
-#run from script folder
-# TODO: make run on all dirs as input
+# run from some folder bellow or in the terraform folder of the repo
+# inits and validates all terraform configs in dirlist
+
+dirlist="/dev/vpc 
+         /dev 
+         /dev/sql 
+         /dev/argo"
 
 sprint () {
-    echo "$1"
-    echo "================================="
-    echo
+   echo "$1"
+   echo "================================="
+   echo
 }
 
 tfin () {
+    sprint "Running terrafom init in $tfdir"
 
-    sprint "Running terrafom init"
-
-    terraform init -input=false 
-    if (($? > 0))
+    if terraform init -input=false ; 
     then
-        echo " Init failed exiting"
+        echo "$tfdir init success"
+    else
+        echo "$tfdir init failure, exiting"
         exit 1
     fi
 }
 
 tfval () {
+    sprint "Running terrafom validate in $tfdir"
 
-    sprint "Running terrafom validate"
-
-    terraform validate;
-    if (($? > 0))
+    if terraform validate ; 
     then
-        echo " Validate failed exiting"
+        echo "$tfdir validate success"
+    else
+        echo "$tfdir validate failure, exiting"
         exit 1
     fi
 }
 
+
+
+dir=$(basename "$(pwd)")
+while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
+do
+    cd ..
+    dir=$(basename "$(pwd)")
+done
+
+if [ "$dir" != "terraform" ] 
+then
+    echo "Could not find terraform dir in parrent folders, exiting"
+    exit 1
+fi
+
+basedir=$(pwd)
 
 file="$1"
 
 # if env not provided
 if [ -z "$file" ]
 then
-      file="./env.txt"
+    cd "${basedir}/scripts" || { echo "Could not cd, exiting"; exit 1; }
+    file="env.txt"
 fi
 
 if [ ! -r "$file" ]
@@ -52,25 +74,12 @@ set -a
 . ${file}
 set +a
 
-sprint "Moving to /dev/vpc"
-cd "../dev/vpc" || { echo "Could not cd, exiting"; exit 1; }
-tfin
-tfval
-if (($? > 0))
-then
-    echo "Init failed exiting"
-    exit 1
-fi
-
-sprint "Moving to /dev"
-cd .. || { echo "Could not cd, exiting"; exit 1; }
-tfin
-tfval
-
-
-sprint "Moving to /sql"
-cd ./sql || { echo "Could not cd, exiting"; exit 1; }
-tfin
-tfval
+for tfdir in $dirlist
+do
+    echo "Moving to $tfdir"
+    cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
+    tfin
+    tfval
+done
 
 

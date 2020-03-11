@@ -1,7 +1,11 @@
 #!/bin/bash
-#run from script folder
+# run from some folder bellow or in the terraform folder of the repo
+# plans and applies all terraform configs in dirlist
 
-# TODO: make run on all dirs as input
+dirlist="/dev/vpc 
+         /dev 
+         /dev/sql 
+         /dev/argo"
 
 sprint () {
     echo "$1"
@@ -10,27 +14,50 @@ sprint () {
 }
 
 tf-apply () {
-
     sprint "Running terrafom plan"
 
-
-    terraform plan; 
-    if (($? > 0)) 
+    if terraform plan ; 
     then
-        echo " Plan failed exiting"
-        exit 1 
+        echo "$tfdir plan success"
+    else
+        echo "$tfdir plan failure, exiting"
+        exit 1
     fi
 
     sprint "Running terrafom apply"
-    terraform apply -auto-approve
+
+    #TODO: add ability to diable -auto-approve
+    if terraform apply -auto-approve ; 
+    then
+        echo "$tfdir apply success"
+    else
+        echo "$tfdir apply failure, exiting"
+        exit 1
+    fi
 }
+
+dir=$(basename "$(pwd)")
+while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
+do
+    cd ..
+    dir=$(basename "$(pwd)")
+done
+
+if [ "$dir" != "terraform" ] 
+then
+    echo "Could not find terraform dir in parrent folders, exiting"
+    exit 1
+fi
+
+basedir=$(pwd)
 
 file="$1"
 
-# if env not provided use env.txt
+# if env not provided
 if [ -z "$file" ]
 then
-      file="env.txt"
+    cd "${basedir}/scripts" || { echo "Could not cd, exiting"; exit 1; }
+    file="env.txt"
 fi
 
 if [ ! -r "$file" ]
@@ -44,31 +71,10 @@ set -a
 . ${file}
 set +a
 
-sprint "Moving to /dev/vpc"
-cd "../dev/vpc" || { echo "Could not cd, exiting"; exit 1; }
 
-tf-apply;
-if (($? > 0)) 
-then
-    echo "Apply failed exiting"
-    exit 1
-fi
-
-sprint "Moving to /dev"
-cd ".." || { echo "Could not cd, exiting"; exit 1; }
-tf-apply
-if (($? > 0)) 
-then
-    echo "Apply failed exiting"
-    exit 1
-fi
-
-sprint "Moving to /sql"
-cd "./sql" || { echo "Could not cd, exiting"; exit 1; }
-tf-apply
-if (($? > 0)) 
-then
-    echo "Apply failed exiting"
-    exit 1
-fi
-
+for tfdir in $dirlist
+do
+    echo "Moving to $tfdir"
+    cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
+    tf-apply
+done
