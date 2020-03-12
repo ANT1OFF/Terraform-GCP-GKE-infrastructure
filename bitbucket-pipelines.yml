@@ -1,34 +1,9 @@
 definitions:
   steps:
-    - step: &terraform-test
-        name: Testing terraform configuration
-        image: kiwigrid/gcloud-kubectl-helm
-        script:
-            - cd ./terraform/dev/
-            - echo ${GCP_SECRET} > credentials.json
-            - gcloud auth activate-service-account --key-file=credentials.json
-            - echo ${PROXY_SECRET} > proxyCreds.json
-
-            # hacky fix https://github.com/terraform-providers/terraform-provider-kubernetes/issues/679
-            # !!!!
-            - export KUBERNETES_SERVICE_HOST=
-            # !!!!
-
-            - cd /tmp/
-            - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
-            - unzip terraform_0.12.21_linux_amd64.zip
-            - export PATH="$PATH:/tmp"
-
-            - cd ${BITBUCKET_CLONE_DIR}/terraform/scripts/
-            - /bin/bash tf-init.sh
-
-
-
     - step: &terraform-deploy
         name: Deploying terraform configuration
         image: kiwigrid/gcloud-kubectl-helm
         script:
-
             - cd ./terraform/dev/
             - echo ${GCP_SECRET} > credentials.json
             - gcloud auth activate-service-account --key-file=credentials.json
@@ -47,15 +22,50 @@ definitions:
             - cd ${BITBUCKET_CLONE_DIR}/terraform/scripts/
             - /bin/bash tf-init.sh
             - /bin/bash tf-apply.sh
-              
+    - step: &build-image
+        name: Build Docker image
+        image: openjdk:8-jdk-alpine
+        caches:
+          - docker
+        script:
+          - docker build -t helloworld -f Dockerfile .
+          - docker save --output tmp-image.docker helloworld
+        artifacts:
+          - tmp-image.docker
+
+    - step: &push-image-to-gcp-registry
+        name: Push image to GCP registry
+        image: google/cloud-sdk
+        caches:
+          - docker
+        script:
+          - export PROJECT=bachelor-2020
+
+          - docker load --input ./tmp-image.docker
+          
+          - echo ${GCP_SECRET} > secret.json
+          - gcloud auth activate-service-account --key-file secret.json
+          - gcloud config set project ${PROJECT}
+
+          - export TAG=$(echo "$BITBUCKET_TAG" | sed -e "s/v//g")
+          - export SUFFIX=$([[ ! -z "$TAG" ]] && echo ":$TAG" || echo "")
+          - export IMAGE_NAME=gcr.io/${PROJECT}/hello-world${SUFFIX}
+          - docker tag helloworld ${IMAGE_NAME}
+
+          - cat ./secret.json | docker login -u _json_key --password-stdin https://gcr.io
+          - docker push ${IMAGE_NAME}       
 
 pipelines:
-    default:
-      - step: *terraform-test
-
-    branches:
-        master:
-            - step: *terraform-test
-            - step: *terraform-deploy
-              
+  branches:
+    dev:
+      - step: 
+          <<: *terraform-deploy
+        name: Deploy terraform configuration to dev
+        deployment: Dev
+    master:
+      - step:  
+          <<: *terraform-deploy
+        name: Deploy terraform configuration to Production
+        deployment: Production
+        trigger: manual
             
