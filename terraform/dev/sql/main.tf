@@ -26,6 +26,16 @@ provider "google" {
 #   credentials = file("../credentials.json")
 # }
 
+provider "kubernetes" {
+  load_config_file       = false
+  host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
+}
+
+data "google_client_config" "default" {
+}
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Create Database 
@@ -100,15 +110,6 @@ data "terraform_remote_state" "main" {
 }
 
 # based on https://github.com/GoogleCloudPlatform/cloudsql-proxy/blob/master/Kubernetes.md
-provider "kubernetes" {
-  load_config_file       = false
-  host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
-  token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
-}
-data "google_client_config" "default" {
-}
-
 resource "kubernetes_deployment" "sql-proxy" {
   count = var.sql_database ? 1 : 0
 
