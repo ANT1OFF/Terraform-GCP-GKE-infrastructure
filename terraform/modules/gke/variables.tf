@@ -34,3 +34,8 @@ variable "vpc_subnets_name" {
 variable "credentials" {
   type = string
 }
+
+variable "preemptible" {
+  type = string
+  default = false
+}

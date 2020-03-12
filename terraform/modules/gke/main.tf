@@ -40,6 +40,7 @@ module "kubernetes-engine" {
       auto_repair        = true
       auto_upgrade       = true
       service_account    = var.service_account_email
+      preemptible        = var.preemptible
     },
   ]
 }

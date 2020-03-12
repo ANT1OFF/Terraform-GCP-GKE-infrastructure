@@ -20,6 +20,13 @@ provider "google" {
   credentials = file("../credentials.json")
 }
 
+provider "google-beta" {
+  region  = var.region
+  project = var.project_id
+  credentials = file("../credentials.json")
+}
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Create Database 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -49,18 +56,33 @@ resource "google_sql_database" "mydb" {
   depends_on = [google_sql_database_instance.master]
 }
 
-resource "google_sql_user" "users" {
+resource "google_sql_user" "appuser" {
   count = var.sql_database ? 1 : 0
 
   name     = var.sql_user
   instance = google_sql_database_instance.master[0].name
-  password = random_password.db_password.result
+  password = random_password.appuser.result
 
-  depends_on = [google_sql_database_instance.master, random_password.db_password]
+  depends_on = [google_sql_database_instance.master, random_password.appuser]
 }
 
-resource "random_password" "db_password" {
-  length = 16
+resource "google_sql_user" "admin" {
+  count = var.sql_database ? 1 : 0
+
+  name     = var.sql_admin
+  instance = google_sql_database_instance.master[0].name
+  password = random_password.admin.result
+
+  depends_on = [google_sql_database_instance.master, random_password.admin]
+}
+
+# TODO: export password to some secure location to allow operators to log into the database. Maybe add a seperate account for this
+resource "random_password" "appuser" {
+  length = 24
+}
+
+resource "random_password" "admin" {
+  length = 24
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -77,7 +99,7 @@ data "terraform_remote_state" "main" {
   }
 }
 
-# TODO: make like this https://github.com/GoogleCloudPlatform/cloudsql-proxy/blob/master/Kubernetes.md
+# based on https://github.com/GoogleCloudPlatform/cloudsql-proxy/blob/master/Kubernetes.md
 provider "kubernetes" {
   load_config_file       = false
   host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
@@ -215,17 +237,52 @@ resource "kubernetes_secret" "database" {
     name = "db-secrets"
   }
 
-  # TODO: make dynamic
+  # TODO: add dynamic secrets
   data = {
     DB_HOST = local.sql_proxy_name
     DB_PORT = local.db_port
     DB_USER = var.sql_user
-    DB_PASSWORD = random_password.db_password.result
+    DB_PASSWORD = random_password.appuser.result
     DB_NAME = var.sql_db_name
     DB_SSLMODE = "disable" # communication is encrypted by sql-proxy
   }
 
-  depends_on = [random_password.db_password]
+  depends_on = [random_password.appuser]
 }
 
 
+resource "google_secret_manager_secret" "sql" {
+  count = var.sql_database ? 1 : 0
+  provider = google-beta
+
+  secret_id = "sql-secrets"
+
+  labels = {
+    label = "sql-secrets"
+  }
+
+  replication {
+    automatic = true
+  }
+}
+
+
+resource "google_secret_manager_secret_version" "sql-user" {
+  count = var.sql_database ? 1 : 0
+  provider = google-beta
+
+  secret = google_secret_manager_secret.sql.id
+
+  secret_data = {
+    "username" = var.sql_admin
+    "password" = random_password.admin.result
+  }
+}
+
+# resource "google_secret_manager_secret_version" "sql-password" {
+#   provider = google-beta
+
+#   secret = google_secret_manager_secret.sql.id
+
+#   secret_data = random_password.admin.result
+# }

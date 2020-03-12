@@ -65,6 +65,11 @@ variable "sql_db_name" {
   default = "default_db_name"
 }
 
+variable "sql_admin" {
+  type = string
+  default = "admin"
+}
+
 variable "secrets" {
   type = list(object({
     name = string

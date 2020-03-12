@@ -82,7 +82,7 @@ pipelines:
     dev:
       - step: 
           <<: *terraform-deploy
-          name: Deploy terraform configuration to dev
+          name: Deploy terraform configuration to Dev
           deployment: Dev
     master:
       - step: 
