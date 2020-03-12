@@ -60,12 +60,12 @@ pipelines:
     dev:
       - step: 
           <<: *terraform-deploy
-        name: Deploy terraform configuration to dev
-        deployment: Dev
+          name: Deploy terraform configuration to dev
+          deployment: Dev
     master:
       - step:  
           <<: *terraform-deploy
-        name: Deploy terraform configuration to Production
-        deployment: Production
-        trigger: manual
+          name: Deploy terraform configuration to Production
+          deployment: Production
+          trigger: manual
             
