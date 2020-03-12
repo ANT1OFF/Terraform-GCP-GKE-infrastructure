@@ -20,11 +20,11 @@ provider "google" {
   credentials = file("../credentials.json")
 }
 
-provider "google-beta" {
-  region  = var.region
-  project = var.project_id
-  credentials = file("../credentials.json")
-}
+# provider "google-beta" {
+#   region  = var.region
+#   project = var.project_id
+#   credentials = file("../credentials.json")
+# }
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -251,28 +251,28 @@ resource "kubernetes_secret" "database" {
 }
 
 
-resource "google_secret_manager_secret" "sql" {
-  count = var.sql_database ? 1 : 0
-  provider = google-beta
+# resource "google_secret_manager_secret" "sql" {
+#   count = var.sql_database ? 1 : 0
+#   provider = google-beta
 
-  secret_id = "sql-secrets"
+#   secret_id = "sql-secrets"
 
-  labels = {
-    label = "sql-secrets"
-  }
+#   labels = {
+#     label = "sql-secrets"
+#   }
 
-  replication {
-    automatic = true
-  }
-}
+#   replication {
+#     automatic = true
+#   }
+# }
 
 
-resource "google_secret_manager_secret_version" "sql-user" {
-  count = var.sql_database ? 1 : 0
-  provider = google-beta
+# resource "google_secret_manager_secret_version" "sql-user" {
+#   count = var.sql_database ? 1 : 0
+#   provider = google-beta
 
-  secret = google_secret_manager_secret.sql[0].id
-  secret_data = "username: ${var.sql_admin} password: ${random_password.admin.result}"
+#   secret = google_secret_manager_secret.sql[0].id
+#   secret_data = "username: ${var.sql_admin} password: ${random_password.admin.result}"
 
-  depends_on = [google_secret_manager_secret.sql, random_password.admin]
-}
+#   depends_on = [google_secret_manager_secret.sql, random_password.admin]
+# }

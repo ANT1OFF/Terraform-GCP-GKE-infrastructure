@@ -20,12 +20,8 @@ provider "google" {
 
 
 # ---------------------------------------------------------------------------------------------------------------------
-# CREATE A NETWORK TO DEPLOY THE CLUSTER TO
+# CREATE A NETWORK 
 # ---------------------------------------------------------------------------------------------------------------------
-
-locals {
-  subnet_name = "sub-02"
-}
 
 module "vpc" {
   source  = "terraform-google-modules/network/google"
@@ -35,7 +31,7 @@ module "vpc" {
   network_name = var.network_name
   subnets = [
       {
-          subnet_name           = local.subnet_name
+          subnet_name           = var.subnet_name
           subnet_ip             = var.ip_range_sub
           subnet_region         = var.region
           subnet_private_access = "true"
@@ -44,11 +40,11 @@ module "vpc" {
   secondary_ranges = {
         sub-02 = [
             {
-                range_name    = "${local.subnet_name}-pods"
+                range_name    = "${var.subnet_name}-pods"
                 ip_cidr_range = var.ip_range_pods
             },
             {
-                range_name    = "${local.subnet_name}-services"
+                range_name    = "${var.subnet_name}-services"
                 ip_cidr_range = var.ip_range_services
             },            
         ]
