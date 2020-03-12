@@ -117,6 +117,11 @@ resource "kubernetes_service" "argocd-server-lb" {
   metadata {
     name = "terraform-argocd-server-lb"
     namespace = "argocd"
+    annotations = {
+      "kubernetes.io/ingress.class" = "nginx"
+      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+      "nginx.ingress.kubernetes.io/ssl-passthrough" = "true"
+    }
   }
   spec {
     selector = {
