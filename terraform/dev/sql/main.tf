@@ -274,11 +274,3 @@ resource "google_secret_manager_secret_version" "sql-user" {
   secret = google_secret_manager_secret.sql[0].id
   secret_data = "username: ${var.sql_admin} password: ${random_password.admin.result}"
 }
-
-# resource "google_secret_manager_secret_version" "sql-password" {
-#   provider = google-beta
-
-#   secret = google_secret_manager_secret.sql.id
-
-#   secret_data = random_password.admin.result
-# }

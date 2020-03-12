@@ -4,4 +4,4 @@ zone="europe-west1-b"
 
 
 sql_version = "POSTGRES_11"
-sql_database = false
+sql_database = true
