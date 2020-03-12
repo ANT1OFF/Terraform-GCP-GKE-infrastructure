@@ -1,5 +1,6 @@
 #!/bin/bash
 # run from some folder bellow or in the terraform folder of the repo
+# loads all vars in env.txt
 # plans and applies all terraform configs in dirlist
 
 dirlist="/dev/vpc 

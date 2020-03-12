@@ -58,13 +58,3 @@ module "gke" {
   vpc_subnets_name = data.terraform_remote_state.vpc.outputs.network-subnets
 }
 
-#module "argo" {
-#
- # project_id = var.project_id
- # cluster_name = var.cluster_name
-#  region = var.region
-#  cluster_endpoint = module.gke.endpoint
-#  cluster_ca_certificate = module.gke.ca_certificate
-#  service_account_email = module.service_accounts.email
-#}
-

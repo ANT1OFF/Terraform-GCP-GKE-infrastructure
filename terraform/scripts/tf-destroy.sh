@@ -1,11 +1,12 @@
 #!/bin/bash
 # run from some folder bellow or in the terraform folder of the repo
+# loads all vars in env.txt
 # destroys all terraform configs in dirlist
 
-dirlist="/dev/vpc 
-         /dev 
+dirlist="/dev/argo
          /dev/sql 
-         /dev/argo"
+         /dev 
+         /dev/vpc"
 
 sprint () {
     echo "$1"
