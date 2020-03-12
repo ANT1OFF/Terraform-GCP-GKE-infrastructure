@@ -273,4 +273,6 @@ resource "google_secret_manager_secret_version" "sql-user" {
 
   secret = google_secret_manager_secret.sql[0].id
   secret_data = "username: ${var.sql_admin} password: ${random_password.admin.result}"
+
+  depends_on = [google_secret_manager_secret.sql, random_password.admin]
 }
