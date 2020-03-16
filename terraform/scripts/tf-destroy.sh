@@ -3,7 +3,8 @@
 # loads all vars in env.txt
 # destroys all terraform configs in dirlist
 
-dirlist="/dev/argo
+dirlist="/dev/argo-2
+         /dev/argo-1
          /dev/sql 
          /dev 
          /dev/vpc"

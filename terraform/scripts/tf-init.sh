@@ -6,7 +6,8 @@
 dirlist="/dev/vpc 
          /dev 
          /dev/sql 
-         /dev/argo"
+         /dev/argo-1
+         /dev/argo-2"
 
 sprint () {
     echo "$1"

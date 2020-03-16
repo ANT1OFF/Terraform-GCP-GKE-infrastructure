@@ -20,12 +20,6 @@ provider "google" {
   credentials = file("../credentials.json")
 }
 
-# provider "google-beta" {
-#   region  = var.region
-#   project = var.project_id
-#   credentials = file("../credentials.json")
-# }
-
 provider "kubernetes" {
   load_config_file       = false
   host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
@@ -251,29 +245,3 @@ resource "kubernetes_secret" "database" {
   depends_on = [random_password.appuser]
 }
 
-
-# resource "google_secret_manager_secret" "sql" {
-#   count = var.sql_database ? 1 : 0
-#   provider = google-beta
-
-#   secret_id = "sql-secrets"
-
-#   labels = {
-#     label = "sql-secrets"
-#   }
-
-#   replication {
-#     automatic = true
-#   }
-# }
-
-
-# resource "google_secret_manager_secret_version" "sql-user" {
-#   count = var.sql_database ? 1 : 0
-#   provider = google-beta
-
-#   secret = google_secret_manager_secret.sql[0].id
-#   secret_data = "username: ${var.sql_admin} password: ${random_password.admin.result}"
-
-#   depends_on = [google_secret_manager_secret.sql, random_password.admin]
-# }

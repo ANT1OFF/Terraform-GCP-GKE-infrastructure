@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
     bucket  = "b2020-tf-state-dev"  # TODO: make variable or similar?
-    prefix  = "terraform/state/dev/argo"
+    prefix  = "terraform/state/dev/argo-1"
     credentials = "../credentials.json"
   }
 }
@@ -83,48 +83,14 @@ resource "kubernetes_namespace" "argo-rollout" {
 
 resource "null_resource" "argo-rollout-workload" {
   provisioner "local-exec" {
-    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml"
+    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml; kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${data.terraform_remote_state.main.outputs.service_account_email}"
   }
   depends_on = [
     kubernetes_namespace.argo-rollout,
   ]
 }
 
-resource "null_resource" "argo-rollout-cluster-admin" {
-  provisioner "local-exec" {
-    command = "kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${data.terraform_remote_state.main.outputs.service_account_email}"
-  }
-  depends_on = [
-    null_resource.argo-rollout-workload,
-  ]
-}
 
-#resource "null_resource" "cm-import" {
-#  provisioner "local-exec" {
-#    command = "terraform import kubernetes_config_map.argocd-config argocd/argocd-cm -lock=false"
-#  }
-#  depends_on = [
-#    null_resource.argo-rollout-workload,
-#  ]
-#}
-
-# https://argoproj.github.io/argo-cd/operator-manual/declarative-setup/#repositories
-resource "kubernetes_config_map" "argocd-config" {
-  metadata {
-    name = "argocd-cm"
-    namespace = var.argocd_namespace
-    labels = {
-      "app.kubernetes.io/name" = "argocd-cm"
-      "app.kubernetes.io/part-of" = "argocd"
-    }
-  }
-  data = {
-    url = var.argocd_repo
-  }
-#  depends_on = [
-#    null_resource.cm-import,
-#  ]
-}
 
 resource "kubernetes_service" "argocd-server-lb" {
   metadata {

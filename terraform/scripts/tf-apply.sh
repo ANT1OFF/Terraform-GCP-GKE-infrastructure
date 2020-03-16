@@ -6,7 +6,8 @@
 dirlist="/dev/vpc 
          /dev 
          /dev/sql 
-         /dev/argo"
+         /dev/argo-1
+         /dev/argo-2"
 
 sprint () {
     echo "$1"
@@ -54,7 +55,7 @@ basedir=$(pwd)
 
 file="$1"
 
-# if env not provided
+# if env not provided (file is an empty string)
 if [ -z "$file" ]
 then
     cd "${basedir}/scripts" || { echo "Could not cd, exiting"; exit 1; }
@@ -77,5 +78,9 @@ for tfdir in $dirlist
 do
     echo "Moving to $tfdir"
     cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
+    if [ "$tfdir" = "/dev/argo-2" ]
+    then
+        terraform import kubernetes_config_map.argocd-config argocd/argocd-cm
+    fi
     tf-apply
 done
