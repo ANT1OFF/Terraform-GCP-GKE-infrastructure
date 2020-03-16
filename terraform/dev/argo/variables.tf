@@ -10,3 +10,12 @@ variable "region" {
 variable "cluster_name" {
   type = string
 }
+
+variable "argocd_namespace" {
+  type = string
+  default = "argocd"
+}
+
+variable "argocd_repo" {
+  type = string
+}

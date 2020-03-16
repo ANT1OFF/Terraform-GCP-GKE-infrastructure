@@ -57,24 +57,10 @@ resource "null_resource" "get-kubectl" {
   }
 }
 
-# TODO: remove this
-# !!!! TODO keep this
-resource "null_resource" "sleep" {
-  provisioner "local-exec" {
-    command = "sleep 5"
-  }
-  depends_on = [
-    null_resource.get-kubectl
-  ]
-}
-
 resource "kubernetes_namespace" "argo" {
   metadata {
-    name = "argocd"
+    name = var.argocd_namespace
   }
-  depends_on = [
-    null_resource.sleep
-  ]
 }
 
 resource "null_resource" "argo-workload" {
@@ -113,10 +99,30 @@ resource "null_resource" "argo-rollout-cluster-admin" {
   ]
 }
 
+
+
+# https://argoproj.github.io/argo-cd/operator-manual/declarative-setup/#repositories
+resource "kubernetes_config_map" "argocd-config" {
+  metadata {
+    name = "argocd-cm"
+    namespace = var.argocd_namespace
+    labels = {
+      "app.kubernetes.io/name" = "argocd-cm"
+      "app.kubernetes.io/part-of" = "argocd"
+    }
+  }
+  data = {
+    url = var.argocd_repo
+  }
+  depends_on = [
+    null_resource.argo-rollout-cluster-admin,
+  ]
+}
+
 resource "kubernetes_service" "argocd-server-lb" {
   metadata {
     name = "terraform-argocd-server-lb"
-    namespace = "argocd"
+    namespace = var.argocd_namespace
     annotations = {
       "kubernetes.io/ingress.class" = "nginx"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
@@ -133,7 +139,32 @@ resource "kubernetes_service" "argocd-server-lb" {
     }
     type = "LoadBalancer"
   }
-  depends_on = [
-    null_resource.argo-rollout-workload,
-  ]
+}
+
+
+resource "kubernetes_ingress" "nginx-ingress" {
+  metadata {
+    name = "argocd-server-http-ingress"
+    namespace = var.argocd_namespace
+    annotations = {
+    "kubernetes.io/ingress.class" = "nginx"
+    "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+    "nginx.ingress.kubernetes.io/backend-protocol" = "HTTP"
+    }
+  }
+  spec {
+    rule {
+      http {
+        path {
+          backend {
+            service_name = "argocd-server"
+            service_port = "https"
+          }
+        }
+      }
+    }
+    tls {
+      secret_name = "argocd-secret"
+    }
+  }
 }

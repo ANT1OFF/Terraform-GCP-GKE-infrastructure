@@ -58,5 +58,6 @@ module "gke" {
   region = var.region
   vpc_network_name = data.terraform_remote_state.vpc.outputs.network-name
   vpc_subnets_name = data.terraform_remote_state.vpc.outputs.network-subnets
+  preemptible = var.preemptible
 }
 

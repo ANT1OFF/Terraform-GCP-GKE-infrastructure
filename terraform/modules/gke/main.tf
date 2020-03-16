@@ -33,7 +33,7 @@ module "kubernetes-engine" {
   node_pools = [
     {
       name               = "default-node-pool"
-      machine_type       = "n1-standard-2"  # TODO: make variable ?
+      machine_type       = "n1-standard-1"  # TODO: make variable ?
       min_count          = 3
       max_count          = 100
       image_type         = "COS"
@@ -45,6 +45,13 @@ module "kubernetes-engine" {
   ]
   node_pools_oauth_scopes = {
     all = [
+      "https://www.googleapis.com/auth/compute",
+      "https://www.googleapis.com/auth/devstorage.read_only",
+      "https://www.googleapis.com/auth/logging.write",
+      "https://www.googleapis.com/auth/monitoring",
+    ]
+
+    default-node-pool = [
       "https://www.googleapis.com/auth/compute",
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/logging.write",

@@ -21,3 +21,7 @@ variable "cluster_name" {
   default = "tf-gke-cluster-default"
 }
 
+variable "preemptible" {
+  type = string
+  default = false
+}

@@ -9,9 +9,9 @@ dirlist="/dev/vpc
          /dev/argo"
 
 sprint () {
-   echo "$1"
-   echo "================================="
-   echo
+    echo "$1"
+    echo "================================="
+    echo
 }
 
 tfin () {

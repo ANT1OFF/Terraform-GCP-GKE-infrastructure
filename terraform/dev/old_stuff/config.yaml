@@ -1,3 +1,0 @@
-ingress: false
-cluster:
-    name: testitest
