@@ -99,7 +99,14 @@ resource "null_resource" "argo-rollout-cluster-admin" {
   ]
 }
 
-
+#resource "null_resource" "cm-import" {
+#  provisioner "local-exec" {
+#    command = "terraform import kubernetes_config_map.argocd-config argocd/argocd-cm -lock=false"
+#  }
+#  depends_on = [
+#    null_resource.argo-rollout-workload,
+#  ]
+#}
 
 # https://argoproj.github.io/argo-cd/operator-manual/declarative-setup/#repositories
 resource "kubernetes_config_map" "argocd-config" {
@@ -114,9 +121,9 @@ resource "kubernetes_config_map" "argocd-config" {
   data = {
     url = var.argocd_repo
   }
-  depends_on = [
-    null_resource.argo-rollout-cluster-admin,
-  ]
+#  depends_on = [
+#    null_resource.cm-import,
+#  ]
 }
 
 resource "kubernetes_service" "argocd-server-lb" {
