@@ -25,3 +25,9 @@ variable "preemptible" {
   type = string
   default = false
 }
+
+variable "secrets" {
+  type = map(string)
+  default = {}
+  description = "Secrets referr to arbitrary secrets to be injected as Kubernetes secrets, which may be passed to an application as demonstrated with db-secrets in the example app deployment definition yaml"
+}

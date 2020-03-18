@@ -77,3 +77,24 @@ resource "google_project_service" "logging" {
   service            = "logging.googleapis.com"
   disable_on_destroy = false
 }
+
+# ---------------------------------------------------------------------------------------------------------------------
+# INSERTING ARBITRARY SECRETS INTO THE CLUSTER
+# ---------------------------------------------------------------------------------------------------------------------
+
+provider "kubernetes" {
+  load_config_file       = false
+  host                   = "https://${module.kubernetes-engine.endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(module.kubernetes-engine.ca_certificate)
+}
+
+# note: https://www.terraform.io/docs/state/sensitive-data.html
+# Google Cloud buckets are encrypted by default
+resource "kubernetes_secret" "secrets" {
+  metadata {
+    name = "arbitrary-secrets"
+  }
+
+  data = var.secrets
+}

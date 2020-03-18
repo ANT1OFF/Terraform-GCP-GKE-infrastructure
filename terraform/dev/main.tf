@@ -59,5 +59,6 @@ module "gke" {
   vpc_network_name = data.terraform_remote_state.vpc.outputs.network-name
   vpc_subnets_name = data.terraform_remote_state.vpc.outputs.network-subnets
   preemptible = var.preemptible
+  secrets = var.secrets
 }
 
