@@ -58,22 +58,17 @@ variable "sql_disk_type" {
 variable "sql_user" {
   type = string
   default = "appuser"
+  description = "Name for the sql account for use by applications."
 }
 
 variable "sql_db_name" {
   type = string
   default = "default_db_name"
+  description = "Name for the sql account for use by applications."
 }
 
 variable "sql_admin" {
   type = string
   default = "admin"
-}
-
-variable "secrets" {
-  type = list(object({
-    name = string
-    value = string
-}))
-  default = []
+  description = "Name for the sql admin account."
 }

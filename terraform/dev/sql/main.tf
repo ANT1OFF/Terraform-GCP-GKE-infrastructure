@@ -225,7 +225,7 @@ resource "kubernetes_secret" "proxy-credentials" {
   }
 }
 
-resource "kubernetes_secret" "database" {
+resource "kubernetes_secret" "db-app" {
   count = var.sql_database ? 1 : 0
 
   metadata {
@@ -245,3 +245,18 @@ resource "kubernetes_secret" "database" {
   depends_on = [random_password.appuser]
 }
 
+# Exporting db-admin as a Kubernetes secret, which may be fairly easily accessed by an admin.
+resource "kubernetes_secret" "db-admin" {
+  count = var.sql_database ? 1 : 0
+
+  metadata {
+    name = "db-admin"
+  }
+
+  data = {
+    USERNAME = var.sql_admin
+    PASSWORD = random_password.admin.result
+  }
+
+  depends_on = [random_password.admin]
+}
