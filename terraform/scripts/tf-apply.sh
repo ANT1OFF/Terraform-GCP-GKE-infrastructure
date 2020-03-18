@@ -1,13 +1,24 @@
 #!/bin/bash
-# run from some folder bellow or in the terraform folder of the repo
-# loads all vars in env.txt
-# plans and applies all terraform configs in dirlist
+# Run from any folder in or bellow the main terraform folder of the repo.
+# The script takes one argument: the path to the file containing environment varialbes to be injected before running the Terraform configuration.
+# The name of the env file defaults to "env.txt" inside the scripts folder of this repository.
+
+# The script loads all vars in env.txt,
+# plans and applies all terraform configs in dirlist.
+
+# ---------------------------------------------------------------------------------------------------------------------
+# VARIABLES
+# ---------------------------------------------------------------------------------------------------------------------
 
 dirlist="/dev/vpc 
          /dev 
-         /dev/sql 
+         /dev/sql
          /dev/argo-1
          /dev/argo-2"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# FUNCTION DEFINITIONS
+# ---------------------------------------------------------------------------------------------------------------------
 
 sprint () {
     echo "$1"
@@ -38,6 +49,12 @@ tf-apply () {
     fi
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# SCRIPT
+# ---------------------------------------------------------------------------------------------------------------------
+
+# trying to find the main terraform folder
+# TODO: merely checking that the folder is named "terraform" isn't very robust. Look into fixing
 dir=$(basename "$(pwd)")
 while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
 do
@@ -51,18 +68,20 @@ then
     exit 1
 fi
 
+# basedir is the path to the main terraform folder of this repository
 basedir=$(pwd)
 
-file="$1"
+envfile="$1"
 
-# if env not provided (file is an empty string)
-if [ -z "$file" ]
+# checking if envfile has been provided
+if [ -z "$envfile" ]
 then
-    cd "${basedir}/scripts" || { echo "Could not cd, exiting"; exit 1; }
-    file="env.txt"
+    # defaults to a "env.txt" inside the scripts folder.
+    envfile="${basedir}/scripts/env.txt"
 fi
 
-if [ ! -r "$file" ]
+# checking if the envfile is readable
+if [ ! -r "$envfile" ]
 then
     echo "Could not read env file, exiting"
     exit 1
@@ -70,7 +89,7 @@ fi
 
 # Load and set envs from env.txt
 set -a
-. ${file}
+. ${envfile}
 set +a
 
 
@@ -82,5 +101,6 @@ do
     then
         terraform import kubernetes_config_map.argocd-config argocd/argocd-cm
     fi
+
     tf-apply
 done
