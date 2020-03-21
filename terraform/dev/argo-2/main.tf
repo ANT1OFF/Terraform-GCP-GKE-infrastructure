@@ -56,7 +56,6 @@ resource "kubernetes_config_map" "argocd-config" {
       "app.kubernetes.io/part-of" = "argocd"
     }
   }
-
   data = {
     repositories = <<EOF
 - url: ${var.argocd_repo}

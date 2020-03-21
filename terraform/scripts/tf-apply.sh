@@ -29,7 +29,7 @@ sprint () {
 tf-apply () {
     sprint "Running terrafom plan"
 
-    if terraform plan ; 
+    if terraform plan -var-file "${envfile}" ; 
     then
         echo "$tfdir plan success"
     else
@@ -40,25 +40,40 @@ tf-apply () {
     sprint "Running terrafom apply"
 
     #TODO: add ability to diable -auto-approve
-    if terraform apply -auto-approve ; 
+    if terraform apply -auto-approve -var-file "${envfile}" ; 
     then
         echo "$tfdir apply success"
     else
-        echo "$tfdir apply failure, exiting"
-        exit 1
+        if [ "$tfdir" != "/dev/argo-2" ]
+        then
+            echo "$tfdir apply failure, exiting"
+            exit 1
+        fi
     fi
 }
+
+check-tf-argo-state () {
+    terraform state list  ## !!! might by needed ????
+    state="$(terraform state list | grep kubernetes_config_map.argocd-config)"
+    if [ -z "$state" ] 
+    then
+        terraform import kubernetes_config_map.argocd-config argocd/argocd-cm
+    else
+        echo "argocd-config already managed by terraform"
+    fi
+}
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # SCRIPT
 # ---------------------------------------------------------------------------------------------------------------------
 
 # trying to find the main terraform folder
-# TODO: merely checking that the folder is named "terraform" isn't very robust. Look into fixing
+# TODO: merely checking that the folder is named "terraform" isn't very robust. mby fix?
 dir=$(basename "$(pwd)")
 while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
 do
-    cd ..
+    cd .. || { echo "Could not cd, exiting"; exit 1; }
     dir=$(basename "$(pwd)")
 done
 
@@ -68,29 +83,26 @@ then
     exit 1
 fi
 
-# basedir is the path to the main terraform folder of this repository
 basedir=$(pwd)
 
 envfile="$1"
 
-# checking if envfile has been provided
+# if env not provided
 if [ -z "$envfile" ]
 then
     # defaults to a "env.txt" inside the scripts folder.
-    envfile="${basedir}/scripts/env.txt"
+    envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
-# checking if the envfile is readable
 if [ ! -r "$envfile" ]
 then
     echo "Could not read env file, exiting"
     exit 1
 fi
 
-# Load and set envs from env.txt
-set -a
-. ${envfile}
-set +a
+# ---------------------------------------------------------------------------------------------------------------------
+# Run commands
+# ---------------------------------------------------------------------------------------------------------------------
 
 
 for tfdir in $dirlist
@@ -99,8 +111,16 @@ do
     cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
     if [ "$tfdir" = "/dev/argo-2" ]
     then
-        terraform import kubernetes_config_map.argocd-config argocd/argocd-cm
+        set +e  # turn off error-trapping
+        echo "running checks"
+        check-tf-argo-state
+        tf-apply    
+        echo "sleep 30"
+        sleep 30
+        echo "importing argocd-config map"
+        check-tf-argo-state    
+        set -e  # turn on error-trapping
     fi
-
-    tf-apply
+    echo "running tf-apply"
+    tf-apply   
 done

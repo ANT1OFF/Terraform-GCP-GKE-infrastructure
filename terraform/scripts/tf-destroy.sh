@@ -30,11 +30,11 @@ sprint () {
 # ---------------------------------------------------------------------------------------------------------------------
 
 # trying to find the main terraform folder
-# TODO: merely checking that the folder is named "terraform" isn't very robust. Look into fixing
+# TODO: merely checking that the folder is named "terraform" isn't very robust. mby fix?
 dir=$(basename "$(pwd)")
 while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
 do
-    cd ..
+    cd .. || { echo "Could not cd, exiting"; exit 1; }
     dir=$(basename "$(pwd)")
 done
 
@@ -44,29 +44,26 @@ then
     exit 1
 fi
 
-# basedir is the path to the main terraform folder of this repository
 basedir=$(pwd)
 
 envfile="$1"
 
-# checking if envfile has been provided
+# if env not provided
 if [ -z "$envfile" ]
 then
     # defaults to a "env.txt" inside the scripts folder.
-    envfile="${basedir}/scripts/env.txt"
+    envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
-# checking if the envfile is readable
 if [ ! -r "$envfile" ]
 then
     echo "Could not read env file, exiting"
     exit 1
 fi
 
-# Load and set envs from env.txt
-set -a
-. ${envfile}
-set +a
+# ---------------------------------------------------------------------------------------------------------------------
+# Run commands
+# ---------------------------------------------------------------------------------------------------------------------
 
 for tfdir in $dirlist
 do

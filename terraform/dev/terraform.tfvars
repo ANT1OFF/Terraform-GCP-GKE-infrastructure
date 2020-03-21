@@ -7,6 +7,6 @@ zone="europe-west1-b"
 
 # This is just an example to demonstrate arbitrary Kubernetes secrets
 secrets = {
-    test = "true"
-    env = "dev"
+   test = "true"
+   env = "tfvars"
 }
