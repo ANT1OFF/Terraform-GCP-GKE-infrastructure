@@ -1,7 +1,14 @@
 #!/bin/bash
-# run from some folder bellow or in the terraform folder of the repo
-# loads all vars in env.txt
-# inits and validates all terraform configs in dirlist
+# Run from any folder in or bellow the main terraform folder of the repo.
+# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
+# The name of the env file defaults to "env.txt" inside the scripts folder of this repository.
+
+# The script loads all vars in env.txt,
+# inits and validates all terraform configs in dirlist.
+
+# ---------------------------------------------------------------------------------------------------------------------
+# VARIABLES
+# ---------------------------------------------------------------------------------------------------------------------
 
 dirlist="/dev/vpc 
          /dev 
@@ -17,7 +24,7 @@ sprint () {
 tfin () {
     sprint "Running terrafom init in $tfdir"
 
-    if terraform init -input=false ; 
+    if terraform init -input=false -var-file "${envfile}" ; 
     then
         echo "$tfdir init success"
     else
@@ -29,7 +36,7 @@ tfin () {
 tfval () {
     sprint "Running terrafom validate in $tfdir"
 
-    if terraform validate ; 
+    if terraform validate -var-file "${envfile}" ; 
     then
         echo "$tfdir validate success"
     else
@@ -37,7 +44,6 @@ tfval () {
         exit 1
     fi
 }
-
 
 
 dir=$(basename "$(pwd)")
@@ -60,8 +66,8 @@ file="$1"
 # if env not provided
 if [ -z "$file" ]
 then
-    cd "${basedir}/scripts" || { echo "Could not cd, exiting"; exit 1; }
-    file="env.txt"
+    # defaults to a "env.txt" inside the scripts folder.
+    envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
 if [ ! -r "$file" ]
@@ -69,11 +75,6 @@ then
     echo "Could not read env file, exiting"
     exit 1
 fi
-
-# Load and set envs from env.txt
-set -a
-. ${file}
-set +a
 
 for tfdir in $dirlist
 do

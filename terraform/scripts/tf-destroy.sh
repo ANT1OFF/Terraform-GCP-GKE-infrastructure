@@ -1,7 +1,7 @@
 #!/bin/bash
-# run from some folder bellow or in the terraform folder of the repo
-# loads all vars in env.txt
-# destroys all terraform configs in dirlist
+# Run from any folder in or bellow the main terraform folder of the repo.
+# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
+# The name of the env file defaults to "env.txt" inside the scripts folder of this repository.
 
 dirlist="/dev/argo
          /dev/sql 
@@ -34,8 +34,8 @@ file="$1"
 # if env not provided
 if [ -z "$file" ]
 then
-    cd "${basedir}/scripts" || { echo "Could not cd, exiting"; exit 1; }
-    file="env.txt"
+    # defaults to a "env.txt" inside the scripts folder.
+    envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
 if [ ! -r "$file" ]
@@ -44,16 +44,11 @@ then
     exit 1
 fi
 
-# Load and set envs from env.txt
-set -a
-. ${file}
-set +a
-
 for tfdir in $dirlist
 do
     echo "Moving to $tfdir"
     cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-    if terraform destroy -auto-approve ;
+    if terraform destroy -auto-approve -var-file "${envfile}" ;
     then
         echo "$tfdir destroyed"
     else
