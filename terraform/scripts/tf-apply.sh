@@ -26,6 +26,7 @@ sprint () {
     echo
 }
 
+#TODO: make function return status code instead of exiting
 tf-apply () {
     sprint "Running terrafom plan"
 
