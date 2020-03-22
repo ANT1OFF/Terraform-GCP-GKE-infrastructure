@@ -6,11 +6,19 @@ Currently this repo is for testing purposes only as we try to figure out which t
 
 ## Prerequisites
 
-- Service account with the roles (may be reduced at a later date):
+- A Google Cloud Platform project with suitable a suitable funding solution.
+
+- A GCS bucket to remotely store the Terraform state. 
+
+- Service account with the following roles (may be reduced at a later date):
+    - Kubernetes Engine Admin
     - Editor
     - Project IAM Admin
 
-- Bucket to store state
+  Download the credentialsfor the service account in json format, rename the file "**credentials.json**" and place it in under *terraform/dev*. This service account is used to authenticate the remote backend in GCS and as credentials for the various Google providers in the repository.
+
+- Service account with the role **Cloud SQL Client**. Download the credentials for the service account in json format, rename the file **proxyCreds.json** and place it under *terraform/dev*. This service account is used to authenticate the Cloud SQL Proxy. 
+
 
 ## Connect to Argo UI
 ```kubectl port-forward svc/argocd-server -n argocd 8080:443```

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run from any folder in or bellow the main terraform folder of the repo.
-# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
+# The script takes one argument: the path to the file containing environment varialbes to be injected before running the Terraform configuration.
 # The name of the env file defaults to "env.txt" inside the scripts folder of this repository.
 
 # The script loads all vars in env.txt,
@@ -13,15 +13,20 @@
 dirlist="/dev/vpc 
          /dev 
          /dev/sql 
-         /dev/argo"
+         /dev/argo-1
+         /dev/argo-2"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# FUNCTION DEFINITIONS
+# ---------------------------------------------------------------------------------------------------------------------
 
 sprint () {
-   echo "$1"
-   echo "================================="
-   echo
+    echo "$1"
+    echo "================================="
+    echo
 }
 
-tfin () {
+tf-init () {
     sprint "Running terrafom init in $tfdir"
 
     if terraform init -input=false -var-file "${envfile}" ; 
@@ -33,7 +38,7 @@ tfin () {
     fi
 }
 
-tfval () {
+tf-validate () {
     sprint "Running terrafom validate in $tfdir"
 
     if terraform validate -var-file "${envfile}" ; 
@@ -45,11 +50,16 @@ tfval () {
     fi
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# SCRIPT
+# ---------------------------------------------------------------------------------------------------------------------
 
+# trying to find the main terraform folder
+# TODO: merely checking that the folder is named "terraform" isn't very robust. mby fix?
 dir=$(basename "$(pwd)")
 while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
 do
-    cd ..
+    cd .. || { echo "Could not cd, exiting"; exit 1; }
     dir=$(basename "$(pwd)")
 done
 
@@ -61,27 +71,29 @@ fi
 
 basedir=$(pwd)
 
-file="$1"
+envfile="$1"
 
 # if env not provided
-if [ -z "$file" ]
+if [ -z "$envfile" ]
 then
     # defaults to a "env.txt" inside the scripts folder.
     envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
-if [ ! -r "$file" ]
+if [ ! -r "$envfile" ]
 then
     echo "Could not read env file, exiting"
     exit 1
 fi
 
+# ---------------------------------------------------------------------------------------------------------------------
+# Run commands
+# ---------------------------------------------------------------------------------------------------------------------
+
 for tfdir in $dirlist
 do
     echo "Moving to $tfdir"
     cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-    tfin
-    tfval
+    tf-init
+    tf-validate
 done
-
-

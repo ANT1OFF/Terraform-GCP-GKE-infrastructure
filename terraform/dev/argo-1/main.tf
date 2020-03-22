@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
     bucket  = "b2020-tf-state-dev"  # TODO: make variable or similar?
-    prefix  = "terraform/state/dev/argo"
+    prefix  = "terraform/state/dev/argo-1"
     credentials = "../credentials.json"
   }
 }
@@ -57,24 +57,10 @@ resource "null_resource" "get-kubectl" {
   }
 }
 
-# TODO: remove this
-# !!!! TODO keep this
-resource "null_resource" "sleep" {
-  provisioner "local-exec" {
-    command = "sleep 5"
-  }
-  depends_on = [
-    null_resource.get-kubectl
-  ]
-}
-
 resource "kubernetes_namespace" "argo" {
   metadata {
-    name = "argocd"
+    name = var.argocd_namespace
   }
-  depends_on = [
-    null_resource.sleep
-  ]
 }
 
 resource "null_resource" "argo-workload" {
@@ -97,26 +83,19 @@ resource "kubernetes_namespace" "argo-rollout" {
 
 resource "null_resource" "argo-rollout-workload" {
   provisioner "local-exec" {
-    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml"
+    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml; kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${data.terraform_remote_state.main.outputs.service_account_email}"
   }
   depends_on = [
     kubernetes_namespace.argo-rollout,
   ]
 }
 
-resource "null_resource" "argo-rollout-cluster-admin" {
-  provisioner "local-exec" {
-    command = "kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${data.terraform_remote_state.main.outputs.service_account_email}"
-  }
-  depends_on = [
-    null_resource.argo-rollout-workload,
-  ]
-}
+
 
 resource "kubernetes_service" "argocd-server-lb" {
   metadata {
     name = "terraform-argocd-server-lb"
-    namespace = "argocd"
+    namespace = var.argocd_namespace
     annotations = {
       "kubernetes.io/ingress.class" = "nginx"
       "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
@@ -133,7 +112,32 @@ resource "kubernetes_service" "argocd-server-lb" {
     }
     type = "LoadBalancer"
   }
-  depends_on = [
-    null_resource.argo-rollout-workload,
-  ]
+}
+
+
+resource "kubernetes_ingress" "nginx-ingress" {
+  metadata {
+    name = "argocd-server-http-ingress"
+    namespace = var.argocd_namespace
+    annotations = {
+    "kubernetes.io/ingress.class" = "nginx"
+    "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+    "nginx.ingress.kubernetes.io/backend-protocol" = "HTTP"
+    }
+  }
+  spec {
+    rule {
+      http {
+        path {
+          backend {
+            service_name = "argocd-server"
+            service_port = "https"
+          }
+        }
+      }
+    }
+    tls {
+      secret_name = "argocd-secret"
+    }
+  }
 }

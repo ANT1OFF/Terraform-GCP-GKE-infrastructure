@@ -1,6 +1,6 @@
 #!/bin/bash
 # Run from any folder in or bellow the main terraform folder of the repo.
-# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
+# The script takes one argument: the path to the file containing environment varialbes to be injected before running the Terraform configuration.
 # The name of the env file defaults to "env.txt" inside the scripts folder of this repository.
 
 # The script loads all vars in env.txt,
@@ -12,8 +12,13 @@
 
 dirlist="/dev/vpc 
          /dev 
-         /dev/sql 
-         /dev/argo"
+         /dev/sql
+         /dev/argo-1
+         /dev/argo-2"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# FUNCTION DEFINITIONS
+# ---------------------------------------------------------------------------------------------------------------------
 
 sprint () {
     echo "$1"
@@ -21,11 +26,11 @@ sprint () {
     echo
 }
 
+#TODO: make function return status code instead of exiting
 tf-apply () {
     sprint "Running terrafom plan"
 
-    #TODO: add ability to disable planning
-    if terraform plan -var-file "${envfile}" ;
+    if terraform plan -var-file "${envfile}" ; 
     then
         echo "$tfdir plan success"
     else
@@ -40,21 +45,24 @@ tf-apply () {
     then
         echo "$tfdir apply success"
     else
-        echo "$tfdir apply failure, exiting"
         if [ "$tfdir" != "/dev/argo-2" ]
         then
+            echo "$tfdir apply failure, exiting"
             exit 1
         fi
     fi
 }
 
-check-tf-argo-state () {
+import-argo-state () {
     state="$(terraform state list | grep kubernetes_config_map.argocd-config)"
     if [ -z "$state" ] 
     then
-        bash -c 'terraform import kubernetes_config_map.argocd-config argocd/argocd-cm' 
+        terraform import kubernetes_config_map.argocd-config argocd/argocd-cm
+    else
+        echo "argocd-config already managed by terraform"
     fi
 }
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # SCRIPT
@@ -77,41 +85,25 @@ fi
 
 basedir=$(pwd)
 
-file="$1"
+envfile="$1"
 
 # if env not provided
-if [ -z "$file" ]
+if [ -z "$envfile" ]
 then
     # defaults to a "env.txt" inside the scripts folder.
     envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
-if [ ! -r "$file" ]
+if [ ! -r "$envfile" ]
 then
     echo "Could not read env file, exiting"
     exit 1
 fi
 
-for tfdir in $dirlist
-do
-    echo "Moving to $tfdir"
-    cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-    if [ "$tfdir" = "/dev/argo-2" ]
-    then
-        set +e  # turn off error-trapping
-        (
-            sleep 30
-            echo "running in subshell"
-            check-tf-argo-state
-        ) &
-        wait
-        tf-apply
-        set -e  # turn on error-trapping
-        
-    else
-        tf-apply
-    fi    
-done
+# ---------------------------------------------------------------------------------------------------------------------
+# Run commands
+# ---------------------------------------------------------------------------------------------------------------------
+
 
 for tfdir in $dirlist
 do
@@ -120,13 +112,11 @@ do
     if [ "$tfdir" = "/dev/argo-2" ]
     then
         set +e  # turn off error-trapping
-        (
-            sleep 30
-            echo "running in subshell"
-            check-tf-argo-state
-        ) &
-        wait
+        tf-apply
+        echo "importing argocd-config map"
+        import-argo-state    
         set -e  # turn on error-trapping
     fi
+    echo "running tf-apply"
     tf-apply
 done

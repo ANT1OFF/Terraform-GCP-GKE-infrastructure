@@ -1,12 +1,23 @@
 #!/bin/bash
 # Run from any folder in or bellow the main terraform folder of the repo.
-# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
+# The script takes one argument: the path to the file containing environment varialbes to be injected before running the Terraform configuration.
 # The name of the env file defaults to "env.txt" inside the scripts folder of this repository.
 
-dirlist="/dev/argo
-         /dev/sql 
+# The script loads all vars in env.txt and runs terraform destroy for all folders listed in dirlist.
+
+# ---------------------------------------------------------------------------------------------------------------------
+# VARIABLES
+# ---------------------------------------------------------------------------------------------------------------------
+
+dirlist="/dev/argo-2
+         /dev/argo-1
+         /dev/sql
          /dev 
          /dev/vpc"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# FUNCTION DEFINITIONS
+# ---------------------------------------------------------------------------------------------------------------------
 
 sprint () {
     echo "$1"
@@ -14,10 +25,16 @@ sprint () {
     echo
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# SCRIPT
+# ---------------------------------------------------------------------------------------------------------------------
+
+# trying to find the main terraform folder
+# TODO: merely checking that the folder is named "terraform" isn't very robust. mby fix?
 dir=$(basename "$(pwd)")
 while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
 do
-    cd ..
+    cd .. || { echo "Could not cd, exiting"; exit 1; }
     dir=$(basename "$(pwd)")
 done
 
@@ -29,20 +46,24 @@ fi
 
 basedir=$(pwd)
 
-file="$1"
+envfile="$1"
 
 # if env not provided
-if [ -z "$file" ]
+if [ -z "$envfile" ]
 then
     # defaults to a "env.txt" inside the scripts folder.
     envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
-if [ ! -r "$file" ]
+if [ ! -r "$envfile" ]
 then
     echo "Could not read env file, exiting"
     exit 1
 fi
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Run commands
+# ---------------------------------------------------------------------------------------------------------------------
 
 for tfdir in $dirlist
 do
