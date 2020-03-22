@@ -52,8 +52,7 @@ tf-apply () {
     fi
 }
 
-check-tf-argo-state () {
-    terraform state list  ## !!! might by needed ????
+import-argo-state () {
     state="$(terraform state list | grep kubernetes_config_map.argocd-config)"
     if [ -z "$state" ] 
     then
@@ -112,15 +111,11 @@ do
     if [ "$tfdir" = "/dev/argo-2" ]
     then
         set +e  # turn off error-trapping
-        echo "running checks"
-        check-tf-argo-state
-        tf-apply    
-        echo "sleep 30"
-        sleep 30
+        tf-apply
         echo "importing argocd-config map"
-        check-tf-argo-state    
+        import-argo-state    
         set -e  # turn on error-trapping
     fi
     echo "running tf-apply"
-    tf-apply   
+    tf-apply
 done
