@@ -31,7 +31,12 @@ module "service_accounts" {
   project_id    = var.project_id
   prefix        = "tf"
   names         = ["gke-np-2-service-account"]
-  project_roles = ["${var.project_id}=>roles/storage.objectViewer"]
+  project_roles = [
+    "${var.project_id}=>roles/storage.objectViewer",
+    "${var.project_id}=>roles/logging.logWriter",
+    "${var.project_id}=>roles/monitoring.metricWriter",
+    "${var.project_id}=>roles/monitoring.viewer",
+  ]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
