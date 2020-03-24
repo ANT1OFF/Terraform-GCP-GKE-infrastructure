@@ -34,8 +34,8 @@ tf-apply () {
     then
         echo "$tfdir plan success"
     else
-        echo "$tfdir plan failure, exiting"
-        exit 1
+        echo "$tfdir plan failure"
+        return 1
     fi
 
     sprint "Running terrafom apply"
@@ -45,11 +45,8 @@ tf-apply () {
     then
         echo "$tfdir apply success"
     else
-        if [ "$tfdir" != "/dev/argo-2" ]
-        then
-            echo "$tfdir apply failure, exiting"
-            exit 1
-        fi
+        echo "$tfdir apply failure"
+        return 1
     fi
 }
 
@@ -112,11 +109,9 @@ do
     if [ "$tfdir" = "/dev/argo-2" ]
     then
         set +e  # turn off error-trapping
-        tf-apply
-        echo "importing argocd-config map"
-        import-argo-state    
+        tf-apply || { echo "tf-apply failed, running state import"; import-argo-state;  }
         set -e  # turn on error-trapping
     fi
     echo "running tf-apply"
-    tf-apply
+    tf-apply || { echo "tf-apply failed, exiting"; exit 1; }
 done

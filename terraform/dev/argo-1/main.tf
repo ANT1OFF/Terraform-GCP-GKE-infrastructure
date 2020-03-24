@@ -112,6 +112,10 @@ resource "kubernetes_service" "argocd-server-lb" {
     }
     type = "LoadBalancer"
   }
+
+  depends_on = [
+    kubernetes_namespace.argo
+  ]
 }
 
 
@@ -140,4 +144,8 @@ resource "kubernetes_ingress" "nginx-ingress" {
       secret_name = "argocd-secret"
     }
   }
+
+    depends_on = [
+    kubernetes_namespace.argo
+  ]
 }
