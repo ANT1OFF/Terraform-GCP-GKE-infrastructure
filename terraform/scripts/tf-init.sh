@@ -41,7 +41,7 @@ tf-init () {
 tf-validate () {
     sprint "Running terrafom validate in $tfdir"
 
-    if terraform validate -var-file "${envfile}" ; 
+    if terraform validate ; 
     then
         echo "$tfdir validate success"
     else
