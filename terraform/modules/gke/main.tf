@@ -30,8 +30,7 @@ module "kubernetes-engine" {
   ip_range_services          = "${var.subnet_name}-services" #module.vpc.subnets_secondary_ranges[0][1].range_name
   horizontal_pod_autoscaling = true
 
-  #service_account = var.service_account_email
-  service_account = "tf-bitbucket-02@bachelor-2020.iam.gserviceaccount.com"
+  create_service_account = true
 
   node_pools = [
     {

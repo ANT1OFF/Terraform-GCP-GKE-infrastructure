@@ -97,9 +97,9 @@ resource "kubernetes_service" "argocd-server-lb" {
     name = "terraform-argocd-server-lb"
     namespace = var.argocd_namespace
     annotations = {
-      "kubernetes.io/ingress.class" = "nginx"
-      "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-      "nginx.ingress.kubernetes.io/ssl-passthrough" = "true"
+    "kubernetes.io/ingress.class"                    = "nginx"
+    "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+    "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTP"
     }
   }
   spec {
@@ -108,7 +108,7 @@ resource "kubernetes_service" "argocd-server-lb" {
     }
     session_affinity = "ClientIP"
     port {
-      port = 443
+      port = 80
     }
     type = "LoadBalancer"
   }
@@ -121,12 +121,12 @@ resource "kubernetes_service" "argocd-server-lb" {
 
 resource "kubernetes_ingress" "nginx-ingress" {
   metadata {
-    name = "argocd-server-http-ingress"
+    name = "argocd-server-ingress"
     namespace = var.argocd_namespace
     annotations = {
-    "kubernetes.io/ingress.class" = "nginx"
+    "kubernetes.io/ingress.class"                    = "nginx"
     "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-    "nginx.ingress.kubernetes.io/backend-protocol" = "HTTP"
+    "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTP"
     }
   }
   spec {
@@ -135,17 +135,17 @@ resource "kubernetes_ingress" "nginx-ingress" {
         path {
           backend {
             service_name = "argocd-server"
-            service_port = "https"
+            service_port = "http"
           }
         }
       }
     }
     tls {
+      hosts = ["argocd.fonn.es"]
       secret_name = "argocd-secret"
     }
   }
-
-    depends_on = [
+  depends_on = [
     kubernetes_namespace.argo
   ]
 }
