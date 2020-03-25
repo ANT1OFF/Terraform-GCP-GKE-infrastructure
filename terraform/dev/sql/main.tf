@@ -96,7 +96,7 @@ data "terraform_remote_state" "main" {
   backend = "gcs"
 
   config = {
-    bucket  = "b2020-tf-state-dev"
+    bucket  = var.bucket_name
     prefix  = "terraform/state"
     credentials = "../credentials.json"
   }

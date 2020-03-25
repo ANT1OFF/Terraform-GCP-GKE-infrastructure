@@ -46,7 +46,7 @@ data "terraform_remote_state" "vpc" {
   backend = "gcs"
 
   config = {
-    bucket  = "b2020-tf-state-dev"
+    bucket  = var.bucket_name
     prefix  = "terraform/state/dev/vpc"
     credentials = "credentials.json"
   }
