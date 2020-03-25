@@ -1,7 +1,6 @@
 terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
-    bucket  = "b2020-tf-state-dev"  # TODO: make variable or similar?
     prefix  = "terraform/state/dev/sql"
     credentials = "../credentials.json"
   }
@@ -231,8 +230,7 @@ resource "kubernetes_secret" "db-app" {
   metadata {
     name = "db-secrets"
   }
-
-  # TODO: add dynamic secrets
+  
   data = {
     DB_HOST = local.sql_proxy_name
     DB_PORT = local.db_port

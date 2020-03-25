@@ -29,7 +29,8 @@ sprint () {
 tf-init () {
     sprint "Running terrafom init in $tfdir"
 
-    if terraform init -input=false -var-file "${envfile}" ; 
+    # TODO: maybe take backend config as parameter aswell
+    if terraform init -input=false -var-file "${envfile}" -backend-config="${basedir}/scripts/backend.tf" ; 
     then
         echo "$tfdir init success"
     else
