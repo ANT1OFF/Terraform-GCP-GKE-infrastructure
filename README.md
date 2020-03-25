@@ -1,14 +1,14 @@
 # Terraform templates for automatic deployment of applications to Google Cloud Platforms' Kubernetes engine
 
-This repository is part of a bachelor thesis done by four students from NTNU Gjøvik. As the title states, the problem at hand is to automate deployment of complex applications to GCPs' Kubernetes Engine.
+This repository is part of a bachelor thesis done by four students at NTNU Gjøvik. As the title states, the repo aims to automate deployment of complex applications to GCPs' Kubernetes Engine.
 
-Currently this repo is for testing purposes only as we try to figure out which technologies to use for solving our thesis' main issue. In this repo we try to deploy using Hashicorps' Terraform.
+Currently this repo is for testing purposes only as we explore technologies to use for solving the thesis' main issue. In this repo we try to deploy using Hashicorps' Terraform.
 
 ## Prerequisites
 
 - A Google Cloud Platform project with suitable a suitable funding solution.
 
-- A GCS bucket to remotely store the Terraform state. 
+- A GCS bucket to remotely store the Terraform state. Change the name of the bucket in **backend.tf** and **terraform.tfvars** in **terraform/scripts/** to the name of your bucket.
 
 - Service account with the following roles (may be reduced at a later date):
     - Kubernetes Engine Admin
