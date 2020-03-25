@@ -27,7 +27,7 @@ sprint () {
 }
 
 tf-destroy () {
-    if terraform destroy -auto-approve ;
+    if terraform destroy -auto-approve -var-file "${envfile}" ;
     then
         echo "$tfdir destroyed"
     else
