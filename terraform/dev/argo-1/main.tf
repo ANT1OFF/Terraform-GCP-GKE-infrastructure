@@ -2,7 +2,6 @@ terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
     prefix  = "terraform/state/dev/argo-1"
-    credentials = "../credentials.json"
   }
 }
 
@@ -29,8 +28,22 @@ provider "kubernetes" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
+# IAM CONFIGURATION
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+module "service_accounts" {
+  source        = "terraform-google-modules/service-accounts/google"
+  project_id    = var.project_id
+  prefix        = "tf"
+  names         = ["gke-np-2-service-account"]
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
 # DEPLOY argocd and argo-rollouts
 # ---------------------------------------------------------------------------------------------------------------------
+
+
 
 
 data "terraform_remote_state" "main" {
@@ -38,8 +51,8 @@ data "terraform_remote_state" "main" {
 
   config = {
     bucket  = var.bucket_name
-    prefix  = "terraform/state"
-    credentials = "../credentials.json"
+    prefix  = "terraform/state/cluster"
+    credentials = var.credentials
   }
 }
 
@@ -80,7 +93,7 @@ resource "kubernetes_namespace" "argo-rollout" {
 
 resource "null_resource" "argo-rollout-workload" {
   provisioner "local-exec" {
-    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml; kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${data.terraform_remote_state.main.outputs.service_account_email}"
+    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml; kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${module.service_accounts.email}"
   }
   depends_on = [
     kubernetes_namespace.argo-rollout,

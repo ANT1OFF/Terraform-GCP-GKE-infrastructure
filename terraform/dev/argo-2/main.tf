@@ -2,7 +2,6 @@ terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
     prefix  = "terraform/state/dev/argo-2"
-    credentials = "../credentials.json"
   }
 }
 
@@ -37,8 +36,8 @@ data "terraform_remote_state" "main" {
 
   config = {
     bucket  = var.bucket_name
-    prefix  = "terraform/state"
-    credentials = "../credentials.json"
+    prefix  = "terraform/state/cluster"
+    credentials = var.credentials
   }
 }
 

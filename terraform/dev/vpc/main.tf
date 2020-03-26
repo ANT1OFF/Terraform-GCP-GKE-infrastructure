@@ -2,7 +2,6 @@ terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
     prefix  = "terraform/state/dev/vpc"
-    credentials = "../credentials.json"
   }
 }
 

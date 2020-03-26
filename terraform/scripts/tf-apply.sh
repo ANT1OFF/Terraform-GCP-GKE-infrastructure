@@ -11,7 +11,7 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 dirlist="/dev/vpc 
-         /dev 
+         /dev/cluster 
          /dev/sql
          /dev/argo-1
          /dev/argo-2"
@@ -50,10 +50,10 @@ tf-apply () {
 }
 
 import-argo-state () {
-    state="$(terraform state list | grep kubernetes_config_map.argocd-config)"
+    state="$(terraform state list -var-file "${envfile}" | grep kubernetes_config_map.argocd-config)"
     if [ -z "$state" ] 
     then
-        terraform import kubernetes_config_map.argocd-config argocd/argocd-cm
+        terraform import -var-file="${envfile}" kubernetes_config_map.argocd-config argocd/argocd-cm 
     else
         echo "argocd-config already managed by terraform"
     fi
@@ -109,6 +109,7 @@ do
     echo "Moving to $tfdir"
     cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
 
+    # kind of a hack to get state import working
     if [ "$tfdir" = "/dev/argo-2" ]
     then
         set +e  # Turn off error-trapping

@@ -7,6 +7,11 @@ variable "project_id" {
   type = string
 }
 
+variable "credentials" {
+  type = string
+  default = "../credentials.json"
+}
+
 variable "region" {
   type = string
   default = "europe-west1"
