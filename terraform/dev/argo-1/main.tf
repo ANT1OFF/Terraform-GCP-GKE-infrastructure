@@ -12,7 +12,7 @@ provider "google" {
   version = "~> 3.9.0"
   region  = var.region
   project = var.project_id
-  credentials = file("../credentials.json")
+  credentials = file(var.credentials)
 }
 
 data "google_client_config" "default" {
@@ -134,15 +134,17 @@ resource "kubernetes_ingress" "nginx-ingress" {
     name = "argocd-server-ingress"
     namespace = var.argocd_namespace
     annotations = {
-    "kubernetes.io/ingress.class"                    = "nginx"
-    "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-    "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTP"
+    "ingress.kubernetes.io/proxy-body-size" = "100M"
+    "kubernetes.io/ingress.class"           = "nginx"
+    "ingress.kubernetes.io/app-root"        = "/"
     }
   }
   spec {
     rule {
+      host = "fonn.es"
       http {
         path {
+          path = "/"
           backend {
             service_name = "argocd-server"
             service_port = "http"

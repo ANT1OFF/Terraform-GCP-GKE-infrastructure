@@ -15,7 +15,7 @@ provider "google" {
   version = "~> 3.9.0"
   region  = var.region
   project = var.project_id
-  credentials = file("../credentials.json")
+  credentials = file(var.credentials)
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ data "terraform_remote_state" "vpc" {
 module "gke" {
   source = "../../modules/gke"
   project_id = var.project_id
-  credentials = file("../credentials.json")
+  credentials = file(var.credentials)
   subnet_name = data.terraform_remote_state.vpc.outputs.network-subnets
   cluster_name = var.cluster_name
   region = var.region

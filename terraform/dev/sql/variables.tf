@@ -13,7 +13,6 @@ variable "bucket_name" {
 
 variable "credentials" {
   type = string
-  default = "../credentials.json"
 }
 
 variable "region" {

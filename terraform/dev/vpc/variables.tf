@@ -9,7 +9,6 @@ variable "project_id" {
 
 variable "credentials" {
   type = string
-  default = "../credentials.json"
 }
 
 variable "region" {
