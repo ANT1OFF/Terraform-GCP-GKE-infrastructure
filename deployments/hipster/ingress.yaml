@@ -1,9 +1,9 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
-annotations:
-    kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
 metadata:
   name: traffic-router
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
 spec:
   rules:
     - host: frontend.mydomain.com
