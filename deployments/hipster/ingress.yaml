@@ -4,13 +4,11 @@ metadata:
   name: traffic-router
   annotations:
     kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
-    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - http:
         paths:
-          - path: /.*
-            backend:
+          - backend:
               serviceName: frontend-nodeport
               servicePort: 80
 
@@ -20,14 +18,13 @@ kind: Ingress
 metadata:
   name: traffic-router-argo
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
+    kubernetes.io/ingress.global-static-ip-name: 'argo-static-ip-address'
 spec:
   rules:
     - host: argo.fonn.es
       http:
         paths:
-          - path: /
-            backend:
+          - backend:
               serviceName: argocd-server
               servicePort: 80
 ---
