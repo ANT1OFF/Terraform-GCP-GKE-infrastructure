@@ -102,61 +102,62 @@ resource "null_resource" "argo-rollout-workload" {
 
 
 
-resource "kubernetes_service" "argocd-server-lb" {
-  metadata {
-    name = "terraform-argocd-server-lb"
-    namespace = var.argocd_namespace
-    annotations = {
-    "kubernetes.io/ingress.class"                    = "nginx"
-    "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-    "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTP"
-    }
-  }
-  spec {
-    selector = {
-      "app.kubernetes.io/name" = "argocd-server"
-    }
-    session_affinity = "ClientIP"
-    port {
-      port = 80
-    }
-    type = "LoadBalancer"
-  }
-
-  depends_on = [
-    kubernetes_namespace.argo
-  ]
-}
-
-
-resource "kubernetes_ingress" "nginx-ingress" {
-  metadata {
-    name = "argocd-server-ingress"
-    namespace = var.argocd_namespace
-    annotations = {
-    "ingress.kubernetes.io/proxy-body-size" = "100M"
-    "kubernetes.io/ingress.class"           = "nginx"
-    "ingress.kubernetes.io/app-root"        = "/"
-    }
-  }
-  spec {
-    rule {
-      http {
-        path {
-          path = "/"
-          backend {
-            service_name = "argocd-server"
-            service_port = "http"
-          }
-        }
-      }
-    }
-    tls {
-      hosts = ["argocd.fonn.es"]
-      secret_name = "argocd-secret"
-    }
-  }
-  depends_on = [
-    kubernetes_namespace.argo
-  ]
-}
+#resource "kubernetes_service" "argocd-server-lb" {
+#  metadata {
+#    name = "terraform-argocd-server-lb"
+#    namespace = var.argocd_namespace
+#    annotations = {
+#    "kubernetes.io/ingress.class"                    = "nginx"
+#    "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
+#    "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTP"
+#    }
+#  }
+#  spec {
+#    selector = {
+#      "app.kubernetes.io/name" = "argocd-server"
+#    }
+#    session_affinity = "ClientIP"
+#    port {
+#      port = 80
+#    }
+#    type = "LoadBalancer"
+#  }
+#
+#  depends_on = [
+#    kubernetes_namespace.argo
+#  ]
+#}
+#
+#
+#resource "kubernetes_ingress" "nginx-ingress" {
+#  metadata {
+#    name = "argocd-server-ingress"
+#    namespace = var.argocd_namespace
+#    annotations = {
+#    "ingress.kubernetes.io/proxy-body-size" = "100M"
+#    "kubernetes.io/ingress.class"           = "nginx"
+#    "ingress.kubernetes.io/app-root"        = "/"
+#    }
+#  }
+#  spec {
+#    rule {
+#      http {
+#        path {
+#          path = "/"
+#          backend {
+#            service_name = "argocd-server"
+#            service_port = "http"
+#          }
+#        }
+#      }
+#    }
+#    tls {
+#      hosts = ["argocd.fonn.es"]
+#      secret_name = "argocd-secret"
+#    }
+#  }
+#  depends_on = [
+#    kubernetes_namespace.argo
+#  ]
+#}
+#
