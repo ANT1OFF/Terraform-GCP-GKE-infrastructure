@@ -4,11 +4,12 @@ metadata:
   name: traffic-router
   annotations:
     kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /.*
             backend:
               serviceName: frontend-nodeport
               servicePort: 80
