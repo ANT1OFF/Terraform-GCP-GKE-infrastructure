@@ -13,3 +13,20 @@ spec:
             backend:
               serviceName: frontend-external
               servicePort: 80
+
+---              
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traffic-router-argo
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
+spec:
+  rules:
+    - host: argo.fonn.es
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: argocd-server
+              servicePort: 80
