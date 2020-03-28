@@ -141,7 +141,6 @@ resource "kubernetes_ingress" "nginx-ingress" {
   }
   spec {
     rule {
-      host = "fonn.es"
       http {
         path {
           path = "/"
