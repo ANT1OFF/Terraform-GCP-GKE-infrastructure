@@ -6,8 +6,7 @@ metadata:
     kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
 spec:
   rules:
-    - host: frontend.fonn.es
-      http:
+    - http:
         paths:
           - path: /
             backend:
