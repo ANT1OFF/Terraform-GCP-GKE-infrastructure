@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: argocd-server-ingress
+  namespace: argocd
   annotations:
     kubernetes.io/ingress.global-static-ip-name: 'argo-static-ip-address'  
     kubernetes.io/ingress.class: nginx
@@ -15,3 +16,23 @@ spec:
       - backend:
           serviceName: argocd-server
           servicePort: https
+
+
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: argocd-server-nodeport
+#spec:
+#  type: NodePort
+#  selector:
+#    app: argocd-server
+#  ports:
+#  - name: http
+#    port: 80
+#    protocol: TCP
+#    targetPort: 8080
+#  - name: https
+#    port: 443
+#    protocol: TCP
+#    targetPort: 8080
