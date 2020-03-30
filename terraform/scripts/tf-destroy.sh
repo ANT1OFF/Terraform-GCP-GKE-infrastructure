@@ -13,8 +13,8 @@
 dirlist="/dev/argo-2
          /dev/argo-1
          /dev/sql
-         /dev/cluster
-         /dev/vpc"
+         /dev/cluster"
+        #  /dev/vpc"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # FUNCTION DEFINITIONS

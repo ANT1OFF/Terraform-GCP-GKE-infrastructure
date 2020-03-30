@@ -27,25 +27,65 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# IAM CONFIGURATION
-# ---------------------------------------------------------------------------------------------------------------------
-
-
-module "service_accounts" {
-  source        = "terraform-google-modules/service-accounts/google"
-  project_id    = var.project_id
-  prefix        = "tf"
-  names         = ["gke-np-2-service-account"]
+provider "helm" {
+  kubernetes {
+    load_config_file       = false
+    host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
+    token                  = data.google_client_config.default.access_token
+    cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
+  }
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# DEPLOY argocd and argo-rollouts
+# HELM CONFIGURATION
 # ---------------------------------------------------------------------------------------------------------------------
 
+resource "kubernetes_namespace" "argocd" {
+  metadata {
+    name = var.argocd_namespace
+  }
+}
 
 
+resource "helm_release" "argo-cd" {
+  name       = "argo-cd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  version    = "2.0.3"
+  namespace  = var.argocd_namespace
 
+
+  values = [
+    "${file("values.yaml")}"
+  ]
+
+  #set_string {
+  #  name = "configs.secret.argocdServerAdminPassword"
+  #  value = "fonnes"
+  #}
+
+  depends_on = [kubernetes_namespace.argocd]
+}
+
+## ---------------------------------------------------------------------------------------------------------------------
+## IAM CONFIGURATION
+## ---------------------------------------------------------------------------------------------------------------------
+#
+#
+#module "service_accounts" {
+#  source        = "terraform-google-modules/service-accounts/google"
+#  project_id    = var.project_id
+#  prefix        = "tf"
+#  names         = ["gke-np-2-service-account"]
+#}
+#
+## ---------------------------------------------------------------------------------------------------------------------
+## DEPLOY argocd and argo-rollouts
+## ---------------------------------------------------------------------------------------------------------------------
+#
+#
+#
+#
 data "terraform_remote_state" "main" {
   backend = "gcs"
 
@@ -55,8 +95,9 @@ data "terraform_remote_state" "main" {
     credentials = var.credentials
   }
 }
-
-
+#
+#
+#TODO: remove
 resource "null_resource" "get-kubectl" {
   triggers = {
     always_run = "${timestamp()}"
@@ -66,98 +107,36 @@ resource "null_resource" "get-kubectl" {
     command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.region} --project ${var.project_id}"
   }
 }
-
-resource "kubernetes_namespace" "argo" {
-  metadata {
-    name = var.argocd_namespace
-  }
-}
-
-resource "null_resource" "argo-workload" {
-  provisioner "local-exec" {
-    command = "kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
-  }
-  depends_on = [
-    kubernetes_namespace.argo, null_resource.get-kubectl
-  ]
-}
-
-resource "kubernetes_namespace" "argo-rollout" {
-  metadata {
-    name = "argo-rollouts"
-  }
-  depends_on = [
-    null_resource.argo-workload,
-  ]
-}
-
-resource "null_resource" "argo-rollout-workload" {
-  provisioner "local-exec" {
-    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml; kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${module.service_accounts.email}"
-  }
-  depends_on = [
-    kubernetes_namespace.argo-rollout,
-  ]
-}
-
-
-
-#resource "kubernetes_service" "argocd-server-lb" {
-#  metadata {
-#    name = "terraform-argocd-server-lb"
-#    namespace = var.argocd_namespace
-#    annotations = {
-#    "kubernetes.io/ingress.class"                    = "nginx"
-#    "nginx.ingress.kubernetes.io/force-ssl-redirect" = "true"
-#    "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTP"
-#    }
-#  }
-#  spec {
-#    selector = {
-#      "app.kubernetes.io/name" = "argocd-server"
-#    }
-#    session_affinity = "ClientIP"
-#    port {
-#      port = 80
-#    }
-#    type = "LoadBalancer"
-#  }
 #
+#resource "kubernetes_namespace" "argo" {
+#  metadata {
+#    name = var.argocd_namespace
+#  }
+#}
+#
+#resource "null_resource" "argo-workload" {
+#  provisioner "local-exec" {
+#    command = "kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
+#  }
 #  depends_on = [
-#    kubernetes_namespace.argo
+#    kubernetes_namespace.argo, null_resource.get-kubectl
 #  ]
 #}
 #
-#
-#resource "kubernetes_ingress" "nginx-ingress" {
+#resource "kubernetes_namespace" "argo-rollout" {
 #  metadata {
-#    name = "argocd-server-ingress"
-#    namespace = var.argocd_namespace
-#    annotations = {
-#    "ingress.kubernetes.io/proxy-body-size" = "100M"
-#    "kubernetes.io/ingress.class"           = "nginx"
-#    "ingress.kubernetes.io/app-root"        = "/"
-#    }
-#  }
-#  spec {
-#    rule {
-#      http {
-#        path {
-#          path = "/"
-#          backend {
-#            service_name = "argocd-server"
-#            service_port = "http"
-#          }
-#        }
-#      }
-#    }
-#    tls {
-#      hosts = ["argocd.fonn.es"]
-#      secret_name = "argocd-secret"
-#    }
+#    name = "argo-rollouts"
 #  }
 #  depends_on = [
-#    kubernetes_namespace.argo
+#    null_resource.argo-workload,
 #  ]
 #}
 #
+#resource "null_resource" "argo-rollout-workload" {
+#  provisioner "local-exec" {
+#    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml; kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${module.service_accounts.email}"
+#  }
+#  depends_on = [
+#    kubernetes_namespace.argo-rollout,
+#  ]
+#}
