@@ -1,9 +1,7 @@
 terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
-    bucket  = "b2020-tf-state-dev"  # TODO: make variable or similar?
     prefix  = "terraform/state/dev/sql"
-    credentials = "../credentials.json"
   }
 }
 
@@ -17,7 +15,7 @@ provider "google" {
   version = "~> 3.9.0"
   region  = var.region
   project = var.project_id
-  credentials = file("../credentials.json")
+  credentials = file(var.credentials)
 }
 
 provider "kubernetes" {
@@ -97,9 +95,9 @@ data "terraform_remote_state" "main" {
   backend = "gcs"
 
   config = {
-    bucket  = "b2020-tf-state-dev"
-    prefix  = "terraform/state"
-    credentials = "../credentials.json"
+    bucket  = var.bucket_name
+    prefix  = "terraform/state/cluster"
+    credentials = var.credentials
   }
 }
 
@@ -231,8 +229,7 @@ resource "kubernetes_secret" "db-app" {
   metadata {
     name = "db-secrets"
   }
-
-  # TODO: add dynamic secrets
+  
   data = {
     DB_HOST = local.sql_proxy_name
     DB_PORT = local.db_port

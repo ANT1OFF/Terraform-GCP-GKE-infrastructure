@@ -1,9 +1,7 @@
 terraform {
   required_version = ">= 0.12.20"
    backend "gcs" {
-    bucket  = "b2020-tf-state-dev"  # TODO: make variable or similar?
     prefix  = "terraform/state/dev/vpc"
-    credentials = "../credentials.json"
   }
 }
 
@@ -15,7 +13,7 @@ provider "google" {
   version = "~> 3.9.0"
   region  = var.region
   project = var.project_id
-  credentials = file("../credentials.json")
+  credentials = file(var.credentials)
 }
 
 
@@ -25,7 +23,7 @@ provider "google" {
 
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "2.1.1"
+  version = "~> 2.1.1"
 
   project_id   = var.project_id
   network_name = var.network_name
@@ -50,3 +48,4 @@ module "vpc" {
         ]
     }
 }
+
