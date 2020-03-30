@@ -1,6 +1,6 @@
 #!/bin/bash
-# Run from any folder in or bellow the main terraform folder of the repo.
-# The script takes one argument: the path to the file containing environment varialbes to be injected before running the Terraform configuration.
+# Run from any folder in or below the main terraform folder of the repository.
+# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
 # The name of the env file defaults to "env.txt" inside the scripts folder of this repository.
 
 # The script loads all vars in env.txt,
