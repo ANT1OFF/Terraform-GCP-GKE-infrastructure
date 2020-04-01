@@ -30,6 +30,8 @@ module "kubernetes-engine" {
   ip_range_services          = "${var.subnet_name}-services" #module.vpc.subnets_secondary_ranges[0][1].range_name
   horizontal_pod_autoscaling = true
 
+  create_service_account = true
+
   node_pools = [
     {
       name               = "default-node-pool"
@@ -39,7 +41,6 @@ module "kubernetes-engine" {
       image_type         = "COS"
       auto_repair        = true
       auto_upgrade       = true
-      service_account    = var.service_account_email
       preemptible        = var.preemptible
     },
   ]
@@ -49,6 +50,7 @@ module "kubernetes-engine" {
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/cloud-platform",
     ]
 
     default-node-pool = [
@@ -56,6 +58,7 @@ module "kubernetes-engine" {
       "https://www.googleapis.com/auth/devstorage.read_only",
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
+      "https://www.googleapis.com/auth/cloud-platform",
     ]
   }
 }
