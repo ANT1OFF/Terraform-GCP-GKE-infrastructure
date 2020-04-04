@@ -1,7 +1,7 @@
 #!/bin/bash
-# Run from any folder in or bellow the main terraform folder of the repo.
-# The script takes one argument: the path to the file containing environment varialbes to be injected before running the Terraform configuration.
-# The name of the env file defaults to the terraform.tfvars file inside the scripts folder of this repository.
+# Run from any folder in or below the main terraform folder of the repository.
+# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
+# The name of the env file defaults to terraform.tfvars inside the scripts folder of this repository.
 
 # The script passes the envfile as a var-file
 # and runs terraform destroy for all folders listed in dirlist.
@@ -13,8 +13,8 @@
 dirlist="/dev/argo-2
          /dev/argo-1
          /dev/sql
-         /dev/cluster
-         /dev/vpc"
+         /dev/cluster"
+        #  /dev/vpc"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # FUNCTION DEFINITIONS
@@ -83,5 +83,11 @@ for tfdir in $dirlist
 do
     echo "Moving to $tfdir"
     cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-    tf-destroy
+    if terraform destroy -auto-approve -var-file "${envfile}" ;
+    then
+        echo "$tfdir destroyed"
+    else
+        echo "Could not destroy $tfdir, exiting"
+        exit 1
+    fi
 done
