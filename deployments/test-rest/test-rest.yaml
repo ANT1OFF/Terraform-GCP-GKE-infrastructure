@@ -21,6 +21,8 @@ spec:
           image: gcr.io/bachelor-2020/test-rest:v1.16
           ports:
             - containerPort: 8080
+          command: ["./main"]
+          args: ["-v"]
           env:
             # These secrets are required to start the pod.
             # [START cloudsql_secrets]
