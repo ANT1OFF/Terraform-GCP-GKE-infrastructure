@@ -15,7 +15,7 @@ definitions:
             # !!!!
 
             - cd /tmp/
-            - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
+            - wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
             - unzip terraform_0.12.21_linux_amd64.zip
             - export PATH="$PATH:/tmp"
 
@@ -37,7 +37,7 @@ definitions:
             # !!!!
 
             - cd /tmp/
-            - wget https://releases.hashicorp.com/terraform/0.12.21/terraform_0.12.21_linux_amd64.zip
+            - wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
             - unzip terraform_0.12.21_linux_amd64.zip
             - curl -sSL -o /tmp/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
             - chmod +x /tmp/argocd
