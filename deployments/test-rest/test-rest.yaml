@@ -22,7 +22,7 @@ spec:
           ports:
             - containerPort: 8080
           command: ["./main"]
-          args: ["--config", "./config/.config.yml"]
+          args: ["--config", "/go/config/.config.yml"]
           env:
             # These secrets are required to start the pod.
             # [START cloudsql_secrets]
