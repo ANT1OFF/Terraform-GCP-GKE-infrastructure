@@ -22,7 +22,7 @@ spec:
           ports:
             - containerPort: 8080
           command: ["./main"]
-          args: ["-v"]
+          args: ["--config ./config/.config.yml"]
           env:
             # These secrets are required to start the pod.
             # [START cloudsql_secrets]
@@ -57,6 +57,14 @@ spec:
                   name: db-secrets
                   key: DB_NAME
             # [END cloudsql_secrets]
+          volumeMounts:
+            - name: test-rest-config-file
+              mountPath: /go/config
+              readOnly: true
+      volumes:
+        - name: test-rest-config-file
+          secret:
+            secretName: test-rest-config-file
 ---
 apiVersion: v1
 kind: Service
