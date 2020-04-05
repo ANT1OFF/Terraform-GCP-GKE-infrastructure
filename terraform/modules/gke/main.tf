@@ -31,6 +31,7 @@ module "kubernetes-engine" {
   horizontal_pod_autoscaling = true
 
   create_service_account = true
+  grant_registry_access = true
 
   node_pools = [
     {
