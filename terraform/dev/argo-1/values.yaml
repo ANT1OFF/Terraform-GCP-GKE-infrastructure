@@ -492,17 +492,16 @@ server:
     project: default
     source:
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: HEAD
-      path: guestbook
-      directory:
-        recurse: true
+      targetRevision: 0.2.0
+      path: ''
+      chart: 'argo-rollouts'
     destination:
        server: https://kubernetes.default.svc
        namespace: argocd
     syncPolicy:
       automated:
-        prune: false
-        selfHeal: false
+        prune: true
+        selfHeal: true
 
   ## Projects
   ## reference: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/

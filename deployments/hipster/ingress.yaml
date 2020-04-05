@@ -4,6 +4,7 @@ metadata:
   name: traffic-router
   annotations:
     kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
+    kubernetes.io/ingress.class: 'nginx'
 spec:
   rules:
     - http:
