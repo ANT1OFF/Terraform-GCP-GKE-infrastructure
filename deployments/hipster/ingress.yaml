@@ -5,7 +5,12 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: 'app-static-ip-address'
     kubernetes.io/ingress.class: 'nginx'
+    cert-manager.io/issuer: "letsencrypt-production"
 spec:
+  tls:
+  - hosts:
+    - fonn.es
+    secretName: fonn-es-tls
   rules:
     - host: fonn.es
       http:

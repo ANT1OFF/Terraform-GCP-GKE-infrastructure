@@ -504,7 +504,6 @@ server:
         selfHeal: true
   - name: hipster
     namespace: default
-    namespace: argocd
     additionalLabels: {}
     additionalAnnotations: {}
     project: default
@@ -518,7 +517,19 @@ server:
     syncPolicy:
       automated:
         prune: true
-        selfHeal: true       
+        selfHeal: true
+ # - name: cert-manager-crd
+ #   namespace: cert-manager
+ #   additionalLabels: {}
+ #   additionalAnnotations: {}
+ #   project: default    
+ #   source:
+ #     path: 'releases/download/v0.14.1/cert-manager.crds.yaml'
+ #     repoURL: 'https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml'
+ #     # https://github.com/jetstack/cert-manager
+ #     # https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml
+ #     # https://github.com/jetstack/cert-manager/blob/master/deploy/manifests/00-crds.yaml
+ #     targetRevision: HEAD
     
 
   ## Projects

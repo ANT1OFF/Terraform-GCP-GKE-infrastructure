@@ -81,10 +81,11 @@ data "terraform_remote_state" "main" {
     credentials = var.credentials
   }
 }
-#
-#
-#TODO: remove
+
+# Nice to have:
+# It ensures that a working local kubectl config is generated whenever terraform runs.
 resource "null_resource" "get-kubectl" {
+  # To make it run every time:
   triggers = {
     always_run = "${timestamp()}"
   }

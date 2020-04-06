@@ -37,7 +37,7 @@ provider "helm" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# HELM CONFIGURATION
+# NGINX CONFIGURATION
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "kubernetes_namespace" "nginx" {
@@ -82,6 +82,82 @@ resource "helm_release" "ngninx" {
 
   depends_on = [kubernetes_namespace.nginx]
 }
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# CERT-MANAGER CONFIGURATION
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "kubernetes_namespace" "cert-manager" {
+  metadata {
+    name = "cert-manager"
+  }
+}
+
+# It ensures that a working local kubectl config is generated whenever terraform runs. needed for local-exec kubectl
+resource "null_resource" "get-kubectl" {
+  # To make it run every time:
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.region} --project ${var.project_id}"
+  }
+}
+
+# TODO: add on destroy
+resource "null_resource" "cert-manager-crd" {
+  provisioner "local-exec" {
+    command = "kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
+  }
+  depends_on = [
+    kubernetes_namespace.cert-manager, null_resource.get-kubectl
+  ]
+}
+
+data "helm_repository" "jetstack" {
+  name = "jetstack"
+  url  = "https://charts.jetstack.io"
+}
+
+
+resource "helm_release" "cert-manager" {
+  name       = "cert-manager"
+  chart      = "jetstack/cert-manager"
+  namespace  = "cert-manager"
+  version    = "0.14.1"
+
+  # set {
+  #   name  = "global.rbac.create"
+  #   value = "true"
+  # }
+
+  # set {
+  #   name  = "prometheus.servicemonitor.enabled"
+  #   value = true
+  # }
+
+  depends_on = [null_resource.cert-manager-crd]
+}
+
+# TODO: add on destroy
+resource "null_resource" "cert-manager-issuer" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f ./issuer.yaml"
+  }
+
+  depends_on = [
+    kubernetes_namespace.cert-manager, null_resource.get-kubectl,
+    helm_release.cert-manager
+  ]
+}
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# state import stuff
+# ---------------------------------------------------------------------------------------------------------------------
+
 
 data "terraform_remote_state" "main" {
   backend = "gcs"
