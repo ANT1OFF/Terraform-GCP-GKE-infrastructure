@@ -37,7 +37,7 @@ provider "helm" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# HELM CONFIGURATION
+# ARGOCD HELM CONFIGURATION
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "kubernetes_namespace" "argocd" {
@@ -68,22 +68,10 @@ resource "helm_release" "argo-cd" {
 }
 
 ## ---------------------------------------------------------------------------------------------------------------------
-## DEPLOY argocd and argo-rollouts
+## DEPLOY argocd ingress
 ## ---------------------------------------------------------------------------------------------------------------------
 
-
-data "terraform_remote_state" "main" {
-  backend = "gcs"
-
-  config = {
-    bucket  = var.bucket_name
-    prefix  = "terraform/state/cluster"
-    credentials = var.credentials
-  }
-}
-
-# Nice to have:
-# It ensures that a working local kubectl config is generated whenever terraform runs.
+# Insures that a working local kubectl config is generated whenever terraform runs.
 resource "null_resource" "get-kubectl" {
   # To make it run every time:
   triggers = {
@@ -92,5 +80,30 @@ resource "null_resource" "get-kubectl" {
 
   provisioner "local-exec" {
     command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.region} --project ${var.project_id}"
+  }
+
+  depends_on = [helm_release.argo-cd]
+}
+
+resource "null_resource" "argocd-ingress" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f argocd-ingress.yaml"
+  }
+
+  depends_on = [null_resource.get-kubectl]
+}
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# state import stuff
+# ---------------------------------------------------------------------------------------------------------------------
+
+data "terraform_remote_state" "main" {
+  backend = "gcs"
+
+  config = {
+    bucket  = var.bucket_name
+    prefix  = "terraform/state/cluster"
+    credentials = var.credentials
   }
 }
