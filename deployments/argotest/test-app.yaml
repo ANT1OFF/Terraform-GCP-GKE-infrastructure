@@ -78,7 +78,7 @@ spec:
     - rollout.fonn.es
     secretName: rollout-fonn-es-tls
   rules:
-    - host: rolloutfonn.es
+    - host: rollout.fonn.es
       http:
         paths:
           - backend:

@@ -34,7 +34,7 @@ resource "google_dns_record_set" "srollout" {
 
 
 resource "google_dns_record_set" "main" {
-  name = "${google_dns_managed_zone.fonn.dns_name}"
+  name = google_dns_managed_zone.fonn.dns_name
   type = "A"
   ttl  = 300
 
