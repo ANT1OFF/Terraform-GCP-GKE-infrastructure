@@ -10,5 +10,5 @@ output "network-subnets" {
 
 output "static-ip" {
     description = "static ip"
-    value       = google_compute_global_address.app-ip.address
+    value       = google_compute_address.app-ip.address
 }

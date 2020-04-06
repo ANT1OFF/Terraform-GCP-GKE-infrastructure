@@ -63,7 +63,7 @@ resource "helm_release" "ngninx" {
   }
   set {
     name = "controller.service.type"
-    value = "NodePort"
+    value = "LoadBalancer"
   }
 
   set {
@@ -75,6 +75,11 @@ resource "helm_release" "ngninx" {
     name  = "controller.publishService.enabled"
     value = "true"
   }
+  set {
+    name = "controller.service.loadBalancerIP"
+    value = data.terraform_remote_state.vpc.outputs.static-ip
+  }
+
   depends_on = [kubernetes_namespace.nginx]
 }
 

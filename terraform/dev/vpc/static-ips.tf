@@ -1,6 +1,6 @@
-resource "google_compute_global_address" "app-ip" {
-    name = "app-static-ip-address"
-}
+#resource "google_compute_global_address" "app-ip" {
+#    name = "app-static-ip-address"
+#}
 
 #resource "google_compute_global_address" "argo-ip" {
 #    name = "argo-static-ip-address"
@@ -12,7 +12,7 @@ resource "google_dns_record_set" "frontend" {
   ttl  = 300
 
   managed_zone = google_dns_managed_zone.fonn.name
-  rrdatas = [google_compute_global_address.app-ip.address]
+  rrdatas = [google_compute_address.app-ip.address]
 }
 
 resource "google_dns_record_set" "main" {
@@ -21,7 +21,12 @@ resource "google_dns_record_set" "main" {
   ttl  = 300
 
   managed_zone = google_dns_managed_zone.fonn.name
-  rrdatas = [google_compute_global_address.app-ip.address]
+  rrdatas = [google_compute_address.app-ip.address]
+}
+
+resource "google_compute_address" "app-ip" {
+  name         = "app-static-ip-address"
+  region       = var.region
 }
 
 
