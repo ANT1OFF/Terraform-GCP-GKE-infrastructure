@@ -10,8 +10,8 @@
 # VARIABLES
 # ---------------------------------------------------------------------------------------------------------------------
 
-dirlist="/dev/argo-2
-         /dev/argo-1
+dirlist="/dev/argo-1
+         /dev/nginx
          /dev/sql
          /dev/cluster"
         #  /dev/vpc"

@@ -58,16 +58,23 @@ resource "helm_release" "ngninx" {
   namespace  = var.nginx_namespace
 
   set {
+    name  = "controller.metrics.enabled"
+    value = "true"
+  }
+  set {
+    name = "controller.service.type"
+    value = "NodePort"
+  }
+
+  set {
     name  = "rbac.create"
     value = "true"
   }
 
   set {
     name  = "controller.publishService.enabled"
-    value = "false"
+    value = "true"
   }
-
-
   depends_on = [kubernetes_namespace.nginx]
 }
 
@@ -77,6 +84,16 @@ data "terraform_remote_state" "main" {
   config = {
     bucket  = var.bucket_name
     prefix  = "terraform/state/cluster"
+    credentials = var.credentials
+  }
+}
+
+data "terraform_remote_state" "vpc" {
+  backend = "gcs"
+
+  config = {
+    bucket  = var.bucket_name
+    prefix  = "terraform/state/dev/vpc"
     credentials = var.credentials
   }
 }

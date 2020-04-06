@@ -13,8 +13,8 @@
 dirlist="/dev/vpc 
          /dev/cluster 
          /dev/sql
-         /dev/argo-1
-         /dev/nginx"
+         /dev/nginx
+         /dev/argo-1"
          #/dev/argo-2"
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -108,15 +108,6 @@ for tfdir in $dirlist
 do
     echo "Moving to $tfdir"
     cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-
-    # kind of a hack to get state import working
-    if [ "$tfdir" = "/dev/argo-2" ]
-    then
-        set +e  # Turn off error-trapping
-        tf-apply || { echo "tf-apply failed, running state import"; import-argo-state;  }
-        set -e  # Turn on error-trapping
-    fi
-
     echo "running tf-apply"
     tf-apply || { echo "tf-apply failed, exiting"; exit 1; }
 done

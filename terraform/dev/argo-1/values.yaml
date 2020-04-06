@@ -502,6 +502,24 @@ server:
       automated:
         prune: true
         selfHeal: true
+  - name: hipster
+    namespace: default
+    namespace: argocd
+    additionalLabels: {}
+    additionalAnnotations: {}
+    project: default
+    source:
+      path: deployments/hipster
+      repoURL: 'https://bitbucket.org/escio/bacheloroppgave-bitsec-2/src/master/'
+      targetRevision: HEAD
+    destination:
+       server: https://kubernetes.default.svc
+       namespace: default
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true       
+    
 
   ## Projects
   ## reference: https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/

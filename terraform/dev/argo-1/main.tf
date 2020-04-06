@@ -68,24 +68,10 @@ resource "helm_release" "argo-cd" {
 }
 
 ## ---------------------------------------------------------------------------------------------------------------------
-## IAM CONFIGURATION
-## ---------------------------------------------------------------------------------------------------------------------
-#
-#
-#module "service_accounts" {
-#  source        = "terraform-google-modules/service-accounts/google"
-#  project_id    = var.project_id
-#  prefix        = "tf"
-#  names         = ["gke-np-2-service-account"]
-#}
-#
-## ---------------------------------------------------------------------------------------------------------------------
 ## DEPLOY argocd and argo-rollouts
 ## ---------------------------------------------------------------------------------------------------------------------
-#
-#
-#
-#
+
+
 data "terraform_remote_state" "main" {
   backend = "gcs"
 
@@ -107,36 +93,3 @@ resource "null_resource" "get-kubectl" {
     command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.region} --project ${var.project_id}"
   }
 }
-#
-#resource "kubernetes_namespace" "argo" {
-#  metadata {
-#    name = var.argocd_namespace
-#  }
-#}
-#
-#resource "null_resource" "argo-workload" {
-#  provisioner "local-exec" {
-#    command = "kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
-#  }
-#  depends_on = [
-#    kubernetes_namespace.argo, null_resource.get-kubectl
-#  ]
-#}
-#
-#resource "kubernetes_namespace" "argo-rollout" {
-#  metadata {
-#    name = "argo-rollouts"
-#  }
-#  depends_on = [
-#    null_resource.argo-workload,
-#  ]
-#}
-#
-#resource "null_resource" "argo-rollout-workload" {
-#  provisioner "local-exec" {
-#    command = "kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml; kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user ${module.service_accounts.email}"
-#  }
-#  depends_on = [
-#    kubernetes_namespace.argo-rollout,
-#  ]
-#}
