@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: rollouts-demo
-        image: argoproj/rollouts-demo:blue
+        image: argoproj/rollouts-demo:red
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -85,5 +85,26 @@ spec:
               serviceName: rollout-bluegreen-active
               servicePort: 80
 
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rollout-bluegreen-staging-ingress
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    cert-manager.io/issuer: "letsencrypt-production"
+spec:
+  tls:
+  - hosts:
+    - staging.rollout.fonn.es
+    secretName: staging-rollout-fonn-es-tls
+  rules:
+    - host: staging.rollout.fonn.es
+      http:
+        paths:
+          - backend:
+              serviceName: rollout-bluegreen-preview
+              servicePort: 80
 
 
