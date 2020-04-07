@@ -26,8 +26,8 @@ module "kubernetes-engine" {
   logging_service    = "logging.googleapis.com/kubernetes"
   monitoring_service = "monitoring.googleapis.com/kubernetes"
 
-  ip_range_pods              = "${var.subnet_name}-pods" #module.vpc.subnets_secondary_ranges[0][0].range_name
-  ip_range_services          = "${var.subnet_name}-services" #module.vpc.subnets_secondary_ranges[0][1].range_name
+  ip_range_pods              = "${var.vpc_subnets_name}-pods"
+  ip_range_services          = "${var.vpc_subnets_name}-services"
   horizontal_pod_autoscaling = true
 
   create_service_account = true

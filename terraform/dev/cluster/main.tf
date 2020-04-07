@@ -36,7 +36,6 @@ module "gke" {
   source = "../../modules/gke"
   project_id = var.project_id
   credentials = file(var.credentials)
-  subnet_name = data.terraform_remote_state.vpc.outputs.network-subnets
   cluster_name = var.cluster_name
   region = var.region
   vpc_network_name = data.terraform_remote_state.vpc.outputs.network-name
