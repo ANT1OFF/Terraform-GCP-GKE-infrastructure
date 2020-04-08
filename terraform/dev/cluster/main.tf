@@ -38,6 +38,7 @@ module "gke" {
   credentials = file(var.credentials)
   cluster_name = var.cluster_name
   region = var.region
+  zone_for_cluster = var.zone_for_cluster
   vpc_network_name = data.terraform_remote_state.vpc.outputs.network-name
   vpc_subnets_name = data.terraform_remote_state.vpc.outputs.network-subnets
   preemptible = var.preemptible

@@ -22,10 +22,10 @@ variable "region" {
 # GKE-vars
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "zone-for-cluster" {
+variable "zone_for_cluster" {
   type        = list(string)
   default     = ["europe-west1-b"]
-  description = "	The zones to host the cluster in (optional if regional cluster / required if zonal)"
+  description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
 }
 
 variable "cluster_name" {

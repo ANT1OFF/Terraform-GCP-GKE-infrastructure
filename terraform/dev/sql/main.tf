@@ -78,7 +78,6 @@ resource "google_sql_user" "admin" {
   depends_on = [google_sql_database_instance.master, random_password.admin]
 }
 
-# TODO: export password to some secure location to allow operators to log into the database. Maybe add a seperate account for this
 resource "random_password" "appuser" {
   length = 24
 }

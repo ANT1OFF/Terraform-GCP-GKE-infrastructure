@@ -1,41 +1,52 @@
-variable "project_id" {
-  type = string
-}
+# ---------------------------------------------------------------------------------------------------------------------
+# General vars
+# ---------------------------------------------------------------------------------------------------------------------
 
-variable "bucket_name" {
-  type = string
+variable "project_id" {
+  type        = string
+  description = "The project ID to host the cluster in"
 }
 
 variable "credentials" {
-  type = string
+  type        = string
+  description = "Credentials for the service account for Terraform to use when interacting with GCP"
 }
 
 variable "region" {
-  type = string
-  default = "europe-west1"
+  type        = string
+  default     = "europe-west1"
+  description = "The region to host the cluster in (optional if zonal cluster / required if regional)"
 }
 
-variable "zone" {
-  type = string
-  default = "europe-west1-b"
+variable "bucket_name" {
+  type        = string
+  description = "The globaly unique name for the GCP bucket containing the remote Terraform state"
 }
 
-variable "zone-for-cluster" {
-  default = ["europe-west1-b"]
-}
+# ---------------------------------------------------------------------------------------------------------------------
+# Cluster-vars
+# ---------------------------------------------------------------------------------------------------------------------
 
 variable "cluster_name" {
-  type = string
-  default = "tf-gke-cluster-default"
+  type        = string
+  default     = "tf-gke-cluster-default"
+  description = "Name of the cluster"
+}
+
+variable "zone_for_cluster" {
+  type        = list(string)
+  default     = ["europe-west1-b"]
+  description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
 }
 
 variable "preemptible" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
+  description = "A boolean that represents whether or not the underlying node VMs are preemptible"
 }
 
 variable "secrets" {
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
   description = "Secrets referr to arbitrary secrets to be injected as Kubernetes secrets, which may be passed to an application as demonstrated with db-secrets in the example app deployment definition yaml"
 }

@@ -20,7 +20,7 @@ module "kubernetes-engine" {
   project_id = var.project_id
   name       = var.cluster_name
   region     = var.region
-  zones      = var.zone-for-cluster
+  zones      = var.zone_for_cluster
   network    = var.vpc_network_name
   subnetwork = var.vpc_subnets_name
   logging_service    = "logging.googleapis.com/kubernetes"
