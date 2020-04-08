@@ -30,7 +30,7 @@ variable "cluster_name" {
 }
 
 variable "preemptible" {
-  type = string
+  type = bool
   default = false
 }
 
