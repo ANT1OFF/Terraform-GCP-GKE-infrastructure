@@ -49,3 +49,85 @@ module "vpc" {
     }
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE FIREWALL RULES
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "google_compute_firewall" "fw-ingress-allow" {
+  count     = length(var.firewall_ingress_allow) > 0 ? 1 : 0
+  name      = "${var.network_name}-ingress-allow"
+  network   = var.network_name
+  direction = "INGRESS"
+
+  dynamic "allow" {
+    for_each = [for a in var.firewall_ingress_allow: {
+      protocol = a.protocol
+      ports    = a.ports
+    }]
+
+    content {
+      protocol = allow.value.protocol
+      ports    = allow.value.ports
+    }
+  }
+
+  source_tags = ["web"]
+}
+resource "google_compute_firewall" "fw-ingress-deny" {
+  count     = length(var.firewall_ingress_deny) > 0 ? 1 : 0
+  name      = "${var.network_name}-ingress-deny"
+  network   = var.network_name
+  direction = "INGRESS"
+  dynamic "deny" {
+    for_each = [for d in var.firewall_ingress_deny: {
+      protocol = d.protocol
+      ports    = d.ports
+    }]
+
+    content {
+      protocol = deny.value.protocol
+      ports    = deny.value.ports
+    }
+  }
+
+  source_tags = ["web"]
+}
+
+resource "google_compute_firewall" "fw-egress-allow" {
+  count     = length(var.firewall_egress_allow) > 0 ? 1 : 0
+  name      = "${var.network_name}-egress-allow"
+  network   = var.network_name
+  direction = "EGRESS"
+
+  dynamic "allow" {
+    for_each = [for a in var.firewall_egress_allow: {
+      protocol = a.protocol
+      ports    = a.ports
+    }]
+
+    content {
+      protocol = allow.value.protocol
+      ports    = allow.value.ports
+    }
+  }
+}
+
+
+resource "google_compute_firewall" "fw-egress-deny" {
+  count     = length(var.firewall_egress_deny) > 0 ? 1 : 0
+  name      = "${var.network_name}-egress-deny"
+  network   = var.network_name
+  direction = "EGRESS"
+
+  dynamic "deny" {
+    for_each = [for d in var.firewall_egress_deny: {
+      protocol = d.protocol
+      ports    = d.ports
+    }]
+
+    content {
+      protocol = deny.value.protocol
+      ports    = deny.value.ports
+    }
+  }
+}

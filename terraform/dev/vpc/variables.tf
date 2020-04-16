@@ -57,3 +57,44 @@ variable "domain" {
   default     = "example.com"
   description = "The domain for the project, for instance example.com"
 }
+
+variable "firewall_ingress_allow" {
+  type        = list(object({
+    protocol = string
+    ports    = list(string)
+  }))
+  default     = [
+    {
+      protocol = "tcp"
+      ports    = ["80", "443"]
+    }
+  ]
+  description = "The list of ingress ALLOW rules specified by the firewall. Ports must be either an integer or a range." # see https://www.terraform.io/docs/providers/google/r/compute_firewall.html
+}
+
+variable "firewall_ingress_deny" {
+  type        = list(object({
+    protocol = string
+    ports    = list(string)
+  }))
+  default     = []
+  description = "The list of ingress DENY rules specified by the firewall. Ports must be either an integer or a range." # see https://www.terraform.io/docs/providers/google/r/compute_firewall.html
+}
+
+variable "firewall_egress_allow" {
+  type        = list(object({
+    protocol = string
+    ports    = list(string)
+  }))
+  default     = []
+  description = "The list of egress ALLOW rules specified by the firewall. Ports must be either an integer or a range." # see https://www.terraform.io/docs/providers/google/r/compute_firewall.html
+}
+
+variable "firewall_egress_deny" {
+  type        = list(object({
+    protocol = string
+    ports    = list(string)
+  }))
+  default     = []
+  description = "The list of egress DENY rules specified by the firewall. Ports must be either an integer or a range." # see https://www.terraform.io/docs/providers/google/r/compute_firewall.html
+}
