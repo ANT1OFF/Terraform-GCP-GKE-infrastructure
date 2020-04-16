@@ -39,7 +39,7 @@ variable "argocd_namespace" {
 }
 
 # TODO: use or remove. Update description
-variable "argocd_repo" {
-  type        = string
-  description = "ArgoCD repo"
-}
+# variable "argocd_repo" {
+#   type        = string
+#   description = "ArgoCD repo"
+# }

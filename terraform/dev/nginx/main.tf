@@ -128,16 +128,6 @@ resource "helm_release" "cert-manager" {
   namespace  = "cert-manager"
   version    = "0.14.1"
 
-  # set {
-  #   name  = "global.rbac.create"
-  #   value = "true"
-  # }
-
-  # set {
-  #   name  = "prometheus.servicemonitor.enabled"
-  #   value = true
-  # }
-
   depends_on = [null_resource.cert-manager-crd]
 }
 
