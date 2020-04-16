@@ -35,17 +35,40 @@ data "google_client_config" "default" {
 
 resource "google_sql_database_instance" "master" {
   count = var.sql_database ? 1 : 0
-  
+  name             = "${var.sql_name}-master-${random_string.db-suffix.result}"
   database_version = var.sql_version
   region           = var.region
 
   settings {
     # Second-generation instance tiers are based on the machine type
     tier = var.sql_tier
-    availability_type = var.psql_availability # REGIONAL/ZONAL
-    disk_autoresize = var.sql_autoresize
-    disk_size = var.sql_disk_size
-    disk_type = var.sql_disk_type
+    availability_type = var.psql_availability # https://cloud.google.com/sql/docs/postgres/high-availability
+    disk_autoresize   = var.sql_autoresize
+    disk_size         = var.sql_disk_size
+    disk_type         = var.sql_disk_type
+    dynamic "backup_configuration" {
+      for_each = [var.sql_backup_config]
+      content {
+        binary_log_enabled = lookup(backup_configuration.value, "binary_log_enabled", null)
+        enabled            = lookup(backup_configuration.value, "enabled", null)
+        start_time         = lookup(backup_configuration.value, "start_time", null)
+      }
+    }
+  }
+}
+
+resource "google_sql_database_instance" "read-replicas" {
+  count                = var.sql_replica_count
+  name                 = "${var.sql_name}-replica-${count.index}-${random_string.db-suffix.result}"
+  database_version     = var.sql_version
+  region               = var.region
+  master_instance_name = google_sql_database_instance.master[0].name
+
+  settings {
+    tier = var.sql_tier
+    disk_autoresize   = var.sql_autoresize
+    disk_size         = var.sql_disk_size
+    disk_type         = var.sql_disk_type
   }
 }
 
@@ -76,6 +99,12 @@ resource "google_sql_user" "admin" {
   password = random_password.admin.result
 
   depends_on = [google_sql_database_instance.master, random_password.admin]
+}
+
+resource "random_string" "db-suffix" {
+  length  = 8
+  special = false
+  upper   = false
 }
 
 resource "random_password" "appuser" {

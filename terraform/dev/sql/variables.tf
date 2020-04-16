@@ -35,6 +35,7 @@ variable "sql_database" {
 
 variable "sql_version" {
   type        = string
+  default     = "POSTGRES_11"
   description = "The database version to run. See https://cloud.google.com/sql/docs/sqlserver/db-versions for available versions"
 }
 
@@ -47,7 +48,7 @@ variable "sql_tier" {
 variable "psql_availability" {
   type        = string
   default     = "ZONAL"
-  description = "Specifies whether a PostgreSQL instance should be set up for high availability (REGIONAL) or single zone (ZONAL)"
+  description = "Specifies whether a PostgreSQL instance should be set up for high availability (REGIONAL) or single zone (ZONAL) https://cloud.google.com/sql/docs/mysql/high-availability#normal"
 }
 
 variable "sql_autoresize" {
@@ -77,11 +78,36 @@ variable "sql_user" {
 variable "sql_db_name" {
   type        = string
   default     = "default_db_name"
-  description = "Name for the sql account for use by applications."
+  description = "Name for the sql database for use by applications."
 }
 
 variable "sql_admin" {
   type        = string
   default     = "admin"
   description = "Name for the sql admin account."
+}
+
+variable "sql_backup_config" {
+  type = object({
+    binary_log_enabled = bool
+    enabled            = bool
+    start_time         = string
+  })
+  default = {
+    binary_log_enabled = null
+    enabled            = false
+    start_time         = null
+  }
+  description = "The backup_configuration settings subblock for the database setings. Binary log may only be enabled for MySQL instances."
+}
+
+variable "sql_replica_count" {
+  type        = number
+  default     = 0
+  description = "Number of read replicas. Note, this requires the master to have binary_log_enabled set, as well as existing backups."
+}
+variable "sql_name" {
+  type        = string
+  default     = "terraform-db"
+  description = "The name of the database"
 }
