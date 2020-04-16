@@ -51,3 +51,9 @@ variable "ip_range_services" {
   default     = "192.168.64.0/18"
   description = "IP range available for the services"
 }
+
+variable "domain" {
+  type        = string
+  default     = "example.com"
+  description = "The domain for the project, for instance example.com"
+}
