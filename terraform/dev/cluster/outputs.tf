@@ -1,11 +1,11 @@
 output "endpoint" {
     sensitive   = true
     description = "Cluster endpoint"
-    value       = module.gke.endpoint
+    value       = module.kubernetes-engine.endpoint
 }
 
 output "ca_certificate" {
     sensitive   = true
     description = "Cluster ca certificate (base64 encoded)"
-    value       = module.gke.ca_certificate
+    value       = module.kubernetes-engine.ca_certificate
 }
