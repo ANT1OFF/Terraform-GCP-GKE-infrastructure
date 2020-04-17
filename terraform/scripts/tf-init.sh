@@ -1,7 +1,5 @@
 #!/bin/bash
-# Run from any folder in or below the main terraform folder of the repository.
-# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
-# The name of the env file defaults to terraform.tfvars inside the scripts folder of this repository.
+# See the help function for usage informating (-h option).
 
 # The script passes the var-file to terraform init,
 # inits and validates all terraform configs in dirlist.
@@ -10,6 +8,8 @@
 # VARIABLES
 # ---------------------------------------------------------------------------------------------------------------------
 
+scripts_dir=$(dirname $0)
+
 dirlist="/dev/vpc 
          /dev/cluster 
          /dev/sql
@@ -17,6 +17,12 @@ dirlist="/dev/vpc
          /dev/nginx"
 
 manual="-input=false"
+
+# ---------------------------------------------------------------------------------------------------------------------
+# IMPORTING FUNCTIONS LIBRARY
+# ---------------------------------------------------------------------------------------------------------------------
+
+source "${scripts_dir}/functions.sh" ":"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # FUNCTION DEFINITIONS
@@ -30,17 +36,6 @@ help() {
   echo "   -v VAR_FILE          Specifying var-file for terraform init, including path"
   echo "   -b BACKEND_CONFIG    Specifying the backend-config for terraform init. When passing a file, include the path"
   echo
-}
-
-exit_abnormal() {
-  help
-  exit 1
-}
-
-sprint () {
-    echo "$1"
-    echo "================================="
-    echo
 }
 
 tf-init () {
@@ -67,27 +62,26 @@ tf-validate () {
     fi
 }
 
+validate_backend () {
+    # Checking if backend is provided
+    if [ -z "$backend" ]
+    then
+        # Defaults to the backend.tf file inside the scripts folder.
+        backend="${basedir}/scripts/backend.tf"
+    fi
+
+    # Bachend-config may be either a path to a file or a 'key=value' format. Therefore allowing all strings containing '='.
+    # If the string doesn't contain '=', checking if the file can be read.
+    if [[ ! "$backend" == *"="* ]] && [ ! -r "$backend" ]
+    then
+        echo "Could not read backend file, exiting"
+        exit 1
+    fi
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # Setup
 # ---------------------------------------------------------------------------------------------------------------------
-
-# TODO: merely checking that the folder is named "terraform" isn't very robust. mby fix?
-# Trying to find the main terraform folder of the repo
-dir=$(basename "$(pwd)")
-while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
-do
-    cd .. || { echo "Could not cd, exiting"; exit 1; }
-    dir=$(basename "$(pwd)")
-done
-
-if [ "$dir" != "terraform" ] 
-then
-    echo "Could not find terraform dir in parrent folders, exiting"
-    exit 1
-fi
-
-# basedir contains the path to the main terraform folder of the repo
-basedir=$(pwd)
 
 # Handling arguments
 while getopts ":v:b:m" options; do
@@ -114,31 +108,14 @@ while getopts ":v:b:m" options; do
     esac
 done
 
-# Checking if var_file is provided
-if [ -z "$var_file" ]
-then
-    # Defaults to the terraform.tfvars file inside the scripts folder.
-    var_file="${basedir}/scripts/terraform.tfvars"
-fi
+# Finding the main terraform folder of the repo, moving to it and setting its path as the 'basedir' variable
+find_basedir
 
-if [ ! -r "$var_file" ]
-then
-    echo "Could not read var-file, exiting"
-    exit 1
-fi
+# Validating the var-file
+validate_var_file
 
-# Checking if backend is provided
-if [ -z "$backend" ]
-then
-    # Defaults to the backend.tf file inside the scripts folder.
-    backend="${basedir}/scripts/backend.tf"
-fi
-
-if [ ! -r "$backend" ]
-then
-    echo "Could not read backend file, exiting"
-    exit 1
-fi
+# Validating the backend
+validate_backend
 
 
 # ---------------------------------------------------------------------------------------------------------------------
