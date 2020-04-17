@@ -3,7 +3,7 @@
 # The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
 # The name of the env file defaults to terraform.tfvars inside the scripts folder of this repository.
 
-# The script passes the envfile as a var-file,
+# The script passes the var-file to terraform init,
 # inits and validates all terraform configs in dirlist.
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -23,11 +23,11 @@ manual="-input=false"
 # ---------------------------------------------------------------------------------------------------------------------
 
 help() {
-  echo "Usage: $0 [ -m ] [ -e ENVFILE ]" 1>&2
+  echo "Usage: $0 [ -m ] [ -v VAR_FILE ]" 1>&2
   echo
   echo "Options:"
   echo "   -m              Manual mode, disabling '-input=false' option for terraform init"
-  echo "   -e ENVFILE      Specifying envfile, including path"
+  echo "   -v VAR_FILE     Specifying var-file, including path"
   echo
 }
 
@@ -46,7 +46,7 @@ tf-init () {
     sprint "Running terrafom init in $tfdir"
 
     # TODO: maybe take backend config as parameter aswell
-    if terraform init $manual -var-file "${envfile}" -backend-config="${basedir}/scripts/backend.tf" ; 
+    if terraform init $manual -var-file "${var_file}" -backend-config="${basedir}/scripts/backend.tf" ; 
     then
         echo "$tfdir init success"
     else
@@ -90,11 +90,11 @@ fi
 basedir=$(pwd)
 
 # handling arguments
-while getopts ":e:m" options; do
+while getopts ":v:m" options; do
     case "${options}" in
-        e)
-            envfile=${OPTARG}
-            echo "Setting envfile to ${OPTARG}"
+        v)
+            var_file=${OPTARG}
+            echo "Setting var-file to ${OPTARG}"
             ;;
         m)
             manual=""
@@ -110,14 +110,14 @@ while getopts ":e:m" options; do
     esac
 done
 
-# Checking if envfile is provided
-if [ -z "$envfile" ]
+# Checking if var_file is provided
+if [ -z "$var_file" ]
 then
     # Defaults to the terraform.tfvars file inside the scripts folder.
-    envfile="${basedir}/scripts/terraform.tfvars"
+    var_file="${basedir}/scripts/terraform.tfvars"
 fi
 
-if [ ! -r "$envfile" ]
+if [ ! -r "$var_file" ]
 then
     echo "Could not read env file, exiting"
     exit 1
