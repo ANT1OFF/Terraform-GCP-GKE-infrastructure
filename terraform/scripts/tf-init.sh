@@ -16,9 +16,25 @@ dirlist="/dev/vpc
          /dev/argo-1
          /dev/nginx"
 
+manual="-input=false"
+
 # ---------------------------------------------------------------------------------------------------------------------
 # FUNCTION DEFINITIONS
 # ---------------------------------------------------------------------------------------------------------------------
+
+help() {
+  echo "Usage: $0 [ -m ] [ -e ENVFILE ]" 1>&2
+  echo
+  echo "Options:"
+  echo "   -m              Manual mode, disabling '-input=false' option for terraform init"
+  echo "   -e ENVFILE      Specifying envfile, including path"
+  echo
+}
+
+exit_abnormal() {
+  help
+  exit 1
+}
 
 sprint () {
     echo "$1"
@@ -30,7 +46,7 @@ tf-init () {
     sprint "Running terrafom init in $tfdir"
 
     # TODO: maybe take backend config as parameter aswell
-    if terraform init -input=false -var-file "${envfile}" -backend-config="${basedir}/scripts/backend.tf" ; 
+    if terraform init $manual -var-file "${envfile}" -backend-config="${basedir}/scripts/backend.tf" ; 
     then
         echo "$tfdir init success"
     else
@@ -70,12 +86,29 @@ then
     exit 1
 fi
 
-
 # basedir contains the path to the main terraform folder of the repo
 basedir=$(pwd)
-# envfile should be a terraform tfvars file containing variables
-envfile="$1"
 
+# handling arguments
+while getopts ":e:m" options; do
+    case "${options}" in
+        e)
+            envfile=${OPTARG}
+            echo "Setting envfile to ${OPTARG}"
+            ;;
+        m)
+            manual=""
+            echo "Operating in manual mode, terraform will ask for input if required instead of erroring"
+            ;;
+        :)
+            echo "Error: -${OPTARG} requires an argument."
+            exit_abnormal
+            ;;
+        *)
+            exit_abnormal
+            ;;
+    esac
+done
 
 # Checking if envfile is provided
 if [ -z "$envfile" ]
