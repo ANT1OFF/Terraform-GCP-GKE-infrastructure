@@ -23,11 +23,12 @@ manual="-input=false"
 # ---------------------------------------------------------------------------------------------------------------------
 
 help() {
-  echo "Usage: $0 [ -m ] [ -v VAR_FILE ]" 1>&2
+  echo "Usage: $0 [ -m ] [ -v VAR_FILE ] [ -b BACKEND_CONFIG ]"
   echo
   echo "Options:"
-  echo "   -m              Manual mode, disabling '-input=false' option for terraform init"
-  echo "   -v VAR_FILE     Specifying var-file, including path"
+  echo "   -m                   Manual mode, disabling '-input=false' option for terraform init"
+  echo "   -v VAR_FILE          Specifying var-file for terraform init, including path"
+  echo "   -b BACKEND_CONFIG    Specifying the backend-config for terraform init. When passing a file, include the path"
   echo
 }
 
@@ -45,8 +46,7 @@ sprint () {
 tf-init () {
     sprint "Running terrafom init in $tfdir"
 
-    # TODO: maybe take backend config as parameter aswell
-    if terraform init $manual -var-file "${var_file}" -backend-config="${basedir}/scripts/backend.tf" ; 
+    if terraform init $manual -var-file "${var_file}" -backend-config "${backend}" ; 
     then
         echo "$tfdir init success"
     else
@@ -89,12 +89,16 @@ fi
 # basedir contains the path to the main terraform folder of the repo
 basedir=$(pwd)
 
-# handling arguments
-while getopts ":v:m" options; do
+# Handling arguments
+while getopts ":v:b:m" options; do
     case "${options}" in
         v)
             var_file=${OPTARG}
             echo "Setting var-file to ${OPTARG}"
+            ;;
+        b)
+            backend=${OPTARG}
+            echo "Setting backend to ${OPTARG}"
             ;;
         m)
             manual=""
@@ -119,9 +123,23 @@ fi
 
 if [ ! -r "$var_file" ]
 then
-    echo "Could not read env file, exiting"
+    echo "Could not read var-file, exiting"
     exit 1
 fi
+
+# Checking if backend is provided
+if [ -z "$backend" ]
+then
+    # Defaults to the backend.tf file inside the scripts folder.
+    backend="${basedir}/scripts/backend.tf"
+fi
+
+if [ ! -r "$backend" ]
+then
+    echo "Could not read backend file, exiting"
+    exit 1
+fi
+
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Run commands
