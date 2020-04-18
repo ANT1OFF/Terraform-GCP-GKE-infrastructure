@@ -11,29 +11,29 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 dirlist="/dev/argo-1
-         /dev/nginx
-         /dev/sql
-         /dev/cluster"
-        #  /dev/vpc"
+/dev/nginx
+/dev/sql
+/dev/cluster"
+#  /dev/vpc"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # FUNCTION DEFINITIONS
 # ---------------------------------------------------------------------------------------------------------------------
 
 sprint () {
-    echo "$1"
-    echo "================================="
-    echo
+  echo "$1"
+  echo "================================="
+  echo
 }
 
 tf-destroy () {
-    if terraform destroy -auto-approve -var-file "${envfile}" ;
-    then
-        echo "$tfdir destroyed"
-    else
-        echo "Could not destroy $tfdir, exiting"
-        exit 1
-    fi
+  if terraform destroy -auto-approve -var-file "${envfile}" ;
+  then
+    echo "$tfdir destroyed"
+  else
+    echo "Could not destroy $tfdir, exiting"
+    exit 1
+  fi
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -45,14 +45,14 @@ tf-destroy () {
 dir=$(basename "$(pwd)")
 while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
 do
-    cd .. || { echo "Could not cd, exiting"; exit 1; }
-    dir=$(basename "$(pwd)")
+  cd .. || { echo "Could not cd, exiting"; exit 1; }
+  dir=$(basename "$(pwd)")
 done
 
-if [ "$dir" != "terraform" ] 
+if [ "$dir" != "terraform" ]
 then
-    echo "Could not find terraform dir in parrent folders, exiting"
-    exit 1
+  echo "Could not find terraform dir in parrent folders, exiting"
+  exit 1
 fi
 
 
@@ -65,14 +65,14 @@ envfile="$1"
 # Checking if envfile is provided
 if [ -z "$envfile" ]
 then
-    # Defaults to the terraform.tfvars file inside the scripts folder.
-    envfile="${basedir}/scripts/terraform.tfvars"
+  # Defaults to the terraform.tfvars file inside the scripts folder.
+  envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
 if [ ! -r "$envfile" ]
 then
-    echo "Could not read env file, exiting"
-    exit 1
+  echo "Could not read env file, exiting"
+  exit 1
 fi
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -81,13 +81,13 @@ fi
 
 for tfdir in $dirlist
 do
-    echo "Moving to $tfdir"
-    cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-    if terraform destroy -auto-approve -var-file "${envfile}" ;
-    then
-        echo "$tfdir destroyed"
-    else
-        echo "Could not destroy $tfdir, exiting"
-        exit 1
-    fi
+  echo "Moving to $tfdir"
+  cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
+  if terraform destroy -auto-approve -var-file "${envfile}" ;
+  then
+    echo "$tfdir destroyed"
+  else
+    echo "Could not destroy $tfdir, exiting"
+    exit 1
+  fi
 done

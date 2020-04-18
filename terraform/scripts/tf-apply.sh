@@ -10,54 +10,54 @@
 # VARIABLES
 # ---------------------------------------------------------------------------------------------------------------------
 
-dirlist="/dev/vpc 
-         /dev/cluster 
-         /dev/sql
-         /dev/nginx
-         /dev/argo-1"
-         #/dev/argo-2"
+dirlist="/dev/vpc
+/dev/cluster
+/dev/sql
+/dev/nginx
+/dev/argo-1"
+#/dev/argo-2"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # FUNCTION DEFINITIONS
 # ---------------------------------------------------------------------------------------------------------------------
 
 sprint () {
-    echo "$1"
-    echo "================================="
-    echo
+  echo "$1"
+  echo "================================="
+  echo
 }
 
 tf-apply () {
-    sprint "Running terrafom plan"
-
-    if terraform plan -var-file "${envfile}" ; 
-    then
-        echo "$tfdir plan success"
-    else
-        echo "$tfdir plan failure"
-        return 1
-    fi
-
-    sprint "Running terrafom apply"
-
-    #TODO: add ability to diable -auto-approve
-    if terraform apply -auto-approve -var-file "${envfile}" ; 
-    then
-        echo "$tfdir apply success"
-    else
-        echo "$tfdir apply failure"
-        return 1
-    fi
+  sprint "Running terrafom plan"
+  
+  if terraform plan -var-file "${envfile}" ;
+  then
+    echo "$tfdir plan success"
+  else
+    echo "$tfdir plan failure"
+    return 1
+  fi
+  
+  sprint "Running terrafom apply"
+  
+  #TODO: add ability to diable -auto-approve
+  if terraform apply -auto-approve -var-file "${envfile}" ;
+  then
+    echo "$tfdir apply success"
+  else
+    echo "$tfdir apply failure"
+    return 1
+  fi
 }
 
 import-argo-state () {
-    state="$(terraform state list -var-file "${envfile}" | grep kubernetes_config_map.argocd-config)"
-    if [ -z "$state" ] 
-    then
-        terraform import -var-file="${envfile}" kubernetes_config_map.argocd-config argocd/argocd-cm 
-    else
-        echo "argocd-config already managed by terraform"
-    fi
+  state="$(terraform state list -var-file "${envfile}" | grep kubernetes_config_map.argocd-config)"
+  if [ -z "$state" ]
+  then
+    terraform import -var-file="${envfile}" kubernetes_config_map.argocd-config argocd/argocd-cm
+  else
+    echo "argocd-config already managed by terraform"
+  fi
 }
 
 
@@ -70,14 +70,14 @@ import-argo-state () {
 dir=$(basename "$(pwd)")
 while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
 do
-    cd .. || { echo "Could not cd, exiting"; exit 1; }
-    dir=$(basename "$(pwd)")
+  cd .. || { echo "Could not cd, exiting"; exit 1; }
+  dir=$(basename "$(pwd)")
 done
 
-if [ "$dir" != "terraform" ] 
+if [ "$dir" != "terraform" ]
 then
-    echo "Could not find terraform dir in parrent folders, exiting"
-    exit 1
+  echo "Could not find terraform dir in parrent folders, exiting"
+  exit 1
 fi
 
 
@@ -90,14 +90,14 @@ envfile="$1"
 # Checking if envfile is provided
 if [ -z "$envfile" ]
 then
-    # Defaults to the terraform.tfvars file inside the scripts folder.
-    envfile="${basedir}/scripts/terraform.tfvars"
+  # Defaults to the terraform.tfvars file inside the scripts folder.
+  envfile="${basedir}/scripts/terraform.tfvars"
 fi
 
 if [ ! -r "$envfile" ]
 then
-    echo "Could not read env file, exiting"
-    exit 1
+  echo "Could not read env file, exiting"
+  exit 1
 fi
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -106,8 +106,8 @@ fi
 
 for tfdir in $dirlist
 do
-    echo "Moving to $tfdir"
-    cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-    echo "running tf-apply"
-    tf-apply || { echo "tf-apply failed, exiting"; exit 1; }
+  echo "Moving to $tfdir"
+  cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
+  echo "running tf-apply"
+  tf-apply || { echo "tf-apply failed, exiting"; exit 1; }
 done
