@@ -17,19 +17,19 @@ sprint () {
 # find_basedir finds the main terraform folder of the repo, moves to it and sets its path as the basedir variable
 find_basedir() {
   # Moving to the directory containing the scripts
-  cd "${scripts_dir}" || { echo "Could not change directory to scripts: $scripts_dir, exiting"; exit 1; }
+  cd "${scripts_dir}" || { err "Could not change directory to scripts: $scripts_dir, exiting"; exit 1; }
   
   # Trying to find the main terraform folder of the repo
   dir=$(basename "$(pwd)")
   while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
   do
-    cd .. || { echo "Could change directory to parentdirectory from $dir, exiting"; exit 1; }
+    cd .. || { err "Could change directory to parentdirectory from $dir, exiting"; exit 1; }
     dir=$(basename "$(pwd)")
   done
   
   if [ "$dir" != "terraform" ]
   then
-    echo "Could not find terraform dir in parrent folders, exiting"
+    err "Could not find terraform dir in parrent folders, exiting"
     exit 1
   fi
   
@@ -48,11 +48,11 @@ validate_var_file() {
   
   if [ ! -r "$var_file" ]
   then
-    echo "Could not read var-file, exiting"
+    err "Could not read var-file, exiting"
     exit 1
   fi
 }
 
-# err() {
-#   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
-# }
+err() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $*" >&2
+}

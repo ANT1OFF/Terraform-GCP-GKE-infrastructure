@@ -46,7 +46,7 @@ tf-init () {
   then
     echo "$tfdir init success"
   else
-    echo "$tfdir init failure, exiting"
+    err "$tfdir init failure, exiting"
     exit 1
   fi
 }
@@ -58,7 +58,7 @@ tf-validate () {
   then
     echo "$tfdir validate success"
   else
-    echo "$tfdir validate failure, exiting"
+    err "$tfdir validate failure, exiting"
     exit 1
   fi
 }
@@ -75,7 +75,7 @@ validate_backend () {
   # If the string doesn't contain '=', checking if the file can be read.
   if [[ ! "$backend" == *"="* ]] && [ ! -r "$backend" ]
   then
-    echo "Could not read backend file, exiting"
+    err "Could not read backend file, exiting"
     exit 1
   fi
 }
@@ -100,7 +100,7 @@ while getopts ":v:b:m" options; do
       echo "Operating in manual mode, terraform will ask for input if required instead of erroring"
     ;;
     :)
-      echo "Error: -${OPTARG} requires an argument."
+      err "Error: -${OPTARG} requires an argument."
       exit_abnormal
     ;;
     *)
@@ -126,7 +126,7 @@ validate_backend
 for tfdir in $dirlist
 do
   echo "Moving to $tfdir"
-  cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
+  cd "$basedir$tfdir" || { err "Could not cd to $basedir$tfdir, exiting"; exit 1; }
   tf-init
   tf-validate
 done
