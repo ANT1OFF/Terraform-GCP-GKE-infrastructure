@@ -62,13 +62,13 @@ help() {
 #   Generates or modifies .terraform folder in the directory if needed.
 ##########################################################
 tf-init () {
-  sprint "Running terrafom init in $tfdir"
+  sprint "Running terrafom init in ${tfdir}"
   
-  if terraform init $manual -var-file "${var_file}" -backend-config "${backend}" ;
+  if terraform init ${manual} -var-file "${var_file}" -backend-config "${backend}" ;
   then
-    echo "$tfdir init success"
+    echo "${tfdir} init success"
   else
-    err "$tfdir init failure, exiting"
+    err "${tfdir} init failure, exiting"
     exit 1
   fi
 }
@@ -83,13 +83,13 @@ tf-init () {
 #   Info message and either sucess or error message.
 ##########################################################
 tf-validate () {
-  sprint "Running terrafom validate in $tfdir"
+  sprint "Running terrafom validate in ${tfdir}"
   
   if terraform validate ;
   then
-    echo "$tfdir validate success"
+    echo "${tfdir} validate success"
   else
-    err "$tfdir validate failure, exiting"
+    err "${tfdir} validate failure, exiting"
     exit 1
   fi
 }
@@ -105,7 +105,7 @@ tf-validate () {
 ##########################################################
 validate_backend () {
   # Checking if backend is provided
-  if [ -z "$backend" ]
+  if [ -z "${backend}" ]
   then
     # Defaults to the backend.tf file inside the scripts folder.
     backend="${base_dir}/scripts/backend.tf"
@@ -113,7 +113,7 @@ validate_backend () {
   
   # Bachend-config may be either a path to a file or a 'key=value' format. Therefore allowing all strings containing '='.
   # If the string doesn't contain '=', checking if the file can be read.
-  if [[ ! "$backend" == *"="* ]] && [ ! -r "$backend" ]
+  if [[ ! "${backend}" == *"="* ]] && [ ! -r "${backend}" ]
   then
     err "Could not read backend file, exiting"
     exit 1
@@ -163,10 +163,9 @@ validate_backend
 # Run commands
 # ---------------------------------------------------------------------------------------------------------------------
 
-for tfdir in $dirlist
-do
-  echo "Moving to $tfdir"
-  cd "$base_dir$tfdir" || { err "Could not cd to $base_dir$tfdir, exiting"; exit 1; }
+for tfdir in ${dirlist}; do
+  echo "Moving to ${tfdir}"
+  cd "${base_dir}${tfdir}" || { err "Could not cd to ${base_dir}${tfdir}, exiting"; exit 1; }
   tf-init
   tf-validate
 done
