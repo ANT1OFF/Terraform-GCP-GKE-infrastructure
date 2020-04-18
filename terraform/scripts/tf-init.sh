@@ -4,10 +4,6 @@
 # The script passes the var-file to terraform init,
 # inits and validates all terraform configs in DIR_LIST.
 
-# ---------------------------------------------------------------------------------------------------------------------
-# VARIABLES
-# ---------------------------------------------------------------------------------------------------------------------
-
 readonly SCRIPTS_DIR=$(dirname "$0")
 
 readonly DIR_LIST=(
@@ -18,19 +14,9 @@ readonly DIR_LIST=(
   /dev/nginx
 )
 
-manual="-input=false"
-
-# ---------------------------------------------------------------------------------------------------------------------
-# IMPORTING FUNCTIONS LIBRARY
-# ---------------------------------------------------------------------------------------------------------------------
-
-# The path needs to be relative to allow calling the script from outside the scripts folder.
+# The import path needs to be relative to allow calling the script from outside the scripts folder.
 # shellcheck disable=SC1090
 source "${SCRIPTS_DIR}/functions.sh" ":"
-
-# ---------------------------------------------------------------------------------------------------------------------
-# FUNCTION DEFINITIONS
-# ---------------------------------------------------------------------------------------------------------------------
 
 ##########################################################
 # Prints help message for the script.
@@ -123,52 +109,66 @@ validate_backend() {
   fi
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# Setup
-# ---------------------------------------------------------------------------------------------------------------------
+##########################################################
+# Handles arguments using getopts.
+# Globals:
+#   var_file
+#   backend
+#   manual
+# Arguments:
+#   "$@"
+# Outputs:
+#   Sets var_file if "-v" option is provided.
+#   Sets backend if "-b" option is provided.
+#   Sets manual to an empty string if "-m" option is provided.
+##########################################################
+handle_arguments() {
+  while getopts ":v:b:m" options; do
+    case "${options}" in
+      v)
+        var_file=${OPTARG}
+        echo "Setting var-file to ${OPTARG}"
+      ;;
+      b)
+        backend=${OPTARG}
+        echo "Setting backend to ${OPTARG}"
+      ;;
+      m)
+        manual=""
+        echo "Operating in manual mode, terraform will ask for input if required instead of erroring"
+      ;;
+      :)
+        err "Error: -${OPTARG} requires an argument."
+        exit_abnormal
+      ;;
+      *)
+        exit_abnormal
+      ;;
+    esac
+  done
+}
 
-# Handling arguments
-while getopts ":v:b:m" options; do
-  case "${options}" in
-    v)
-      var_file=${OPTARG}
-      echo "Setting var-file to ${OPTARG}"
-    ;;
-    b)
-      backend=${OPTARG}
-      echo "Setting backend to ${OPTARG}"
-    ;;
-    m)
-      manual=""
-      echo "Operating in manual mode, terraform will ask for input if required instead of erroring"
-    ;;
-    :)
-      err "Error: -${OPTARG} requires an argument."
-      exit_abnormal
-    ;;
-    *)
-      exit_abnormal
-    ;;
-  esac
-done
-
-# Finding the main terraform folder of the repo, moving to it and setting its path as the 'base_dir' variable
-find_base_dir
-
-# Validating the var-file
-validate_var_file
-
-# Validating the backend
-validate_backend
+main() {
+  # Handling arguments
+  manual="-input=false"
+  handle_arguments "$@"
+  
+  # Finding the main terraform folder of the repo, moving to it and setting its path as the 'base_dir' variable
+  find_base_dir
+  
+  # Validating the var-file
+  validate_var_file
+  
+  # Validating the backend
+  validate_backend
+  
+  for tfdir in "${DIR_LIST[@]}"; do
+    echo "Moving to ${tfdir}"
+    cd "${base_dir}${tfdir}" || { err "Could not cd to ${base_dir}${tfdir}, exiting"; exit 1; }
+    tf-init
+    tf-validate
+  done
+}
 
 
-# ---------------------------------------------------------------------------------------------------------------------
-# Run commands
-# ---------------------------------------------------------------------------------------------------------------------
-
-for tfdir in "${DIR_LIST[@]}"; do
-  echo "Moving to ${tfdir}"
-  cd "${base_dir}${tfdir}" || { err "Could not cd to ${base_dir}${tfdir}, exiting"; exit 1; }
-  tf-init
-  tf-validate
-done
+main "$@"
