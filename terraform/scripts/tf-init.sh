@@ -151,17 +151,11 @@ handle_arguments() {
 }
 
 main() {
-  # Handling arguments
   manual="-input=false"
+  
   handle_arguments "$@"
-  
-  # Finding the main terraform folder of the repo, moving to it and setting its path as the 'base_dir' variable
   find_base_dir
-  
-  # Validating the var-file
   validate_var_file
-  
-  # Validating the backend
   validate_backend
   
   for tfdir in "${DIR_LIST[@]}"; do
