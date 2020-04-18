@@ -55,8 +55,8 @@ module "vpc" {
 
 resource "google_compute_firewall" "fw-ingress-allow" {
   count     = length(var.firewall_ingress_allow) > 0 ? 1 : 0
-  name      = "${var.network_name}-ingress-allow"
-  network   = var.network_name
+  name      = "${module.vpc.network_name}-ingress-allow"
+  network   = module.vpc.network_name
   direction = "INGRESS"
 
   dynamic "allow" {
@@ -75,8 +75,8 @@ resource "google_compute_firewall" "fw-ingress-allow" {
 }
 resource "google_compute_firewall" "fw-ingress-deny" {
   count     = length(var.firewall_ingress_deny) > 0 ? 1 : 0
-  name      = "${var.network_name}-ingress-deny"
-  network   = var.network_name
+  name      = "${module.vpc.network_name}-ingress-deny"
+  network   = module.vpc.network_name
   direction = "INGRESS"
   dynamic "deny" {
     for_each = [for d in var.firewall_ingress_deny: {
@@ -95,8 +95,8 @@ resource "google_compute_firewall" "fw-ingress-deny" {
 
 resource "google_compute_firewall" "fw-egress-allow" {
   count     = length(var.firewall_egress_allow) > 0 ? 1 : 0
-  name      = "${var.network_name}-egress-allow"
-  network   = var.network_name
+  name      = "${module.vpc.network_name}-egress-allow"
+  network   = module.vpc.network_name
   direction = "EGRESS"
 
   dynamic "allow" {
@@ -115,8 +115,8 @@ resource "google_compute_firewall" "fw-egress-allow" {
 
 resource "google_compute_firewall" "fw-egress-deny" {
   count     = length(var.firewall_egress_deny) > 0 ? 1 : 0
-  name      = "${var.network_name}-egress-deny"
-  network   = var.network_name
+  name      = "${module.vpc.network_name}-egress-deny"
+  network   = module.vpc.network_name
   direction = "EGRESS"
 
   dynamic "deny" {
