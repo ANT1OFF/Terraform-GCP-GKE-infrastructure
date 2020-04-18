@@ -1,113 +1,111 @@
 #!/bin/bash
-# Run from any folder in or below the main terraform folder of the repository.
-# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
-# The name of the env file defaults to terraform.tfvars inside the scripts folder of this repository.
+# See the help function for usage informating (-h option).
 
-# The script passes the envfile as a var-file,
+# The script passes the var-file to terraform plan and apply,
 # plans and applies all terraform configs in dirlist.
 
-# ---------------------------------------------------------------------------------------------------------------------
-# VARIABLES
-# ---------------------------------------------------------------------------------------------------------------------
+readonly SCRIPTS_DIR=$(dirname "$0")
 
-dirlist="/dev/vpc
-/dev/cluster
-/dev/sql
-/dev/nginx
-/dev/argo-1"
-#/dev/argo-2"
+readonly DIR_LIST=(
+  /dev/vpc
+  /dev/cluster
+  /dev/sql
+  /dev/argo-1
+  /dev/nginx
+)
 
-# ---------------------------------------------------------------------------------------------------------------------
-# FUNCTION DEFINITIONS
-# ---------------------------------------------------------------------------------------------------------------------
+# The import path needs to be relative to allow calling the script from outside the scripts folder.
+# shellcheck disable=SC1090
+source "${SCRIPTS_DIR}/functions.sh" ":"
 
-sprint () {
-  echo "$1"
-  echo "================================="
+##########################################################
+# Prints help message for the script.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   Prints help message for the script.
+##########################################################
+help() {
+  echo "Usage: $0 [ -m ] [ -v VAR_FILE ]"
+  echo
+  echo "Options:"
+  echo "   -m                   Manual mode, disabling '-auto-approve' option for terraform apply"
+  echo "   -v VAR_FILE          Specifying var-file for terraform init, including path"
   echo
 }
 
+##########################################################
+# Runs terraform apply in the current directory.
+# Globals:
+#   tf_dir
+#   manual
+# Arguments:
+#   None
+# Outputs:
+#   Info message and either sucess or error message.
+##########################################################
 tf-apply () {
-  sprint "Running terrafom plan"
-  
-  if terraform plan -var-file "${envfile}" ;
-  then
-    echo "$tfdir plan success"
-  else
-    echo "$tfdir plan failure"
-    return 1
-  fi
-  
   sprint "Running terrafom apply"
   
-  #TODO: add ability to diable -auto-approve
-  if terraform apply -auto-approve -var-file "${envfile}" ;
+  # Double quoting manual would cause manual mode to fail.
+  # shellcheck disable=SC2086
+  if terraform apply ${manual} -var-file "${var_file}" ;
   then
-    echo "$tfdir apply success"
+    echo "${tf_dir} apply success"
   else
-    echo "$tfdir apply failure"
-    return 1
+    err "${tf_dir} apply failure"
+    exit 1
   fi
 }
 
-import-argo-state () {
-  state="$(terraform state list -var-file "${envfile}" | grep kubernetes_config_map.argocd-config)"
-  if [ -z "$state" ]
-  then
-    terraform import -var-file="${envfile}" kubernetes_config_map.argocd-config argocd/argocd-cm
-  else
-    echo "argocd-config already managed by terraform"
-  fi
+##########################################################
+# Handles arguments using getopts.
+# Globals:
+#   var_file
+#   manual
+# Arguments:
+#   "$@"
+# Outputs:
+#   Sets var_file if "-v" option is provided.
+#   Sets manual to an empty string if "-m" option is provided.
+##########################################################
+handle_arguments() {
+  while getopts ":v:m" options; do
+    case "${options}" in
+      v)
+        var_file=${OPTARG}
+        echo "Setting var-file to ${OPTARG}"
+      ;;
+      m)
+        manual=""
+        echo "Operating in manual mode, disabling -auto-approve flag when running terraform apply"
+      ;;
+      :)
+        err "Error: -${OPTARG} requires an argument."
+        exit_abnormal
+      ;;
+      *)
+        exit_abnormal
+      ;;
+    esac
+  done
+}
+
+main() {
+  manual="-auto-approve"
+  
+  handle_arguments "$@"
+  find_base_dir
+  validate_var_file
+  
+  for tf_dir in "${DIR_LIST[@]}"; do
+    echo "Moving to ${tf_dir}"
+    cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
+    tf-apply
+  done
 }
 
 
-# ---------------------------------------------------------------------------------------------------------------------
-# Setup
-# ---------------------------------------------------------------------------------------------------------------------
-
-# TODO: merely checking that the folder is named "terraform" isn't very robust. mby fix?
-# Trying to find the main terraform folder of the repo
-dir=$(basename "$(pwd)")
-while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
-do
-  cd .. || { echo "Could not cd, exiting"; exit 1; }
-  dir=$(basename "$(pwd)")
-done
-
-if [ "$dir" != "terraform" ]
-then
-  echo "Could not find terraform dir in parrent folders, exiting"
-  exit 1
-fi
-
-
-# basedir contains the path to the main terraform folder of the repo
-basedir=$(pwd)
-# envfile should be a terraform tfvars file containing variables
-envfile="$1"
-
-
-# Checking if envfile is provided
-if [ -z "$envfile" ]
-then
-  # Defaults to the terraform.tfvars file inside the scripts folder.
-  envfile="${basedir}/scripts/terraform.tfvars"
-fi
-
-if [ ! -r "$envfile" ]
-then
-  echo "Could not read env file, exiting"
-  exit 1
-fi
-
-# ---------------------------------------------------------------------------------------------------------------------
-# Run commands
-# ---------------------------------------------------------------------------------------------------------------------
-
-for tfdir in $dirlist
-do
-  echo "Moving to $tfdir"
-  cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-  echo "running tf-apply"
-  tf-apply || { echo "tf-apply failed, exiting"; exit 1; }
-done
+main "$@"
