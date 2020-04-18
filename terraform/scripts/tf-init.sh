@@ -40,7 +40,7 @@ help() {
 ##########################################################
 # Runs terraform init in the current directory.
 # Globals:
-#   tfdir
+#   tf_dir
 #   manual
 #   var_file
 #   backend
@@ -51,15 +51,15 @@ help() {
 #   Generates or modifies .terraform folder in the directory if needed.
 ##########################################################
 tf-init() {
-  sprint "Running terrafom init in ${tfdir}"
+  sprint "Running terrafom init in ${tf_dir}"
   
   # Double quoting manual would cause manual mode to fail.
   # shellcheck disable=SC2086
   if terraform init ${manual} -var-file "${var_file}" -backend-config "${backend}" ;
   then
-    echo "${tfdir} init success"
+    echo "${tf_dir} init success"
   else
-    err "${tfdir} init failure, exiting"
+    err "${tf_dir} init failure, exiting"
     exit 1
   fi
 }
@@ -67,20 +67,20 @@ tf-init() {
 ##########################################################
 # Runs terraform validate in the current directory.
 # Globals:
-#   tfdir
+#   tf_dir
 # Arguments:
 #   None
 # Outputs:
 #   Info message and either sucess or error message.
 ##########################################################
 tf-validate() {
-  sprint "Running terrafom validate in ${tfdir}"
+  sprint "Running terrafom validate in ${tf_dir}"
   
   if terraform validate ;
   then
-    echo "${tfdir} validate success"
+    echo "${tf_dir} validate success"
   else
-    err "${tfdir} validate failure, exiting"
+    err "${tf_dir} validate failure, exiting"
     exit 1
   fi
 }
@@ -158,9 +158,9 @@ main() {
   validate_var_file
   validate_backend
   
-  for tfdir in "${DIR_LIST[@]}"; do
-    echo "Moving to ${tfdir}"
-    cd "${base_dir}${tfdir}" || { err "Could not cd to ${base_dir}${tfdir}, exiting"; exit 1; }
+  for tf_dir in "${DIR_LIST[@]}"; do
+    echo "Moving to ${tf_dir}"
+    cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
     tf-init
     tf-validate
   done
