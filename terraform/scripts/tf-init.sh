@@ -53,6 +53,8 @@ help() {
 tf-init() {
   sprint "Running terrafom init in ${tfdir}"
   
+  # Double quoting manual would cause manual mode to fail.
+  # shellcheck disable=SC2086
   if terraform init ${manual} -var-file "${var_file}" -backend-config "${backend}" ;
   then
     echo "${tfdir} init success"
