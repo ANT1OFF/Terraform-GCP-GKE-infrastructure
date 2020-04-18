@@ -10,31 +10,13 @@ readonly DIR_LIST=(
   /dev/vpc
   /dev/cluster
   /dev/sql
-  /dev/argo-1
-  /dev/nginx
+#   /dev/argo-1
+#   /dev/nginx
 )
 
 # The import path needs to be relative to allow calling the script from outside the scripts folder.
 # shellcheck disable=SC1090
 source "${SCRIPTS_DIR}/functions.sh" ":"
-
-##########################################################
-# Prints help message for the script.
-# Globals:
-#   None
-# Arguments:
-#   None
-# Outputs:
-#   Prints help message for the script.
-##########################################################
-help() {
-  echo "Usage: $0 [ -m ] [ -v VAR_FILE ]"
-  echo
-  echo "Options:"
-  echo "   -m                   Manual mode, disabling '-auto-approve' option for terraform apply"
-  echo "   -v VAR_FILE          Specifying var-file for terraform init, including path"
-  echo
-}
 
 ##########################################################
 # Runs terraform apply in the current directory.
@@ -58,39 +40,6 @@ tf-apply () {
     err "${tf_dir} apply failure"
     exit 1
   fi
-}
-
-##########################################################
-# Handles arguments using getopts.
-# Globals:
-#   var_file
-#   manual
-# Arguments:
-#   "$@"
-# Outputs:
-#   Sets var_file if "-v" option is provided.
-#   Sets manual to an empty string if "-m" option is provided.
-##########################################################
-handle_arguments() {
-  while getopts ":v:m" options; do
-    case "${options}" in
-      v)
-        var_file=${OPTARG}
-        echo "Setting var-file to ${OPTARG}"
-      ;;
-      m)
-        manual=""
-        echo "Operating in manual mode, disabling -auto-approve flag when running terraform apply"
-      ;;
-      :)
-        err "Error: -${OPTARG} requires an argument."
-        exit_abnormal
-      ;;
-      *)
-        exit_abnormal
-      ;;
-    esac
-  done
 }
 
 main() {

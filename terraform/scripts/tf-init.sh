@@ -27,7 +27,7 @@ source "${SCRIPTS_DIR}/functions.sh" ":"
 # Outputs:
 #   Prints help message for the script.
 ##########################################################
-help() {
+init_help() {
   echo "Usage: $0 [ -m ] [ -v VAR_FILE ] [ -b BACKEND_CONFIG ]"
   echo
   echo "Options:"
@@ -35,6 +35,20 @@ help() {
   echo "   -v VAR_FILE          Specifying var-file for terraform init, including path"
   echo "   -b BACKEND_CONFIG    Specifying the backend-config for terraform init. When passing a file, include the path"
   echo
+}
+
+##########################################################
+# Calls the init_help function and exits with a code of 1.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   Print from help function.
+##########################################################
+init_exit_abnormal() {
+  init_help
+  exit 1
 }
 
 ##########################################################
@@ -124,7 +138,7 @@ validate_backend() {
 #   Sets backend if "-b" option is provided.
 #   Sets manual to an empty string if "-m" option is provided.
 ##########################################################
-handle_arguments() {
+handle_init_arguments() {
   while getopts ":v:b:m" options; do
     case "${options}" in
       v)
@@ -141,10 +155,10 @@ handle_arguments() {
       ;;
       :)
         err "Error: -${OPTARG} requires an argument."
-        exit_abnormal
+        init_exit_abnormal
       ;;
       *)
-        exit_abnormal
+        init_exit_abnormal
       ;;
     esac
   done
@@ -153,7 +167,7 @@ handle_arguments() {
 main() {
   manual="-input=false"
   
-  handle_arguments "$@"
+  handle_init_arguments "$@"
   find_base_dir
   validate_var_file
   validate_backend

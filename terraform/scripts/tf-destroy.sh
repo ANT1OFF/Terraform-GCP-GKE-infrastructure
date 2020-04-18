@@ -1,93 +1,58 @@
 #!/bin/bash
-# Run from any folder in or below the main terraform folder of the repository.
-# The script takes one argument: the path to the file containing environment variables to be injected before running the Terraform configuration.
-# The name of the env file defaults to terraform.tfvars inside the scripts folder of this repository.
+# See the help function for usage informating (-h option).
 
-# The script passes the envfile as a var-file
+# The script passes the var_file as a var-file
 # and runs terraform destroy for all folders listed in dirlist.
 
-# ---------------------------------------------------------------------------------------------------------------------
-# VARIABLES
-# ---------------------------------------------------------------------------------------------------------------------
+readonly SCRIPTS_DIR=$(dirname "$0")
 
-dirlist="/dev/argo-1
-/dev/nginx
-/dev/sql
-/dev/cluster"
-#  /dev/vpc"
+readonly DIR_LIST=(
+  /dev/nginx
+  /dev/argo-1
+  /dev/sql
+  /dev/cluster
+  /dev/vpc
+)
 
-# ---------------------------------------------------------------------------------------------------------------------
-# FUNCTION DEFINITIONS
-# ---------------------------------------------------------------------------------------------------------------------
+# The import path needs to be relative to allow calling the script from outside the scripts folder.
+# shellcheck disable=SC1090
+source "${SCRIPTS_DIR}/functions.sh" ":"
 
-sprint () {
-  echo "$1"
-  echo "================================="
-  echo
-}
-
+##########################################################
+# Runs terraform destroy in the current directory.
+# Globals:
+#   tf_dir
+#   manual
+# Arguments:
+#   None
+# Outputs:
+#   Info message and either sucess or error message.
+##########################################################
 tf-destroy () {
-  if terraform destroy -auto-approve -var-file "${envfile}" ;
+  # Double quoting manual would cause manual mode to fail.
+  # shellcheck disable=SC2086
+  if terraform destroy ${manual} -var-file "${var_file}" ;
   then
-    echo "$tfdir destroyed"
+    echo "${tf_dir} destroyed"
   else
-    echo "Could not destroy $tfdir, exiting"
+    err "Could not destroy ${tf_dir}, exiting"
     exit 1
   fi
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# Setup
-# ---------------------------------------------------------------------------------------------------------------------
-
-# TODO: merely checking that the folder is named "terraform" isn't very robust. mby fix?
-# Trying to find the main terraform folder of the repo
-dir=$(basename "$(pwd)")
-while [ "$dir" != "terraform" ] && [ "$dir" != "/" ]
-do
-  cd .. || { echo "Could not cd, exiting"; exit 1; }
-  dir=$(basename "$(pwd)")
-done
-
-if [ "$dir" != "terraform" ]
-then
-  echo "Could not find terraform dir in parrent folders, exiting"
-  exit 1
-fi
+main() {
+  manual="-auto-approve"
+  
+  handle_arguments "$@"
+  find_base_dir
+  validate_var_file
+  
+  for tf_dir in "${DIR_LIST[@]}"; do
+    echo "Moving to ${tf_dir}"
+    cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
+    tf-destroy
+  done
+}
 
 
-# basedir contains the path to the main terraform folder of the repo
-basedir=$(pwd)
-# envfile should be a terraform tfvars file containing variables
-envfile="$1"
-
-
-# Checking if envfile is provided
-if [ -z "$envfile" ]
-then
-  # Defaults to the terraform.tfvars file inside the scripts folder.
-  envfile="${basedir}/scripts/terraform.tfvars"
-fi
-
-if [ ! -r "$envfile" ]
-then
-  echo "Could not read env file, exiting"
-  exit 1
-fi
-
-# ---------------------------------------------------------------------------------------------------------------------
-# Run commands
-# ---------------------------------------------------------------------------------------------------------------------
-
-for tfdir in $dirlist
-do
-  echo "Moving to $tfdir"
-  cd "$basedir$tfdir" || { echo "Could not cd, exiting"; exit 1; }
-  if terraform destroy -auto-approve -var-file "${envfile}" ;
-  then
-    echo "$tfdir destroyed"
-  else
-    echo "Could not destroy $tfdir, exiting"
-    exit 1
-  fi
-done
+main "$@"

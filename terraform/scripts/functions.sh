@@ -4,7 +4,7 @@
 
 
 ##########################################################
-# Calls the help function of the respective script and exits with a code of 1.
+# Calls the help function and exits with a code of 1.
 # Globals:
 #   None
 # Arguments:
@@ -30,6 +30,59 @@ sprint() {
   echo "${1}"
   echo "================================="
   echo
+}
+
+##########################################################
+# Prints help message for the script.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   Prints help message for the script.
+##########################################################
+help() {
+  echo "Usage: $0 [ -m ] [ -v VAR_FILE ]"
+  echo
+  echo "Options:"
+  echo "   -m                   Manual mode, disabling '-auto-approve' option for terraform apply"
+  echo "   -v VAR_FILE          Specifying var-file for terraform init, including path"
+  echo
+}
+
+##########################################################
+# Handles arguments using getopts.
+# Globals:
+#   var_file
+#   manual
+# Arguments:
+#   "$@"
+# Outputs:
+#   Sets var_file if "-v" option is provided.
+#   Sets manual to an empty string if "-m" option is provided.
+##########################################################
+handle_arguments() {
+  while getopts ":v:m" options; do
+    case "${options}" in
+      v)
+        var_file=${OPTARG}
+        echo "Setting var-file to ${OPTARG}"
+      ;;
+      m)
+        # It's a global variable used in the calling scripts.
+        # shellcheck disable=SC2034
+        manual=""
+        echo "Operating in manual mode, disabling -auto-approve flag when running terraform apply"
+      ;;
+      :)
+        err "Error: -${OPTARG} requires an argument."
+        exit_abnormal
+      ;;
+      *)
+        exit_abnormal
+      ;;
+    esac
+  done
 }
 
 ##########################################################
