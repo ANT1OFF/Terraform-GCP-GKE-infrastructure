@@ -29,6 +29,15 @@ source "${scripts_dir}/functions.sh" ":"
 # FUNCTION DEFINITIONS
 # ---------------------------------------------------------------------------------------------------------------------
 
+##########################################################
+# Prints help message for the script.
+# Globals:
+#   None
+# Arguments:
+#   None
+# Outputs:
+#   Prints help message for the script.
+##########################################################
 help() {
   echo "Usage: $0 [ -m ] [ -v VAR_FILE ] [ -b BACKEND_CONFIG ]"
   echo
@@ -39,6 +48,19 @@ help() {
   echo
 }
 
+##########################################################
+# Runs terraform init in the current directory.
+# Globals:
+#   tfdir
+#   manual
+#   var_file
+#   backend
+# Arguments:
+#   None
+# Outputs:
+#   Info message and either sucess or error message.
+#   Generates or modifies .terraform folder in the directory if needed.
+##########################################################
 tf-init () {
   sprint "Running terrafom init in $tfdir"
   
@@ -51,6 +73,15 @@ tf-init () {
   fi
 }
 
+##########################################################
+# Runs terraform validate in the current directory.
+# Globals:
+#   tfdir
+# Arguments:
+#   None
+# Outputs:
+#   Info message and either sucess or error message.
+##########################################################
 tf-validate () {
   sprint "Running terrafom validate in $tfdir"
   
@@ -63,12 +94,21 @@ tf-validate () {
   fi
 }
 
+##########################################################
+# Validates the backend by checking if it's been provided and checks if it's readable.
+# Globals:
+#   backend
+# Arguments:
+#   None
+# Outputs:
+#   Sets backend to default if it is empty.
+##########################################################
 validate_backend () {
   # Checking if backend is provided
   if [ -z "$backend" ]
   then
     # Defaults to the backend.tf file inside the scripts folder.
-    backend="${basedir}/scripts/backend.tf"
+    backend="${base_dir}/scripts/backend.tf"
   fi
   
   # Bachend-config may be either a path to a file or a 'key=value' format. Therefore allowing all strings containing '='.
@@ -109,8 +149,8 @@ while getopts ":v:b:m" options; do
   esac
 done
 
-# Finding the main terraform folder of the repo, moving to it and setting its path as the 'basedir' variable
-find_basedir
+# Finding the main terraform folder of the repo, moving to it and setting its path as the 'base_dir' variable
+find_base_dir
 
 # Validating the var-file
 validate_var_file
@@ -126,7 +166,7 @@ validate_backend
 for tfdir in $dirlist
 do
   echo "Moving to $tfdir"
-  cd "$basedir$tfdir" || { err "Could not cd to $basedir$tfdir, exiting"; exit 1; }
+  cd "$base_dir$tfdir" || { err "Could not cd to $base_dir$tfdir, exiting"; exit 1; }
   tf-init
   tf-validate
 done
