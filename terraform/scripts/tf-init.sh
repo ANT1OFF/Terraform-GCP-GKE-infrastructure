@@ -2,20 +2,21 @@
 # See the help function for usage informating (-h option).
 
 # The script passes the var-file to terraform init,
-# inits and validates all terraform configs in dirlist.
+# inits and validates all terraform configs in DIR_LIST.
 
 # ---------------------------------------------------------------------------------------------------------------------
 # VARIABLES
 # ---------------------------------------------------------------------------------------------------------------------
 
-scripts_dir=$(dirname "$0")
+readonly SCRIPTS_DIR=$(dirname "$0")
 
-dirlist="
-/dev/vpc
-/dev/cluster
-/dev/sql
-/dev/argo-1
-/dev/nginx"
+readonly DIR_LIST=(
+  /dev/vpc
+  /dev/cluster
+  /dev/sql
+  /dev/argo-1
+  /dev/nginx
+)
 
 manual="-input=false"
 
@@ -25,7 +26,7 @@ manual="-input=false"
 
 # The path needs to be relative to allow calling the script from outside the scripts folder.
 # shellcheck disable=SC1090
-source "${scripts_dir}/functions.sh" ":"
+source "${SCRIPTS_DIR}/functions.sh" ":"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # FUNCTION DEFINITIONS
@@ -63,7 +64,7 @@ help() {
 #   Info message and either sucess or error message.
 #   Generates or modifies .terraform folder in the directory if needed.
 ##########################################################
-tf-init () {
+tf-init() {
   sprint "Running terrafom init in ${tfdir}"
   
   if terraform init ${manual} -var-file "${var_file}" -backend-config "${backend}" ;
@@ -84,7 +85,7 @@ tf-init () {
 # Outputs:
 #   Info message and either sucess or error message.
 ##########################################################
-tf-validate () {
+tf-validate() {
   sprint "Running terrafom validate in ${tfdir}"
   
   if terraform validate ;
@@ -105,7 +106,7 @@ tf-validate () {
 # Outputs:
 #   Sets backend to default if it is empty.
 ##########################################################
-validate_backend () {
+validate_backend() {
   # Checking if backend is provided
   if [ -z "${backend}" ]
   then
@@ -165,7 +166,7 @@ validate_backend
 # Run commands
 # ---------------------------------------------------------------------------------------------------------------------
 
-for tfdir in ${dirlist}; do
+for tfdir in "${DIR_LIST[@]}"; do
   echo "Moving to ${tfdir}"
   cd "${base_dir}${tfdir}" || { err "Could not cd to ${base_dir}${tfdir}, exiting"; exit 1; }
   tf-init

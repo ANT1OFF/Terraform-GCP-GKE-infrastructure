@@ -26,7 +26,7 @@ exit_abnormal() {
 # Outputs:
 #   Prints message, a divider and empty line.
 ##########################################################
-sprint () {
+sprint() {
   echo "${1}"
   echo "================================="
   echo
@@ -35,7 +35,7 @@ sprint () {
 ##########################################################
 # Finds the main terraform folder of the repo, moves to it and sets its path as the base_dir variable
 # Globals:
-#   scripts_dir
+#   SCRIPTS_DIR
 #   base_dir
 # Arguments:
 #   None
@@ -44,9 +44,10 @@ sprint () {
 ##########################################################
 find_base_dir() {
   # Moving to the directory containing the scripts
-  cd "${scripts_dir}" || { err "Could not change directory to scripts: ${scripts_dir}, exiting"; exit 1; }
+  cd "${SCRIPTS_DIR}" || { err "Could not change directory to scripts: ${SCRIPTS_DIR}, exiting"; exit 1; }
   
   # Trying to find the main terraform folder of the repo
+  local dir
   dir=$(basename "$(pwd)")
   while [ "${dir}" != "terraform" ] && [ "${dir}" != "/" ]
   do
@@ -60,7 +61,7 @@ find_base_dir() {
   fi
   
   # base_dir contains the path to the main terraform folder of the repo
-  base_dir=$(pwd)
+  readonly base_dir=$(pwd)
 }
 
 
