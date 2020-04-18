@@ -8,7 +8,7 @@
 # VARIABLES
 # ---------------------------------------------------------------------------------------------------------------------
 
-scripts_dir=$(dirname $0)
+scripts_dir=$(dirname "$0")
 
 dirlist="
 /dev/vpc
@@ -23,6 +23,8 @@ manual="-input=false"
 # IMPORTING FUNCTIONS LIBRARY
 # ---------------------------------------------------------------------------------------------------------------------
 
+# The path needs to be relative to allow calling the script from outside the scripts folder.
+# shellcheck disable=SC1090
 source "${scripts_dir}/functions.sh" ":"
 
 # ---------------------------------------------------------------------------------------------------------------------

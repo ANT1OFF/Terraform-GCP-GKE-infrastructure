@@ -1,0 +1,2 @@
+# Temporary solution: https://github.com/koalaman/shellcheck/issues/356
+disable=SC2154
