@@ -58,7 +58,7 @@ resource "google_sql_database_instance" "master" {
 }
 
 resource "google_sql_database_instance" "read-replicas" {
-  count                = var.sql_replica_count
+  count                = var.sql_database ? var.sql_replica_count : 0
   name                 = "${var.sql_name}-replica-${count.index}-${random_string.db-suffix.result}"
   database_version     = var.sql_version
   region               = var.region
