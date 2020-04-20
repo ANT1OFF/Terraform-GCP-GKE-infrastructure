@@ -38,20 +38,6 @@ init_help() {
 }
 
 ##########################################################
-# Calls the init_help function and exits with a code of 1.
-# Globals:
-#   None
-# Arguments:
-#   None
-# Outputs:
-#   Print from help function.
-##########################################################
-init_exit_abnormal() {
-  init_help
-  exit 1
-}
-
-##########################################################
 # Runs terraform init in the current directory.
 # Globals:
 #   tf_dir
@@ -73,8 +59,8 @@ tf_init() {
   then
     echo "${tf_dir} init success"
   else
-    err "${tf_dir} init failure, exiting"
-    exit 1
+    err "${tf_dir} init failure"
+    return 1
   fi
 }
 
@@ -86,16 +72,19 @@ tf_init() {
 #   None
 # Outputs:
 #   Info message and either sucess or error message.
+# Returns:
+#   0 on successfull terraform validate, 1 on error
 ##########################################################
 tf-validate() {
   sprint "Running terrafom validate in ${tf_dir}"
+  return 1
   
   if terraform validate ;
   then
     echo "${tf_dir} validate success"
   else
-    err "${tf_dir} validate failure, exiting"
-    exit 1
+    err "${tf_dir} validate failure"
+    return 1
   fi
 }
 
@@ -120,8 +109,8 @@ validate_backend() {
   # If the string doesn't contain '=', checking if the file can be read.
   if [[ ! "${backend}" == *"="* ]] && [ ! -r "${backend}" ]
   then
-    err "Could not read backend file, exiting"
-    exit 1
+    err "Could not read backend file"
+    return 1
   fi
 }
 
@@ -154,11 +143,14 @@ handle_init_arguments() {
         echo "Operating in manual mode, terraform will ask for input if required instead of erroring"
       ;;
       :)
-        err "Error: -${OPTARG} requires an argument."
-        init_exit_abnormal
+        err "-${OPTARG} requires an argument."
+        init_help
+        return 1
       ;;
       *)
-        init_exit_abnormal
+        err "-${OPTARG} is not a valid argument."
+        init_help
+        return 1
       ;;
     esac
   done
@@ -167,16 +159,42 @@ handle_init_arguments() {
 main() {
   manual="-input=false"
   
-  handle_init_arguments "$@"
-  find_base_dir
-  validate_var_file
-  validate_backend
+  if ! handle_init_arguments "$@"; then
+    err "Unexpected arguments, exiting"
+    exit 1
+  fi
+  
+  if ! find_base_dir; then
+    err "Couldn't find main Terraform folder, exiting"
+    exit 1
+  fi
+
+  if ! validate_var_file; then
+    err "Invalid var-file, exiting"
+    exit 1
+  fi
+
+  if ! validate_backend; then
+    err "Invalid backend, exiting"
+    exit 1
+  fi
   
   for tf_dir in "${DIR_LIST[@]}"; do
     echo "Moving to ${tf_dir}"
-    cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
-    tf_init
-    tf-validate
+    if ! cd "${base_dir}${tf_dir}"; then
+      err "Couldn't cd to ${base_dir}${tf_dir}, exiting"
+      exit 1
+    fi
+
+    if ! tf_init; then
+      err "tf_init failed, exiting"
+      exit 1
+    fi
+    
+    if ! tf-validate; then 
+      err "tf_validate failed, exiting"
+      exit 1
+    fi
   done
 }
 

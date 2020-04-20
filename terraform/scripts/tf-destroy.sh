@@ -36,21 +36,39 @@ tf_destroy () {
     echo "${tf_dir} destroyed"
   else
     err "Could not destroy ${tf_dir}, exiting"
-    exit 1
+    return 1
   fi
 }
 
 main() {
   manual="-auto-approve"
   
-  handle_arguments "$@"
-  find_base_dir
-  validate_var_file
+  if ! handle_arguments "$@"; then
+    err "Unexpected arguments, exiting"
+    exit 1
+  fi
+
+  if ! find_base_dir; then
+    err "Couldn't find main Terraform folder, exiting"
+    exit 1
+  fi
+
+  if ! validate_var_file; then
+    err "Invalid var-file, exiting"
+    exit 1
+  fi
   
   for tf_dir in "${DIR_LIST[@]}"; do
     echo "Moving to ${tf_dir}"
-    cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
-    tf_destroy
+    if ! cd "${base_dir}${tf_dir}"; then
+      err "Couldn't cd to ${base_dir}${tf_dir}, exiting"
+      exit 1
+    fi
+
+    if ! tf_destroy; then
+      err "tf_init failed, exiting"
+      exit 1
+    fi
   done
 }
 

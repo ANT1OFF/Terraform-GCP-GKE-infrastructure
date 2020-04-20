@@ -2,21 +2,6 @@
 
 # This is a bash library which is used by the other scripts.
 
-
-##########################################################
-# Calls the help function and exits with a code of 1.
-# Globals:
-#   None
-# Arguments:
-#   None
-# Outputs:
-#   Print from help function.
-##########################################################
-exit_abnormal() {
-  help
-  exit 1
-}
-
 ##########################################################
 # Prints the given message with divider and space underneath.
 # Globals:
@@ -75,18 +60,21 @@ handle_arguments() {
         echo "Operating in manual mode, disabling -auto-approve flag when running terraform apply"
       ;;
       :)
-        err "Error: -${OPTARG} requires an argument."
-        exit_abnormal
+        err "-${OPTARG} requires an argument."
+        help
+        return 1
       ;;
       *)
-        exit_abnormal
+        err "-${OPTARG} is not a valid argument."
+        help
+        return 1
       ;;
     esac
   done
 }
 
 ##########################################################
-# Finds the main terraform folder of the repo, moves to it and sets its path as the base_dir variable
+# Finds the main terraform folder of the repo, changes directory to it and sets its path as the base_dir variable
 # Globals:
 #   SCRIPTS_DIR
 #   base_dir
@@ -97,20 +85,20 @@ handle_arguments() {
 ##########################################################
 find_base_dir() {
   # Moving to the directory containing the scripts
-  cd "${SCRIPTS_DIR}" || { err "Could not change directory to scripts: ${SCRIPTS_DIR}, exiting"; exit 1; }
+  cd "${SCRIPTS_DIR}" || { err "Could not change directory to scripts: ${SCRIPTS_DIR}"; return 1; }
   
   # Trying to find the main terraform folder of the repo
   local dir
   dir=$(basename "$(pwd)")
   while [ "${dir}" != "terraform" ] && [ "${dir}" != "/" ]
   do
-    cd .. || { err "Could change directory to parentdirectory from ${dir}, exiting"; exit 1; }
+    cd .. || { err "Could change directory to parentdirectory from ${dir}"; return 1; }
     dir=$(basename "$(pwd)")
   done
   if [ "${dir}" != "terraform" ]
   then
-    err "Could not find terraform dir in parrent folders, exiting"
-    exit 1
+    err "Could not find terraform dir in parrent folders"
+    return 1
   fi
   
   # base_dir contains the path to the main terraform folder of the repo
@@ -137,8 +125,8 @@ validate_var_file() {
   
   if [ ! -r "${var_file}" ]
   then
-    err "Could not read var-file, exiting"
-    exit 1
+    err "Couldn't read var-file"
+    return 1
   fi
 }
 
