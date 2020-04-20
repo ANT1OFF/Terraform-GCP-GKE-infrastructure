@@ -93,7 +93,7 @@ find_base_dir() {
   # Trying to find the main terraform folder of the repo
   local dir
   dir=$(basename "$(pwd)")
-  while [ "${dir}" != "terraform" ] && [ "${dir}" != "/" ]
+  while [[ "${dir}" != "terraform" ]] && [[ "${dir}" != "/" ]]
   do
     if ! cd .. ; then
       err "Could change directory to parentdirectory from ${dir}"
@@ -102,7 +102,7 @@ find_base_dir() {
 
     dir=$(basename "$(pwd)")
   done
-  if [ "${dir}" != "terraform" ]
+  if [[ "${dir}" != "terraform" ]]
   then
     err "Could not find terraform dir in parrent folders"
     return 1
@@ -124,13 +124,13 @@ find_base_dir() {
 ##########################################################
 validate_var_file() {
   # Checking if var_file is provided
-  if [ -z "${var_file}" ]
+  if [[ -z "${var_file}" ]]
   then
     # Defaults to the terraform.tfvars file inside the scripts folder.
     var_file="${base_dir}/scripts/terraform.tfvars"
   fi
   
-  if [ ! -r "${var_file}" ]
+  if [[ ! -r "${var_file}" ]]
   then
     err "Couldn't read var-file"
     return 1

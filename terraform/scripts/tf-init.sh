@@ -98,13 +98,14 @@ tf-validate() {
 ##########################################################
 validate_backend() {
   # Checking if backend is provided
-  if [ -z "${backend}" ]
+  if [[ -z "${backend}" ]]
   then
     # Defaults to the backend.tf file inside the scripts folder.
     backend="${base_dir}/scripts/backend.tf"
   fi
   
-  # Bachend-config may be either a path to a file or a 'key=value' format. Therefore allowing all strings containing '='.
+  # Bachend-config may be either a path to a file or a 'key=value' format.
+  # All strings containing '=' are therefore allowed.
   # If the string doesn't contain '=', checking if the file can be read.
   if [[ ! "${backend}" == *"="* ]] && [ ! -r "${backend}" ]
   then
