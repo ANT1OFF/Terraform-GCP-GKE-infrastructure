@@ -36,7 +36,7 @@ help() {
 }
 
 ##########################################################
-# Handles arguments using getopts.
+# Handles options using getopts.
 # Globals:
 #   var_file
 #   manual
@@ -46,9 +46,9 @@ help() {
 #   Sets var_file if "-v" option is provided.
 #   Sets manual to an empty string if "-m" option is provided.
 # Returns:
-#   0 on valid arguments, 1 on error
+#   0 on valid options, 1 on error
 ##########################################################
-handle_arguments() {
+handle_options() {
   while getopts ":v:m" options; do
     case "${options}" in
       v)
@@ -67,7 +67,7 @@ handle_arguments() {
         return 1
       ;;
       *)
-        err "-${OPTARG} is not a valid argument."
+        err "-${OPTARG} is not a valid option."
         help
         return 1
       ;;

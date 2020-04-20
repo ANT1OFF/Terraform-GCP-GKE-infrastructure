@@ -45,8 +45,8 @@ tf_destroy () {
 main() {
   manual="-auto-approve"
   
-  if ! handle_arguments "$@"; then
-    err "Unexpected arguments, exiting"
+  if ! handle_options "$@"; then
+    err "Unexpected options, exiting"
     exit 1
   fi
 

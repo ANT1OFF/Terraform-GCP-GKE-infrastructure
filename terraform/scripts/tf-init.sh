@@ -119,7 +119,7 @@ validate_backend() {
 }
 
 ##########################################################
-# Handles arguments using getopts.
+# Handles options using getopts.
 # Globals:
 #   var_file
 #   backend
@@ -131,9 +131,9 @@ validate_backend() {
 #   Sets backend if "-b" option is provided.
 #   Sets manual to an empty string if "-m" option is provided.
 # Returns:
-#   0 on valid arguments, 1 on error
+#   0 on valid options, 1 on error
 ##########################################################
-handle_init_arguments() {
+handle_init_options() {
   while getopts ":v:b:m" options; do
     case "${options}" in
       v)
@@ -154,7 +154,7 @@ handle_init_arguments() {
         return 1
       ;;
       *)
-        err "-${OPTARG} is not a valid argument."
+        err "-${OPTARG} is not a valid option."
         init_help
         return 1
       ;;
@@ -165,8 +165,8 @@ handle_init_arguments() {
 main() {
   manual="-input=false"
   
-  if ! handle_init_arguments "$@"; then
-    err "Unexpected arguments, exiting"
+  if ! handle_init_options "$@"; then
+    err "Unexpected options, exiting"
     exit 1
   fi
   
