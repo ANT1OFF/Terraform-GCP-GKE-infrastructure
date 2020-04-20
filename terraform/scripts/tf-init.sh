@@ -77,7 +77,6 @@ tf_init() {
 ##########################################################
 tf-validate() {
   sprint "Running terrafom validate in ${tf_dir}"
-  return 1
   
   if terraform validate ;
   then
