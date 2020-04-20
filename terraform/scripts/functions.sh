@@ -85,14 +85,21 @@ handle_arguments() {
 ##########################################################
 find_base_dir() {
   # Moving to the directory containing the scripts
-  cd "${SCRIPTS_DIR}" || { err "Could not change directory to scripts: ${SCRIPTS_DIR}"; return 1; }
+  if ! cd "${SCRIPTS_DIR}"; then
+    err "Could not change directory to scripts: ${SCRIPTS_DIR}"
+    return 1
+  fi 
   
   # Trying to find the main terraform folder of the repo
   local dir
   dir=$(basename "$(pwd)")
   while [ "${dir}" != "terraform" ] && [ "${dir}" != "/" ]
   do
-    cd .. || { err "Could change directory to parentdirectory from ${dir}"; return 1; }
+    if ! cd .. ; then
+      err "Could change directory to parentdirectory from ${dir}"
+      return 1
+    fi
+
     dir=$(basename "$(pwd)")
   done
   if [ "${dir}" != "terraform" ]
