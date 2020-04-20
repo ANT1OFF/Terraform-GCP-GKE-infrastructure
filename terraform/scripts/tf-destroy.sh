@@ -28,7 +28,7 @@ source "${SCRIPTS_DIR}/functions.sh" ":"
 # Outputs:
 #   Info message and either sucess or error message.
 ##########################################################
-tf-destroy () {
+tf_destroy () {
   # Double quoting manual would cause manual mode to fail.
   # shellcheck disable=SC2086
   if terraform destroy ${manual} -var-file "${var_file}" ;
@@ -50,7 +50,7 @@ main() {
   for tf_dir in "${DIR_LIST[@]}"; do
     echo "Moving to ${tf_dir}"
     cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
-    tf-destroy
+    tf_destroy
   done
 }
 

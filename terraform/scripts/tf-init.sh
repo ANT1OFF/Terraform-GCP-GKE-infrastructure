@@ -64,7 +64,7 @@ init_exit_abnormal() {
 #   Info message and either sucess or error message.
 #   Generates or modifies .terraform folder in the directory if needed.
 ##########################################################
-tf-init() {
+tf_init() {
   sprint "Running terrafom init in ${tf_dir}"
   
   # Double quoting manual would cause manual mode to fail.
@@ -175,7 +175,7 @@ main() {
   for tf_dir in "${DIR_LIST[@]}"; do
     echo "Moving to ${tf_dir}"
     cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
-    tf-init
+    tf_init
     tf-validate
   done
 }

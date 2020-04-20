@@ -28,7 +28,7 @@ source "${SCRIPTS_DIR}/functions.sh" ":"
 # Outputs:
 #   Info message and either sucess or error message.
 ##########################################################
-tf-apply () {
+tf_apply () {
   sprint "Running terrafom apply"
   
   # Double quoting manual would cause manual mode to fail.
@@ -52,7 +52,7 @@ main() {
   for tf_dir in "${DIR_LIST[@]}"; do
     echo "Moving to ${tf_dir}"
     cd "${base_dir}${tf_dir}" || { err "Could not cd to ${base_dir}${tf_dir}, exiting"; exit 1; }
-    tf-apply
+    tf_apply
   done
 }
 
