@@ -49,6 +49,8 @@ init_help() {
 # Outputs:
 #   Info message and either sucess or error message.
 #   Generates or modifies .terraform folder in the directory if needed.
+# Returns:
+#   0 on successfull terraform init, 1 on error
 ##########################################################
 tf_init() {
   sprint "Running terrafom init in ${tf_dir}"
@@ -95,6 +97,8 @@ tf-validate() {
 #   None
 # Outputs:
 #   Sets backend to default if it is empty.
+# Returns:
+#   0 on valid backend, 1 on error
 ##########################################################
 validate_backend() {
   # Checking if backend is provided
@@ -126,6 +130,8 @@ validate_backend() {
 #   Sets var_file if "-v" option is provided.
 #   Sets backend if "-b" option is provided.
 #   Sets manual to an empty string if "-m" option is provided.
+# Returns:
+#   0 on valid arguments, 1 on error
 ##########################################################
 handle_init_arguments() {
   while getopts ":v:b:m" options; do

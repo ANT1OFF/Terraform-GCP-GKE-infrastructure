@@ -27,6 +27,8 @@ source "${SCRIPTS_DIR}/functions.sh" ":"
 #   None
 # Outputs:
 #   Info message and either sucess or error message.
+# Returns:
+#   0 on successfull terraform apply, 1 on error
 ##########################################################
 tf_apply () {
   sprint "Running terrafom apply"

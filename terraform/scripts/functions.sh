@@ -45,6 +45,8 @@ help() {
 # Outputs:
 #   Sets var_file if "-v" option is provided.
 #   Sets manual to an empty string if "-m" option is provided.
+# Returns:
+#   0 on valid arguments, 1 on error
 ##########################################################
 handle_arguments() {
   while getopts ":v:m" options; do
@@ -82,6 +84,8 @@ handle_arguments() {
 #   None
 # Outputs:
 #   Sets base_dir to the main terraform folder of the repo.
+# Returns:
+#   0 on successfully locating terraform directory, 1 on error
 ##########################################################
 find_base_dir() {
   # Moving to the directory containing the scripts
@@ -121,6 +125,8 @@ find_base_dir() {
 #   None
 # Outputs:
 #   Sets var_file to default if it is empty.
+# Returns:
+#   0 on valid var-file, 1 on error
 ##########################################################
 validate_var_file() {
   # Checking if var_file is provided
