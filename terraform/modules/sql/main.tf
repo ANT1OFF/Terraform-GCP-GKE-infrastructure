@@ -1,9 +1,9 @@
-terraform {
-  required_version = ">= 0.12.24"
-   backend "gcs" {
-    prefix  = "terraform/state/dev/sql"
-  }
-}
+# terraform {
+#   required_version = ">= 0.12.24"
+#    backend "gcs" {
+#     prefix  = "terraform/state/dev/sql"
+#   }
+# }
 
 # TODO: allow sql database to be applied simultaniously with cluster. Currently it needs to be applied after cluster to insert k8s secrets into the cluster
 
@@ -20,9 +20,9 @@ provider "google" {
 
 provider "kubernetes" {
   load_config_file       = false
-  host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
+  host                   = "https://${var.cluster_endpoint}"
   token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
+  cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
 }
 
 data "google_client_config" "default" {
@@ -119,15 +119,6 @@ resource "random_password" "admin" {
 # Create Kubernetes stuff 
 # ---------------------------------------------------------------------------------------------------------------------
 
-data "terraform_remote_state" "main" {
-  backend = "gcs"
-
-  config = {
-    bucket  = var.bucket_name
-    prefix  = "terraform/state/cluster"
-    credentials = var.credentials
-  }
-}
 
 # based on https://github.com/GoogleCloudPlatform/cloudsql-proxy/blob/master/Kubernetes.md
 resource "kubernetes_deployment" "sql-proxy" {
@@ -233,7 +224,7 @@ locals {
   sql_proxy_label = "cloudsqlproxy"
   sql_proxy_name = "terraform-sql-proxy"
   proxy_file_name = "proxyCreds.json"
-  proxy_file_path = "../${local.proxy_file_name}"
+  proxy_file_path = "${local.proxy_file_name}"
   proxy_volume_and_secret_name ="cloudsql-instance-credentials"
   db_port = 5432
   # length(regexall(".*POSTGRES.*", var.sql_version)) > 0 ? 5432 : 3306 # TODO: fix

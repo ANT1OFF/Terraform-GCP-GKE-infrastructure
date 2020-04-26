@@ -1,9 +1,9 @@
-terraform {
-  required_version = ">= 0.12.24"
-   backend "gcs" {
-    prefix  = "terraform/state/dev/argo-1"
-  }
-}
+# terraform {
+#   required_version = ">= 0.12.24"
+#    backend "gcs" {
+#     prefix  = "terraform/state/dev/argo-1"
+#   }
+# }
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Configure provider
@@ -20,19 +20,18 @@ data "google_client_config" "default" {
 }
 
 provider "kubernetes" {
-  version                = "~> 1.11.1"
   load_config_file       = false
-  host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
+  host                   = "https://${var.cluster_endpoint}"
   token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
+  cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
 }
 
 provider "helm" {
   kubernetes {
     load_config_file       = false
-    host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
+    host                   = "https://${var.cluster_endpoint}"
     token                  = data.google_client_config.default.access_token
-    cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
+    cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
   }
 }
 
@@ -40,6 +39,7 @@ provider "helm" {
 # ARGOCD HELM CONFIGURATION
 # ---------------------------------------------------------------------------------------------------------------------
 
+#TODO: this resource times out when destroying
 resource "kubernetes_namespace" "argocd" {
   metadata {
     name = var.argocd_namespace
@@ -56,7 +56,7 @@ resource "helm_release" "argo-cd" {
 
 
   values = [
-    "${file("values.yaml")}"
+    "${file("../modules/argo-1/values.yaml")}"
   ]
 
   #set_string {
@@ -70,6 +70,10 @@ resource "helm_release" "argo-cd" {
 ## ---------------------------------------------------------------------------------------------------------------------
 ## DEPLOY argocd ingress
 ## ---------------------------------------------------------------------------------------------------------------------
+
+locals {
+  ingress_file = "../modules/argo-1/argocd-ingress.yaml"
+}
 
 # Insures that a working local kubectl config is generated whenever terraform runs.
 resource "null_resource" "get-kubectl" {
@@ -87,23 +91,8 @@ resource "null_resource" "get-kubectl" {
 
 resource "null_resource" "argocd-ingress" {
   provisioner "local-exec" {
-    command = "kubectl apply -f argocd-ingress.yaml"
+    command = "kubectl apply -f ${local.ingress_file}"
   }
 
   depends_on = [null_resource.get-kubectl]
-}
-
-
-# ---------------------------------------------------------------------------------------------------------------------
-# state import stuff
-# ---------------------------------------------------------------------------------------------------------------------
-
-data "terraform_remote_state" "main" {
-  backend = "gcs"
-
-  config = {
-    bucket  = var.bucket_name
-    prefix  = "terraform/state/cluster"
-    credentials = var.credentials
-  }
 }

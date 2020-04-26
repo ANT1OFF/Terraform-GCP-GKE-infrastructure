@@ -3,8 +3,8 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 project_id  = "bachelor-2020"
-bucket_name = "b2020-tf-state-dev"
-credentials = "../credentials.json" # path relative to *.tf files
+# bucket_name = "b2020-tf-state-dev"
+credentials = "credentials.json" # path relative to *.tf files
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ sql_database      = false
 sql_autoresize    = true
 sql_version       = "POSTGRES_11"
 psql_availability = "REGIONAL"
-sql_replica_count = 2
+sql_replica_count = 1
 sql_backup_config = {
   binary_log_enabled = false # MySQL only
   enabled            = true

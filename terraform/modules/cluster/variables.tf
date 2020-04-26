@@ -18,23 +18,38 @@ variable "region" {
   description = "The region to host the cluster in (optional if zonal cluster / required if regional)"
 }
 
-variable "bucket_name" {
-  type        = string
-  description = "The globaly unique name for the GCP bucket containing the remote Terraform state"
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
-# NGINX vars
+# Cluster-vars
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "cluster_name" {
   type        = string
+  default     = "tf-gke-cluster-default"
   description = "Name of the cluster"
 }
 
-variable "nginx_namespace" {
-  type        = string
-  default     = "nginx"
-  description = "Namespace for the NGINX controller"
+variable "zone_for_cluster" {
+  type        = list(string)
+  default     = ["europe-west1-b"]
+  description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
 }
 
+variable "preemptible" {
+  type        = bool
+  default     = false
+  description = "A boolean that represents whether or not the underlying node VMs are preemptible"
+}
+
+variable "secrets" {
+  type        = map(string)
+  default     = {}
+  description = "Secrets referr to arbitrary secrets to be injected as Kubernetes secrets, which may be passed to an application as demonstrated with db-secrets in the example app deployment definition yaml"
+}
+
+variable "network_subnets" {
+  description = "Subnets to use"
+}
+
+variable "network_name" {
+  description = "Name of the VPC network"
+}

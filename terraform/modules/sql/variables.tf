@@ -18,11 +18,6 @@ variable "region" {
   description = "The region to host the cluster in (optional if zonal cluster / required if regional)"
 }
 
-variable "bucket_name" {
-  type        = string
-  description = "The globaly unique name for the GCP bucket containing the remote Terraform state"
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
 # SQL vars
 # ---------------------------------------------------------------------------------------------------------------------
@@ -110,4 +105,10 @@ variable "sql_name" {
   type        = string
   default     = "terraform-db"
   description = "The name of the database"
+}
+
+variable "cluster_endpoint" {
+}
+
+variable "cluster_ca_certificate" {
 }

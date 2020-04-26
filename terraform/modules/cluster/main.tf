@@ -1,9 +1,9 @@
-terraform {
-  required_version = ">= 0.12.24"
-   backend "gcs" {
-    prefix  = "terraform/state/cluster"
-  }
-}
+# terraform {
+#   required_version = ">= 0.12.24"
+#    backend "gcs" {
+#     prefix  = "terraform/state/cluster"
+#   }
+# }
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -18,19 +18,6 @@ provider "google" {
   credentials = file(var.credentials)
 }
 
-# ---------------------------------------------------------------------------------------------------------------------
-# GKE CONFIGURATION
-# ---------------------------------------------------------------------------------------------------------------------
-
-data "terraform_remote_state" "vpc" {
-  backend = "gcs"
-
-  config = {
-    bucket  = var.bucket_name
-    prefix  = "terraform/state/dev/vpc"
-    credentials = var.credentials
-  }
-}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE CLUSTER
@@ -44,13 +31,13 @@ module "kubernetes-engine" {
   name       = var.cluster_name
   region     = var.region
   zones      = var.zone_for_cluster
-  network    = data.terraform_remote_state.vpc.outputs.network-name
-  subnetwork = data.terraform_remote_state.vpc.outputs.network-subnets
+  network    = var.network_name
+  subnetwork = var.network_subnets
   logging_service    = "logging.googleapis.com/kubernetes"
   monitoring_service = "monitoring.googleapis.com/kubernetes"
 
-  ip_range_pods              = "${data.terraform_remote_state.vpc.outputs.network-subnets}-pods"
-  ip_range_services          = "${data.terraform_remote_state.vpc.outputs.network-subnets}-services"
+  ip_range_pods              = "${var.network_subnets}-pods"
+  ip_range_services          = "${var.network_subnets}-services"
   horizontal_pod_autoscaling = true
 
   create_service_account = true

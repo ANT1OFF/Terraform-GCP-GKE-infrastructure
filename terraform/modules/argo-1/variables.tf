@@ -18,35 +18,29 @@ variable "region" {
   description = "The region to host the cluster in (optional if zonal cluster / required if regional)"
 }
 
-variable "bucket_name" {
-  type        = string
-  description = "The globaly unique name for the GCP bucket containing the remote Terraform state"
-}
-
 # ---------------------------------------------------------------------------------------------------------------------
-# Cluster-vars
+# NGINX vars
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "cluster_name" {
   type        = string
-  default     = "tf-gke-cluster-default"
   description = "Name of the cluster"
 }
 
-variable "zone_for_cluster" {
-  type        = list(string)
-  default     = ["europe-west1-b"]
-  description = "The zones to host the cluster in (optional if regional cluster / required if zonal)"
+variable "argocd_namespace" {
+  type        = string
+  default     = "argocd"
+  description = "Namespace for ArgoCD"
 }
 
-variable "preemptible" {
-  type        = bool
-  default     = false
-  description = "A boolean that represents whether or not the underlying node VMs are preemptible"
+# TODO: use or remove. Update description
+# variable "argocd_repo" {
+#   type        = string
+#   description = "ArgoCD repo"
+# }
+
+variable "cluster_endpoint" {
 }
 
-variable "secrets" {
-  type        = map(string)
-  default     = {}
-  description = "Secrets referr to arbitrary secrets to be injected as Kubernetes secrets, which may be passed to an application as demonstrated with db-secrets in the example app deployment definition yaml"
+variable "cluster_ca_certificate" {
 }

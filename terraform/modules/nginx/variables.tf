@@ -18,10 +18,6 @@ variable "region" {
   description = "The region to host the cluster in (optional if zonal cluster / required if regional)"
 }
 
-variable "bucket_name" {
-  type        = string
-  description = "The globaly unique name for the GCP bucket containing the remote Terraform state"
-}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # NGINX vars
@@ -32,14 +28,17 @@ variable "cluster_name" {
   description = "Name of the cluster"
 }
 
-variable "argocd_namespace" {
+variable "nginx_namespace" {
   type        = string
-  default     = "argocd"
-  description = "Namespace for ArgoCD"
+  default     = "nginx"
+  description = "Namespace for the NGINX controller"
 }
 
-# TODO: use or remove. Update description
-# variable "argocd_repo" {
-#   type        = string
-#   description = "ArgoCD repo"
-# }
+variable "vpc_static_ip" {
+}
+
+variable "cluster_endpoint" {
+}
+
+variable "cluster_ca_certificate" {
+}

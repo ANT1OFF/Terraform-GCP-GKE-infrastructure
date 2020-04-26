@@ -1,9 +1,9 @@
-terraform {
-  required_version = ">= 0.12.24"
-   backend "gcs" {
-    prefix  = "terraform/state/dev/vpc"
-  }
-}
+# terraform {
+#   required_version = ">= 0.12.24"
+#    backend "gcs" {
+#     prefix  = "terraform/state/dev/vpc"
+#   }
+# }
 
 # ---------------------------------------------------------------------------------------------------------------------
 # PREPARE PROVIDERS

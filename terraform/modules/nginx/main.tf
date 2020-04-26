@@ -1,9 +1,9 @@
-terraform {
-  required_version = ">= 0.12.24"
-   backend "gcs" {
-    prefix  = "terraform/state/dev/nginx"
-  }
-}
+# terraform {
+#   required_version = ">= 0.12.24"
+#    backend "gcs" {
+#     prefix  = "terraform/state/dev/nginx"
+#   }
+# }
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Configure provider
@@ -20,19 +20,18 @@ data "google_client_config" "default" {
 }
 
 provider "kubernetes" {
-  version                = "~> 1.11.1"
   load_config_file       = false
-  host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
+  host                   = "https://${var.cluster_endpoint}"
   token                  = data.google_client_config.default.access_token
-  cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
+  cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
 }
 
 provider "helm" {
   kubernetes {
     load_config_file       = false
-    host                   = "https://${data.terraform_remote_state.main.outputs.endpoint}"
+    host                   = "https://${var.cluster_endpoint}"
     token                  = data.google_client_config.default.access_token
-    cluster_ca_certificate = base64decode(data.terraform_remote_state.main.outputs.ca_certificate)
+    cluster_ca_certificate = base64decode(var.cluster_ca_certificate)
   }
 }
 
@@ -77,7 +76,7 @@ resource "helm_release" "ngninx" {
   }
   set {
     name = "controller.service.loadBalancerIP"
-    value = data.terraform_remote_state.vpc.outputs.static-ip
+    value = var.vpc_static_ip
   }
 
   depends_on = [kubernetes_namespace.nginx]
@@ -131,40 +130,18 @@ resource "helm_release" "cert-manager" {
   depends_on = [null_resource.cert-manager-crd]
 }
 
+locals {
+  issuer_file = "../modules/nginx/issuer.yaml"
+}
+
 # TODO: add on destroy
 resource "null_resource" "cert-manager-issuer" {
   provisioner "local-exec" {
-    command = "kubectl apply -f ./issuer.yaml"
+    command = "kubectl apply -f ${local.issuer_file}"
   }
 
   depends_on = [
     kubernetes_namespace.cert-manager, null_resource.get-kubectl,
     helm_release.cert-manager
   ]
-}
-
-
-# ---------------------------------------------------------------------------------------------------------------------
-# state import stuff
-# ---------------------------------------------------------------------------------------------------------------------
-
-
-data "terraform_remote_state" "main" {
-  backend = "gcs"
-
-  config = {
-    bucket  = var.bucket_name
-    prefix  = "terraform/state/cluster"
-    credentials = var.credentials
-  }
-}
-
-data "terraform_remote_state" "vpc" {
-  backend = "gcs"
-
-  config = {
-    bucket  = var.bucket_name
-    prefix  = "terraform/state/dev/vpc"
-    credentials = var.credentials
-  }
 }
