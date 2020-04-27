@@ -11,7 +11,7 @@ resource "google_dns_record_set" "argocd" {
   ttl  = 300
 
   managed_zone = google_dns_managed_zone.domain.name
-  rrdatas = [google_compute_address.app-ip.address]
+  rrdatas      = [google_compute_address.app-ip.address]
 }
 
 resource "google_dns_record_set" "rollout" {
@@ -20,7 +20,7 @@ resource "google_dns_record_set" "rollout" {
   ttl  = 300
 
   managed_zone = google_dns_managed_zone.domain.name
-  rrdatas = [google_compute_address.app-ip.address]
+  rrdatas      = [google_compute_address.app-ip.address]
 }
 
 resource "google_dns_record_set" "srollout" {
@@ -29,7 +29,7 @@ resource "google_dns_record_set" "srollout" {
   ttl  = 300
 
   managed_zone = google_dns_managed_zone.domain.name
-  rrdatas = [google_compute_address.app-ip.address]
+  rrdatas      = [google_compute_address.app-ip.address]
 }
 
 
@@ -39,11 +39,11 @@ resource "google_dns_record_set" "main" {
   ttl  = 300
 
   managed_zone = google_dns_managed_zone.domain.name
-  rrdatas = [google_compute_address.app-ip.address]
+  rrdatas      = [google_compute_address.app-ip.address]
 }
 
 resource "google_compute_address" "app-ip" {
-  name         = "app-static-ip-address"
-  region       = var.region
+  name   = "app-static-ip-address"
+  region = var.region
 }
 

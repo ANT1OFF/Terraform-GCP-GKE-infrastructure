@@ -59,11 +59,11 @@ variable "domain" {
 }
 
 variable "firewall_ingress_allow" {
-  type        = list(object({
+  type = list(object({
     protocol = string
     ports    = list(string)
   }))
-  default     = [
+  default = [
     {
       protocol = "tcp"
       ports    = ["80", "443"]
@@ -73,7 +73,7 @@ variable "firewall_ingress_allow" {
 }
 
 variable "firewall_ingress_deny" {
-  type        = list(object({
+  type = list(object({
     protocol = string
     ports    = list(string)
   }))
@@ -82,7 +82,7 @@ variable "firewall_ingress_deny" {
 }
 
 variable "firewall_egress_allow" {
-  type        = list(object({
+  type = list(object({
     protocol = string
     ports    = list(string)
   }))
@@ -91,7 +91,7 @@ variable "firewall_egress_allow" {
 }
 
 variable "firewall_egress_deny" {
-  type        = list(object({
+  type = list(object({
     protocol = string
     ports    = list(string)
   }))

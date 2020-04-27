@@ -12,9 +12,9 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 provider "google" {
-  version = "~> 3.9.0"
-  region  = var.region
-  project = var.project_id
+  version     = "~> 3.9.0"
+  region      = var.region
+  project     = var.project_id
   credentials = file(var.credentials)
 }
 
@@ -34,14 +34,14 @@ data "google_client_config" "default" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_sql_database_instance" "master" {
-  count = var.sql_database ? 1 : 0
+  count            = var.sql_database ? 1 : 0
   name             = "${var.sql_name}-master-${random_string.db-suffix.result}"
   database_version = var.sql_version
   region           = var.region
 
   settings {
     # Second-generation instance tiers are based on the machine type
-    tier = var.sql_tier
+    tier              = var.sql_tier
     availability_type = var.psql_availability # https://cloud.google.com/sql/docs/postgres/high-availability
     disk_autoresize   = var.sql_autoresize
     disk_size         = var.sql_disk_size
@@ -65,10 +65,10 @@ resource "google_sql_database_instance" "read-replicas" {
   master_instance_name = google_sql_database_instance.master[0].name
 
   settings {
-    tier = var.sql_tier
-    disk_autoresize   = var.sql_autoresize
-    disk_size         = var.sql_disk_size
-    disk_type         = var.sql_disk_type
+    tier            = var.sql_tier
+    disk_autoresize = var.sql_autoresize
+    disk_size       = var.sql_disk_size
+    disk_type       = var.sql_disk_type
   }
 }
 
@@ -150,12 +150,12 @@ resource "kubernetes_deployment" "sql-proxy" {
         container {
           # images: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
           image = "gcr.io/cloudsql-docker/gce-proxy:1.16"
-          name = "sql-proxy"
+          name  = "sql-proxy"
           command = ["/cloud_sql_proxy",
-                      "-dir=/cloudsql",
-                      "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:0.0.0.0:5432",  # additional databases may be included here
-                      "-credential_file=/secrets/cloudsql/${local.proxy_file_name}",
-                      "term_timeout=10s"]
+            "-dir=/cloudsql",
+            "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:0.0.0.0:5432", # additional databases may be included here
+            "-credential_file=/secrets/cloudsql/${local.proxy_file_name}",
+          "term_timeout=10s"]
           lifecycle {
             pre_stop {
               exec {
@@ -169,13 +169,13 @@ resource "kubernetes_deployment" "sql-proxy" {
             container_port = local.db_port
           }
           volume_mount {
-            name = local.proxy_volume_and_secret_name
+            name       = local.proxy_volume_and_secret_name
             mount_path = "/secrets/cloudsql"
-            read_only = true
+            read_only  = true
           }
 
           volume_mount {
-            name = "cloudsql"
+            name       = "cloudsql"
             mount_path = "/cloudsql"
           }
         }
@@ -221,12 +221,12 @@ resource "kubernetes_service" "sql-proxy" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 locals {
-  sql_proxy_label = "cloudsqlproxy"
-  sql_proxy_name = "terraform-sql-proxy"
-  proxy_file_name = "proxyCreds.json"
-  proxy_file_path = "${local.proxy_file_name}"
-  proxy_volume_and_secret_name ="cloudsql-instance-credentials"
-  db_port = 5432
+  sql_proxy_label              = "cloudsqlproxy"
+  sql_proxy_name               = "terraform-sql-proxy"
+  proxy_file_name              = "proxyCreds.json"
+  proxy_file_path              = "${local.proxy_file_name}"
+  proxy_volume_and_secret_name = "cloudsql-instance-credentials"
+  db_port                      = 5432
   # length(regexall(".*POSTGRES.*", var.sql_version)) > 0 ? 5432 : 3306 # TODO: fix
 }
 
@@ -248,14 +248,14 @@ resource "kubernetes_secret" "db-app" {
   metadata {
     name = "db-secrets"
   }
-  
+
   data = {
-    DB_HOST = local.sql_proxy_name
-    DB_PORT = local.db_port
-    DB_USER = var.sql_user
+    DB_HOST     = local.sql_proxy_name
+    DB_PORT     = local.db_port
+    DB_USER     = var.sql_user
     DB_PASSWORD = random_password.appuser.result
-    DB_NAME = var.sql_db_name
-    DB_SSLMODE = "disable" # communication is encrypted by sql-proxy
+    DB_NAME     = var.sql_db_name
+    DB_SSLMODE  = "disable" # communication is encrypted by sql-proxy
   }
 
   depends_on = [random_password.appuser]

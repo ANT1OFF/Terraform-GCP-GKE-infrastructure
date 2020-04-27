@@ -9,9 +9,9 @@
 # Configure provider
 # ---------------------------------------------------------------------------------------------------------------------
 provider "google" {
-  version = "~> 3.9.0"
-  region  = var.region
-  project = var.project_id
+  version     = "~> 3.9.0"
+  region      = var.region
+  project     = var.project_id
   credentials = file(var.credentials)
 }
 
@@ -52,16 +52,16 @@ data "helm_repository" "stable" {
 
 
 resource "helm_release" "ngninx" {
-  name       = "nginx"
-  chart      = "stable/nginx-ingress"
-  namespace  = var.nginx_namespace
+  name      = "nginx"
+  chart     = "stable/nginx-ingress"
+  namespace = var.nginx_namespace
 
   set {
     name  = "controller.metrics.enabled"
     value = "true"
   }
   set {
-    name = "controller.service.type"
+    name  = "controller.service.type"
     value = "LoadBalancer"
   }
 
@@ -75,7 +75,7 @@ resource "helm_release" "ngninx" {
     value = "true"
   }
   set {
-    name = "controller.service.loadBalancerIP"
+    name  = "controller.service.loadBalancerIP"
     value = var.vpc_static_ip
   }
 
@@ -122,10 +122,10 @@ data "helm_repository" "jetstack" {
 
 
 resource "helm_release" "cert-manager" {
-  name       = "cert-manager"
-  chart      = "jetstack/cert-manager"
-  namespace  = "cert-manager"
-  version    = "0.14.1"
+  name      = "cert-manager"
+  chart     = "jetstack/cert-manager"
+  namespace = "cert-manager"
+  version   = "0.14.1"
 
   depends_on = [null_resource.cert-manager-crd]
 }

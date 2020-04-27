@@ -12,9 +12,9 @@
 
 
 provider "google" {
-  version = "~> 3.9.0"
-  region  = var.region
-  project = var.project_id
+  version     = "~> 3.9.0"
+  region      = var.region
+  project     = var.project_id
   credentials = file(var.credentials)
 }
 
@@ -26,13 +26,13 @@ provider "google" {
 module "kubernetes-engine" {
   source  = "terraform-google-modules/kubernetes-engine/google"
   version = "7.2.0"
-  
-  project_id = var.project_id
-  name       = var.cluster_name
-  region     = var.region
-  zones      = var.zone_for_cluster
-  network    = var.network_name
-  subnetwork = var.network_subnets
+
+  project_id         = var.project_id
+  name               = var.cluster_name
+  region             = var.region
+  zones              = var.zone_for_cluster
+  network            = var.network_name
+  subnetwork         = var.network_subnets
   logging_service    = "logging.googleapis.com/kubernetes"
   monitoring_service = "monitoring.googleapis.com/kubernetes"
 
@@ -41,18 +41,18 @@ module "kubernetes-engine" {
   horizontal_pod_autoscaling = true
 
   create_service_account = true
-  grant_registry_access = true
+  grant_registry_access  = true
 
   node_pools = [
     {
-      name               = "default-node-pool"
-      machine_type       = "n1-standard-1"  # TODO: make variable ?
-      min_count          = 3
-      max_count          = 100
-      image_type         = "COS"
-      auto_repair        = true
-      auto_upgrade       = true
-      preemptible        = var.preemptible
+      name         = "default-node-pool"
+      machine_type = "n1-standard-1" # TODO: make variable ?
+      min_count    = 3
+      max_count    = 100
+      image_type   = "COS"
+      auto_repair  = true
+      auto_upgrade = true
+      preemptible  = var.preemptible
     },
   ]
   node_pools_oauth_scopes = {
