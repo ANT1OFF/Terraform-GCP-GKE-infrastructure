@@ -38,7 +38,7 @@ module "kubernetes-engine" {
   node_pools = [
     {
       name         = "default-node-pool"
-      machine_type = "n1-standard-1" # TODO: make variable ?
+      machine_type = var.machine_type
       min_count    = 3
       max_count    = 100
       image_type   = "COS"

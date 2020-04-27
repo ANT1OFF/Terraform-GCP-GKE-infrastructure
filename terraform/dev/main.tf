@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.12.24"
   backend "gcs" {
-    prefix = "terraform2/state"
+    prefix = "terraform/state"
   }
 }
 
@@ -48,7 +48,7 @@ module "sql" {
   sql_autoresize    = var.sql_autoresize
   sql_version       = var.sql_version
   sql_tier          = var.sql_tier
-  psql_availability = var.psql_availability
+  sql_availability  = var.sql_availability
   sql_disk_size     = var.sql_disk_size
   sql_disk_type     = var.sql_disk_type
   sql_user          = var.sql_user
@@ -57,6 +57,7 @@ module "sql" {
   sql_replica_count = var.sql_replica_count
   sql_backup_config = var.sql_backup_config
   sql_name          = var.sql_name
+  sql_port          = var.sql_port
 
   cluster_endpoint       = module.cluster.endpoint
   cluster_ca_certificate = module.cluster.ca_certificate

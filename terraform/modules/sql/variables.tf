@@ -40,10 +40,10 @@ variable "sql_tier" {
   description = "The machine type to use"
 }
 
-variable "psql_availability" {
+variable "sql_availability" {
   type        = string
   default     = "ZONAL"
-  description = "Specifies whether a PostgreSQL instance should be set up for high availability (REGIONAL) or single zone (ZONAL) https://cloud.google.com/sql/docs/mysql/high-availability#normal"
+  description = "Specifies whether a PostgreSQL instance should be set up for high availability (REGIONAL) or single zone (ZONAL). Only available for PostgreSQL instances." # See https://cloud.google.com/sql/docs/mysql/high-availability#normal
 }
 
 variable "sql_autoresize" {
@@ -101,10 +101,17 @@ variable "sql_replica_count" {
   default     = 0
   description = "Number of read replicas. Note, this requires the master to have binary_log_enabled set, as well as existing backups."
 }
+
 variable "sql_name" {
   type        = string
   default     = "terraform-db"
   description = "The name of the database"
+}
+
+variable "sql_port" {
+  type        = number
+  default     = 0
+  description = "The port used by the database and SQL proxy. This will also be exported as a kubernetes secret. If left to default, it will be interpreted based on sql_version"
 }
 
 variable "cluster_endpoint" {

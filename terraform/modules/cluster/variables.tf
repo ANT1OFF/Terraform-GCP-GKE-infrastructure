@@ -53,3 +53,9 @@ variable "network_subnets" {
 variable "network_name" {
   description = "Name of the VPC network"
 }
+
+variable "machine_type" {
+  type        = string
+  default     = "n1-standard-1"
+  description = "The name of a Google Compute Engine machine type to use in the node pool"
+}

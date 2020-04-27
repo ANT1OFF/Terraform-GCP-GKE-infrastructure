@@ -33,7 +33,7 @@ resource "google_sql_database_instance" "master" {
   settings {
     # Second-generation instance tiers are based on the machine type
     tier              = var.sql_tier
-    availability_type = var.psql_availability # https://cloud.google.com/sql/docs/postgres/high-availability
+    availability_type = var.sql_availability # https://cloud.google.com/sql/docs/postgres/high-availability
     disk_autoresize   = var.sql_autoresize
     disk_size         = var.sql_disk_size
     disk_type         = var.sql_disk_type
@@ -144,7 +144,7 @@ resource "kubernetes_deployment" "sql-proxy" {
           name  = "sql-proxy"
           command = ["/cloud_sql_proxy",
             "-dir=/cloudsql",
-            "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:0.0.0.0:5432", # additional databases may be included here
+            "-instances=${google_sql_database_instance.master[0].connection_name}=tcp:0.0.0.0:${local.db_port}", # additional databases may be included here
             "-credential_file=/secrets/cloudsql/${local.proxy_file_name}",
           "term_timeout=10s"]
           lifecycle {
@@ -217,8 +217,12 @@ locals {
   proxy_file_name              = "proxyCreds.json"
   proxy_file_path              = "${local.proxy_file_name}"
   proxy_volume_and_secret_name = "cloudsql-instance-credentials"
-  db_port                      = 5432
-  # length(regexall(".*POSTGRES.*", var.sql_version)) > 0 ? 5432 : 3306 # TODO: fix
+
+  # setting port to 5432 (default for Postgres) if the sql_version contains "postgres", otherwise 3306 (default for MySQL)
+  detected_port                = length(regexall("(.*POSTGRES.*)|(.*postgres.*)", var.sql_version)) > 0 ? 5432 : 3306
+  
+  # Prioritizing passed port unless 0 (default)
+  db_port                      = var.sql_port != 0 ? var.sql_port : local.detected_port
 }
 
 resource "kubernetes_secret" "proxy-credentials" {

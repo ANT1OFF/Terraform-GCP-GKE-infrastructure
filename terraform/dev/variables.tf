@@ -128,6 +128,13 @@ variable "secrets" {
   description = "Secrets referr to arbitrary secrets to be injected as Kubernetes secrets, which may be passed to an application as demonstrated with db-secrets in the example app deployment definition yaml"
 }
 
+
+variable "machine_type" {
+  type        = string
+  default     = "n1-standard-1"
+  description = "The name of a Google Compute Engine machine type to use in the node pool"
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # SQL vars
 # ---------------------------------------------------------------------------------------------------------------------
@@ -150,10 +157,10 @@ variable "sql_tier" {
   description = "The machine type to use"
 }
 
-variable "psql_availability" {
+variable "sql_availability" {
   type        = string
   default     = "ZONAL"
-  description = "Specifies whether a PostgreSQL instance should be set up for high availability (REGIONAL) or single zone (ZONAL) https://cloud.google.com/sql/docs/mysql/high-availability#normal"
+  description = "Specifies whether a PostgreSQL instance should be set up for high availability (REGIONAL) or single zone (ZONAL). Only available for PostgreSQL instances." # See https://cloud.google.com/sql/docs/mysql/high-availability#normal
 }
 
 variable "sql_autoresize" {
@@ -215,6 +222,12 @@ variable "sql_name" {
   type        = string
   default     = "terraform-db"
   description = "The name of the database"
+}
+
+variable "sql_port" {
+  type        = number
+  default     = 0
+  description = "The port used by the database and SQL proxy. This will also be exported as a kubernetes secret. If left to default, it will be interpreted based on sql_version"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

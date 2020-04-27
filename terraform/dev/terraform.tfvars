@@ -23,11 +23,11 @@ ip_range_pods     = "192.168.0.0/18"
 ip_range_services = "192.168.64.0/18"
 
 # SQL
-sql_database      = false
+sql_database      = true
 sql_autoresize    = true
 sql_version       = "POSTGRES_11"
-psql_availability = "REGIONAL"
-sql_replica_count = 1
+# sql_availability = "REGIONAL"
+sql_replica_count = 0
 sql_backup_config = {
   binary_log_enabled = false # MySQL only
   enabled            = true
