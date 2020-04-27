@@ -113,6 +113,8 @@ find_base_dir() {
   fi
   
   # base_dir contains the path to the main terraform folder of the repo
+  # It's a global variable used in the calling scripts.
+  # shellcheck disable=SC2034
   readonly base_dir=$(pwd)
 }
 
@@ -133,7 +135,7 @@ validate_var_file() {
   if [[ -z "${var_file}" ]]
   then
     # Defaults to the terraform.tfvars file inside the scripts folder.
-    var_file="${base_dir}/scripts/terraform.tfvars"
+    var_file="${base_dir}/dev/terraform.tfvars"
   fi
   
   if [[ ! -r "${var_file}" ]]

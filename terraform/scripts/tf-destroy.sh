@@ -7,11 +7,7 @@
 readonly SCRIPTS_DIR=$(dirname "$0")
 
 readonly DIR_LIST=(
-  /dev/nginx
-  /dev/argo-1
-  /dev/sql
-  /dev/cluster
-  /dev/vpc
+  /dev
 )
 
 # The import path needs to be relative to allow calling the script from outside the scripts folder.

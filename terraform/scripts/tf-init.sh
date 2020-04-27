@@ -7,11 +7,7 @@
 readonly SCRIPTS_DIR=$(dirname "$0")
 
 readonly DIR_LIST=(
-  /dev/vpc
-  /dev/cluster
-  /dev/sql
-  /dev/argo-1
-  /dev/nginx
+  /dev
 )
 
 # The import path needs to be relative to allow calling the script from outside the scripts folder.
@@ -105,7 +101,7 @@ validate_backend() {
   if [[ -z "${backend}" ]]
   then
     # Defaults to the backend.tf file inside the scripts folder.
-    backend="${base_dir}/scripts/backend.tf"
+    backend="${base_dir}/dev/backend.hcl"
   fi
   
   # Bachend-config may be either a path to a file or a 'key=value' format.
