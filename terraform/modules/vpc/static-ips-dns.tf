@@ -1,4 +1,3 @@
-#TODO: make variable
 resource "google_dns_managed_zone" "domain" {
   name     = "domain-zone"
   dns_name = "${var.domain}."

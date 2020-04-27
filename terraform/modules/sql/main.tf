@@ -1,12 +1,3 @@
-# terraform {
-#   required_version = ">= 0.12.24"
-#    backend "gcs" {
-#     prefix  = "terraform/state/dev/sql"
-#   }
-# }
-
-# TODO: allow sql database to be applied simultaniously with cluster. Currently it needs to be applied after cluster to insert k8s secrets into the cluster
-
 # ---------------------------------------------------------------------------------------------------------------------
 # PREPARE PROVIDERS
 # ---------------------------------------------------------------------------------------------------------------------
