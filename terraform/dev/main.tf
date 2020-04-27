@@ -62,8 +62,8 @@ module "sql" {
   cluster_ca_certificate = module.cluster.ca_certificate
 }
 
-module "argo-1" {
-  source      = "../modules/argo-1"
+module "argo" {
+  source      = "../modules/argo"
   project_id  = var.project_id
   credentials = var.credentials
   region      = var.region

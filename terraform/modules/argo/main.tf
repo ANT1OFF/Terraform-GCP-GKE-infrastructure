@@ -56,7 +56,7 @@ resource "helm_release" "argo-cd" {
 
 
   values = [
-    "${file("../modules/argo-1/values.yaml")}"
+    "${file("../modules/argo/values.yaml")}"
   ]
 
   #set_string {
@@ -72,7 +72,7 @@ resource "helm_release" "argo-cd" {
 ## ---------------------------------------------------------------------------------------------------------------------
 
 locals {
-  ingress_file = "../modules/argo-1/argocd-ingress.yaml"
+  ingress_file = "../modules/argo/argocd-ingress.yaml"
 }
 
 # Insures that a working local kubectl config is generated whenever terraform runs.
