@@ -120,6 +120,7 @@ resource "kubernetes_deployment" "sql-proxy" {
     labels = {
       App = local.sql_proxy_label
     }
+    namespace = "prod"
   }
 
   spec {
@@ -250,7 +251,7 @@ resource "kubernetes_secret" "db-app" {
     DB_USER     = var.sql_user
     DB_PASSWORD = random_password.appuser.result
     DB_NAME     = var.sql_db_name
-    DB_SSLMODE  = "disable" # communication is encrypted by sql-proxy
+    DB_SSLMODE  = "disable" # connection to db is always encrypted by cloud sql proxy but intracluster communication is affected by this
   }
 
   depends_on = [random_password.appuser]
