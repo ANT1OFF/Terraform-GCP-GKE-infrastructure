@@ -53,6 +53,7 @@ resource "helm_release" "ngninx" {
     name  = "controller.metrics.enabled"
     value = "true"
   }
+
   set {
     name  = "controller.service.type"
     value = "LoadBalancer"
@@ -67,6 +68,7 @@ resource "helm_release" "ngninx" {
     name  = "controller.publishService.enabled"
     value = "true"
   }
+
   set {
     name  = "controller.service.loadBalancerIP"
     value = var.vpc_static_ip
@@ -98,10 +100,14 @@ resource "null_resource" "get-kubectl" {
   }
 }
 
-# TODO: add on destroy
 resource "null_resource" "cert-manager-crd" {
   provisioner "local-exec" {
     command = "kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "kubectl delete -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
   }
   depends_on = [
     kubernetes_namespace.cert-manager, null_resource.get-kubectl
@@ -123,14 +129,15 @@ resource "helm_release" "cert-manager" {
   depends_on = [null_resource.cert-manager-crd]
 }
 
-locals {
-  issuer_file = "../modules/nginx/issuer.yaml"
-}
 
-# TODO: add on destroy
 resource "null_resource" "cert-manager-issuer" {
   provisioner "local-exec" {
-    command = "kubectl apply -f ${local.issuer_file}"
+    command = "kubectl apply -f ../modules/nginx/issuer.yaml"
+  }
+
+  provisioner "local-exec" {
+    when = destroy
+    command = "kubectl delete -f ../modules/nginx/issuer.yaml"
   }
 
   depends_on = [

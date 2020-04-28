@@ -15,25 +15,3 @@ spec:
         ingress:
           class: nginx
 
----
-
-#apiVersion: cert-manager.io/v1alpha2
-#kind: Issuer
-#metadata:
-#  name: letsencrypt-production
-#  namespace: argocd
-#spec:
-#  acme:
-#    server: https://acme-v02.api.letsencrypt.org/directory
-#    email: test@test.com
-#    privateKeySecretRef:
-#      name: letsencrypt-production
-#    solvers:
-#    - selector: {}
-#      http01:
-#        ingress:
-#          class: nginx
-
-
-
-
