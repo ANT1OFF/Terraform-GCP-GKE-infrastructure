@@ -37,7 +37,7 @@ resource "kubernetes_namespace" "argocd" {
     name = var.argocd_namespace
   }
 }
-
+# TODO: add: change from default admin password(argocd-server podname) and store somwhere secure
 resource "helm_release" "argo-cd" {
   name       = "argo-cd"
   repository = "https://argoproj.github.io/argo-helm"
@@ -48,16 +48,46 @@ resource "helm_release" "argo-cd" {
   depends_on = [kubernetes_namespace.argocd]
 }
 
+# It ensures that a working local kubectl config is generated whenever terraform runs. needed for local-exec kubectl
+resource "null_resource" "get-kubectl" {
+  # To make it run every time:
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.region} --project ${var.project_id}"
+  }
+}
+
+
+resource "null_resource" "demo-application-argocd" {
+  provisioner "local-exec" {
+    command = "kubectl apply -f ../modules/argo/hipster.yaml"
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "kubectl delete -f ../modules/argo/hipster.yaml"
+  }
+
+  depends_on = [
+    helm_release.argo-cd, null_resource.get-kubectl
+  ]
+}
+
+
+
 # ---------------------------------------------------------------------------------------------------------------------
 # ARGOCD-ROLLOUTS HELM CONFIGURATION
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "helm_release" "argocd-rollouts"{
-  name  = "argocd-rollouts"
-  repository = "https://argoproj.github.io/argo-helm"
-  chart = "argo-rollouts"
-  version    = "0.3.0"
-  namespace = var.argocd_namespace
+  name        = "argocd-rollouts"
+  repository  = "https://argoproj.github.io/argo-helm"
+  chart       = "argo-rollouts"
+  version     = "0.3.0"
+  namespace   = var.argocd_namespace
 
   depends_on = [kubernetes_namespace.argocd]
 }
@@ -66,7 +96,7 @@ resource "helm_release" "argocd-rollouts"{
 # DEPLOY ARGOCD INGRESS
 # ---------------------------------------------------------------------------------------------------------------------
 
-# TODO: fix this
+# TODO: fix this https://argoproj.github.io/argo-cd/operator-manual/ingress/
 #locals {
 #  ingress_file = "../modules/argo/argocd-ingress.yaml"
 #}
