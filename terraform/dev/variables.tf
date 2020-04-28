@@ -240,6 +240,18 @@ variable "argocd_namespace" {
   description = "Namespace for ArgoCD"
 }
 
+variable "demo_app" {
+  type = bool
+  default = true
+  description = "If demo apps shall be deployed to argocd"
+}
+
+variable "argocd_ingress" {
+  type = bool
+  default = true
+  description = "If argocd shall be reachable from argocd.domain"
+}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # NGINX vars
 # ---------------------------------------------------------------------------------------------------------------------
@@ -248,4 +260,10 @@ variable "nginx_namespace" {
   type        = string
   default     = "nginx"
   description = "Namespace for the NGINX controller"
+}
+
+variable "cert_manager_install" {
+  type = bool
+  default = true
+  description = "If cert-manager shall be installed alongside nginx"
 }

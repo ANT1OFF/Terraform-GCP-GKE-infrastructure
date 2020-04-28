@@ -66,6 +66,18 @@ module "kubernetes-engine" {
   }
 }
 
+resource "kubernetes_namespace" "app-prod" {
+  metadata {
+    name = "prod"
+  }
+}
+
+resource "kubernetes_namespace" "app-testing" {
+  metadata {
+    name = "test"
+  }
+}
+
 data "google_client_config" "default" {
 }
 

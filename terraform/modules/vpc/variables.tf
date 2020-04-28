@@ -98,3 +98,9 @@ variable "firewall_egress_deny" {
   default     = []
   description = "The list of egress DENY rules specified by the firewall. Ports must be either an integer or a range." # see https://www.terraform.io/docs/providers/google/r/compute_firewall.html
 }
+
+variable "argocd_ingress" {
+  type = bool
+  default = true
+  description = "If argocd shall be reachable from argocd.domain"
+}

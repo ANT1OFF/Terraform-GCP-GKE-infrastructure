@@ -5,6 +5,7 @@ resource "google_dns_managed_zone" "domain" {
 
 
 resource "google_dns_record_set" "argocd" {
+  count = var.argocd_ingress ? 1 : 0
   name = "argocd.${google_dns_managed_zone.domain.dns_name}"
   type = "A"
   ttl  = 300

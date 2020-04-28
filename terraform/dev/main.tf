@@ -21,6 +21,8 @@ module "vpc" {
   firewall_ingress_deny  = var.firewall_ingress_deny
   firewall_egress_allow  = var.firewall_egress_allow
   firewall_egress_deny   = var.firewall_egress_deny
+
+  argocd_ingress = var.argocd_ingress
 }
 
 module "cluster" {
@@ -74,6 +76,9 @@ module "argo" {
   cluster_name           = module.cluster.cluster_name
   cluster_endpoint       = module.cluster.endpoint
   cluster_ca_certificate = module.cluster.ca_certificate
+
+  demo_app = var.demo_app
+  argocd_ingress = var.argocd_ingress
 }
 
 module "nginx" {
@@ -88,4 +93,6 @@ module "nginx" {
   cluster_endpoint       = module.cluster.endpoint
   cluster_ca_certificate = module.cluster.ca_certificate
   vpc_static_ip          = module.vpc.static-ip
+
+  cert_manager_install   = var.cert_manager_install
 }

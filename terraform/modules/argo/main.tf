@@ -62,6 +62,7 @@ resource "null_resource" "get-kubectl" {
 
 
 resource "null_resource" "demo-application-argocd" {
+  count = var.demo_app ? 1 : 0
   provisioner "local-exec" {
     command = "kubectl apply -f ../modules/argo/hipster.yaml"
   }
@@ -75,7 +76,6 @@ resource "null_resource" "demo-application-argocd" {
     helm_release.argo-cd, null_resource.get-kubectl
   ]
 }
-
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -97,28 +97,17 @@ resource "helm_release" "argocd-rollouts"{
 # ---------------------------------------------------------------------------------------------------------------------
 
 # TODO: fix this https://argoproj.github.io/argo-cd/operator-manual/ingress/
-#locals {
-#  ingress_file = "../modules/argo/argocd-ingress.yaml"
-#}
-#
-## Insures that a working local kubectl config is generated whenever terraform runs.
-#resource "null_resource" "get-kubectl" {
-#  # To make it run every time:
-#  triggers = {
-#    always_run = "${timestamp()}"
-#  }
-#
-#  provisioner "local-exec" {
-#    command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.region} --project ${var.project_id}"
-#  }
-#
-#  depends_on = [helm_release.argo-cd]
-#}
-#
-#resource "null_resource" "argocd-ingress" {
-#  provisioner "local-exec" {
-#    command = "kubectl apply -f ${local.ingress_file}"
-#  }
-#
-#  depends_on = [null_resource.get-kubectl]
-#}
+resource "null_resource" "argocd-ingress" {
+  count = var.argocd_ingress ? 1 : 0
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f ../modules/argo/argocd-ingress.yaml"
+  }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "kubectl delete -f ../modules/argo/argocd-ingress.yaml"
+  }
+
+  depends_on = [null_resource.get-kubectl]
+}

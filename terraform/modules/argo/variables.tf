@@ -33,14 +33,20 @@ variable "argocd_namespace" {
   description = "Namespace for ArgoCD"
 }
 
-# TODO: use or remove. Update description
-# variable "argocd_repo" {
-#   type        = string
-#   description = "ArgoCD repo"
-# }
-
 variable "cluster_endpoint" {
 }
 
 variable "cluster_ca_certificate" {
 }
+
+variable "demo_app" {
+  type = bool
+  default = true
+}
+
+variable "argocd_ingress" {
+  type = bool
+  default = true
+  description = "If argocd shall be reachable from argocd.domain"
+}
+

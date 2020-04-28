@@ -83,6 +83,8 @@ resource "helm_release" "ngninx" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "kubernetes_namespace" "cert-manager" {
+  count = var.cert_manager_install ? 1 : 0
+
   metadata {
     name = "cert-manager"
   }
@@ -90,6 +92,8 @@ resource "kubernetes_namespace" "cert-manager" {
 
 # It ensures that a working local kubectl config is generated whenever terraform runs. needed for local-exec kubectl
 resource "null_resource" "get-kubectl" {
+  count = var.cert_manager_install ? 1 : 0
+
   # To make it run every time:
   triggers = {
     always_run = "${timestamp()}"
@@ -101,6 +105,8 @@ resource "null_resource" "get-kubectl" {
 }
 
 resource "null_resource" "cert-manager-crd" {
+  count = var.cert_manager_install ? 1 : 0
+
   provisioner "local-exec" {
     command = "kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
   }
@@ -115,12 +121,16 @@ resource "null_resource" "cert-manager-crd" {
 }
 
 data "helm_repository" "jetstack" {
+  count = var.cert_manager_install ? 1 : 0
+
   name = "jetstack"
   url  = "https://charts.jetstack.io"
 }
 
 
 resource "helm_release" "cert-manager" {
+  count = var.cert_manager_install ? 1 : 0
+
   name      = "cert-manager"
   chart     = "jetstack/cert-manager"
   namespace = "cert-manager"
@@ -131,6 +141,8 @@ resource "helm_release" "cert-manager" {
 
 
 resource "null_resource" "cert-manager-issuer" {
+  count = var.cert_manager_install ? 1 : 0
+
   provisioner "local-exec" {
     command = "kubectl apply -f ../modules/nginx/issuer.yaml"
   }
