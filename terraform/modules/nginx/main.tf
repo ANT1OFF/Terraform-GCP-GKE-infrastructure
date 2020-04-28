@@ -38,13 +38,8 @@ resource "kubernetes_namespace" "nginx" {
   }
 }
 
-data "helm_repository" "stable" {
-  name = "stable"
-  url  = "https://kubernetes-charts.storage.googleapis.com"
-}
 
-
-resource "helm_release" "ngninx" {
+resource "helm_release" "nginx" {
   name      = "nginx"
   chart     = "stable/nginx-ingress"
   namespace = var.nginx_namespace

@@ -192,8 +192,11 @@ resource "kubernetes_deployment" "sql-proxy" {
 
 resource "kubernetes_service" "sql-proxy" {
   count = var.sql_database ? 1 : 0
+
+
   metadata {
     name = local.sql_proxy_name
+    namespace = "prod"
   }
   spec {
     selector = {
@@ -231,6 +234,7 @@ resource "kubernetes_secret" "proxy-credentials" {
 
   metadata {
     name = local.proxy_volume_and_secret_name
+    namespace = "prod"
   }
 
   data = {

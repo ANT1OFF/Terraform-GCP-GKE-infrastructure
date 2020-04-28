@@ -37,7 +37,7 @@ demo_app       = true
 cert_manager_install = true
 
 # SQL
-sql_database      = false
+sql_database      = true
 sql_autoresize    = true
 sql_version       = "POSTGRES_11"
 # sql_availability = "REGIONAL"
