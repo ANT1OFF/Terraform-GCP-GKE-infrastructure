@@ -73,7 +73,8 @@ resource "null_resource" "demo-application-argocd" {
   }
 
   depends_on = [
-    helm_release.argo-cd, null_resource.get-kubectl
+    helm_release.argo-cd, 
+    null_resource.get-kubectl
   ]
 }
 
@@ -109,5 +110,8 @@ resource "null_resource" "argocd-ingress" {
     command = "kubectl delete -f ../modules/argo/argocd-ingress.yaml"
   }
 
-  depends_on = [null_resource.get-kubectl]
+  depends_on = [
+    null_resource.get-kubectl, 
+    kubernetes_namespace.argocd
+    ]
 }

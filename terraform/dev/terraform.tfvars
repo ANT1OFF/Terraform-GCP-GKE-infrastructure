@@ -30,14 +30,14 @@ secrets = {
 }
 
 # Argocd
-argocd_ingress = false
+argocd_ingress = true
 demo_app       = true
 
 # Nginx 
 cert_manager_install = true
 
 # SQL
-sql_database      = true
+sql_database      = false
 sql_autoresize    = true
 sql_version       = "POSTGRES_11"
 # sql_availability = "REGIONAL"
