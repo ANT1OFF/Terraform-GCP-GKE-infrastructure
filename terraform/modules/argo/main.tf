@@ -97,6 +97,8 @@ resource "helm_release" "argocd-rollouts"{
 # DEPLOY ARGOCD INGRESS
 # ---------------------------------------------------------------------------------------------------------------------
 
+# TODO: the argocd ingress object has host argocd.fonn.es hardcoded 
+# use some sort of templating (helm) that allows this to be configured from the var.domain in terraform
 resource "null_resource" "argocd-ingress" {
   count = var.argocd_ingress ? 1 : 0
 
