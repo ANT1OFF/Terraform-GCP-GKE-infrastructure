@@ -17,7 +17,7 @@ provider "google" {
 
 module "kubernetes-engine" {
   source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "7.2.0"
+  version = "8.1.0"
 
   project_id         = var.project_id
   name               = var.cluster_name
