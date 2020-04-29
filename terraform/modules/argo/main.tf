@@ -37,7 +37,7 @@ resource "kubernetes_namespace" "argocd" {
     name = var.argocd_namespace
   }
 }
-# TODO: add: change from default admin password(argocd-server podname) and store somwhere secure
+# TODO: add: change from default admin password(argocd-server podname) and store somewhere secure
 resource "helm_release" "argo-cd" {
   name       = "argo-cd"
   repository = "https://argoproj.github.io/argo-helm"
@@ -97,17 +97,16 @@ resource "helm_release" "argocd-rollouts"{
 # DEPLOY ARGOCD INGRESS
 # ---------------------------------------------------------------------------------------------------------------------
 
-# TODO: fix this https://argoproj.github.io/argo-cd/operator-manual/ingress/
 resource "null_resource" "argocd-ingress" {
   count = var.argocd_ingress ? 1 : 0
 
   provisioner "local-exec" {
-    command = "kubectl apply -f ../modules/argo/argocd-ingress.yaml"
+    command = "kubectl apply -f ../modules/argo/ingress-app.yaml"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "kubectl delete -f ../modules/argo/argocd-ingress.yaml"
+    command = "kubectl delete -f ../modules/argo/ingress-app.yaml"
   }
 
   depends_on = [
