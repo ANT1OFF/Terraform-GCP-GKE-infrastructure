@@ -113,6 +113,7 @@ resource "null_resource" "argocd-ingress" {
 
   depends_on = [
     null_resource.get-kubectl,
-    kubernetes_namespace.argocd
+    kubernetes_namespace.argocd,
+    helm_release.argo-cd
   ]
 }
