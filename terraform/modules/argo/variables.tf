@@ -40,13 +40,13 @@ variable "cluster_ca_certificate" {
 }
 
 variable "demo_app" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "argocd_ingress" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "If argocd shall be reachable from argocd.domain"
 }
 

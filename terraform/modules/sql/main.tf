@@ -195,7 +195,7 @@ resource "kubernetes_service" "sql-proxy" {
 
 
   metadata {
-    name = local.sql_proxy_name
+    name      = local.sql_proxy_name
     namespace = "prod"
   }
   spec {
@@ -223,17 +223,17 @@ locals {
   proxy_volume_and_secret_name = "cloudsql-instance-credentials"
 
   # setting port to 5432 (default for Postgres) if the sql_version contains "postgres", otherwise 3306 (default for MySQL)
-  detected_port                = length(regexall("(.*POSTGRES.*)|(.*postgres.*)", var.sql_version)) > 0 ? 5432 : 3306
-  
+  detected_port = length(regexall("(.*POSTGRES.*)|(.*postgres.*)", var.sql_version)) > 0 ? 5432 : 3306
+
   # Prioritizing passed port unless 0 (default)
-  db_port                      = var.sql_port != 0 ? var.sql_port : local.detected_port
+  db_port = var.sql_port != 0 ? var.sql_port : local.detected_port
 }
 
 resource "kubernetes_secret" "proxy-credentials" {
   count = var.sql_database ? 1 : 0
 
   metadata {
-    name = local.proxy_volume_and_secret_name
+    name      = local.proxy_volume_and_secret_name
     namespace = "prod"
   }
 

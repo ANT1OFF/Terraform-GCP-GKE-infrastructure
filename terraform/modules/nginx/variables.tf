@@ -48,6 +48,6 @@ variable "cluster_ca_certificate" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "cert_manager_install" {
-  type = bool
+  type    = bool
   default = true
 }

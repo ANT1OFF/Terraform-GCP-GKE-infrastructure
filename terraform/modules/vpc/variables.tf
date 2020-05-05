@@ -100,7 +100,7 @@ variable "firewall_egress_deny" {
 }
 
 variable "argocd_ingress" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "If argocd shall be reachable from argocd.domain"
 }

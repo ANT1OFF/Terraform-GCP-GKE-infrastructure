@@ -241,14 +241,14 @@ variable "argocd_namespace" {
 }
 
 variable "demo_app" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "If demo apps shall be deployed to argocd"
 }
 
 variable "argocd_ingress" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "If argocd shall be reachable from argocd.domain"
 }
 
@@ -263,7 +263,7 @@ variable "nginx_namespace" {
 }
 
 variable "cert_manager_install" {
-  type = bool
-  default = true
+  type        = bool
+  default     = true
   description = "If cert-manager shall be installed alongside nginx"
 }

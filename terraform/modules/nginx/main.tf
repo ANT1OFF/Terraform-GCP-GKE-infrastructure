@@ -107,7 +107,7 @@ resource "null_resource" "cert-manager-crd" {
   }
 
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = "kubectl delete -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
   }
   depends_on = [
@@ -143,7 +143,7 @@ resource "null_resource" "cert-manager-issuer" {
   }
 
   provisioner "local-exec" {
-    when = destroy
+    when    = destroy
     command = "kubectl delete -f ../modules/nginx/issuer.yaml"
   }
 

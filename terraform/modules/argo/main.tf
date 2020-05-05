@@ -73,7 +73,7 @@ resource "null_resource" "demo-application-argocd" {
   }
 
   depends_on = [
-    helm_release.argo-cd, 
+    helm_release.argo-cd,
     null_resource.get-kubectl
   ]
 }
@@ -83,12 +83,12 @@ resource "null_resource" "demo-application-argocd" {
 # ARGOCD-ROLLOUTS HELM CONFIGURATION
 # ---------------------------------------------------------------------------------------------------------------------
 
-resource "helm_release" "argocd-rollouts"{
-  name        = "argocd-rollouts"
-  repository  = "https://argoproj.github.io/argo-helm"
-  chart       = "argo-rollouts"
-  version     = "0.3.0"
-  namespace   = var.argocd_namespace
+resource "helm_release" "argocd-rollouts" {
+  name       = "argocd-rollouts"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-rollouts"
+  version    = "0.3.0"
+  namespace  = var.argocd_namespace
 
   depends_on = [kubernetes_namespace.argocd]
 }
@@ -112,7 +112,7 @@ resource "null_resource" "argocd-ingress" {
   }
 
   depends_on = [
-    null_resource.get-kubectl, 
+    null_resource.get-kubectl,
     kubernetes_namespace.argocd
-    ]
+  ]
 }
