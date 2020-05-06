@@ -27,28 +27,22 @@ source "${SCRIPTS_DIR}/functions.sh" ":"
 #   0 on successfull terraform destroy, 1 on error
 ##########################################################
 tf_destroy () {
+
+  #!! temporary fix for some res timing out during destroy
+  echo "Hacky fix"
+  terraform state rm 'module.argo.kubernetes_namespace.argocd'
+  terraform state rm 'module.cluster.kubernetes_namespace.app-prod'
+  terraform state rm 'module.nginx.null_resource.cert-manager-crd[0]'
+  terraform state rm 'module.argo.null_resource.demo-application-argocd[0]'
+  terraform state rm 'module.argo.null_resource.argocd-ingress[0]'
+
   # Double quoting manual would cause manual mode to fail.
   # shellcheck disable=SC2086
   if terraform destroy ${manual} -var-file "${var_file}" ; then
     echo "${tf_dir} destroyed"
   else
-
-    # temporary fix for argocd namespace timing out
-    local state
-    state=$(terraform state list | grep 'module.argo.kubernetes_namespace.argocd')
-
-    if [[ -n "${state}" ]]; then
-      terraform state rm 'module.argo.kubernetes_namespace.argocd'
-      if ! terraform destroy ${manual} -var-file "${var_file}" ; then
-        err "Could not destroy ${tf_dir}, exiting"
-        return 1
-      fi
-
-    else
-      err "Could not destroy ${tf_dir}, exiting"
-      return 1
-    fi
-
+    err "Could not destroy ${tf_dir}, exiting"
+    return 1
   fi
 }
 
