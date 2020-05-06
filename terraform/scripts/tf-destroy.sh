@@ -31,10 +31,24 @@ tf_destroy () {
   # shellcheck disable=SC2086
   if terraform destroy ${manual} -var-file "${var_file}" ; then
     echo "${tf_dir} destroyed"
-    
   else
-    err "Could not destroy ${tf_dir}, exiting"
-    return 1
+
+    # temporary fix for argocd namespace timing out
+    local state
+    state=$(terraform state list | grep 'module.argo.kubernetes_namespace.argocd')
+
+    if [[ -n "${state}" ]]; then
+      terraform state rm 'module.argo.kubernetes_namespace.argocd'
+      if ! terraform destroy ${manual} -var-file "${var_file}" ; then
+        err "Could not destroy ${tf_dir}, exiting"
+        return 1
+      fi
+
+    else
+      err "Could not destroy ${tf_dir}, exiting"
+      return 1
+    fi
+
   fi
 }
 
