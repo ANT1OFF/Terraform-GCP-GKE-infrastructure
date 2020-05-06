@@ -76,6 +76,7 @@ module "argo" {
   cluster_name           = module.cluster.cluster_name
   cluster_endpoint       = module.cluster.endpoint
   cluster_ca_certificate = module.cluster.ca_certificate
+  namespace_uid          = module.cluster.app_prod_uid
 
   demo_app       = var.demo_app
   argocd_ingress = var.argocd_ingress
@@ -92,6 +93,7 @@ module "nginx" {
   cluster_name           = module.cluster.cluster_name
   cluster_endpoint       = module.cluster.endpoint
   cluster_ca_certificate = module.cluster.ca_certificate
+  namespace_uid          = module.cluster.app_prod_uid
   vpc_static_ip          = module.vpc.static-ip
 
   cert_manager_install = var.cert_manager_install

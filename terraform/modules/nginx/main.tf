@@ -103,13 +103,15 @@ resource "null_resource" "cert-manager-crd" {
   count = var.cert_manager_install ? 1 : 0
 
   provisioner "local-exec" {
-    command = "kubectl apply -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
+    command = "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "kubectl delete -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml"
+    command = "kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml --ignore-not-found=true"
+    #command = "kubectl delete -n cert-manager -f https://github.com/jetstack/cert-manager/releases/download/v0.14.1/cert-manager.crds.yaml --ignore-not-found=true --force"
   }
+
   depends_on = [
     kubernetes_namespace.cert-manager, null_resource.get-kubectl
   ]
@@ -145,10 +147,21 @@ resource "null_resource" "cert-manager-issuer" {
   provisioner "local-exec" {
     when    = destroy
     command = "kubectl delete -f ../modules/nginx/issuer.yaml"
+    #command = "kubectl delete -f ../modules/nginx/issuer.yaml --ignore-not-found=true --force"
   }
 
   depends_on = [
-    kubernetes_namespace.cert-manager, null_resource.get-kubectl,
-    helm_release.cert-manager
+    kubernetes_namespace.cert-manager, 
+    null_resource.get-kubectl,
+    helm_release.cert-manager,
+    null_resource.namespace_dependency
   ]
+}
+
+
+resource "null_resource" "namespace_dependency" {
+  # To make it run every time:
+  triggers = {
+    always_run = "${var.namespace_uid}"
+  }
 }

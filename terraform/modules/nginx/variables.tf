@@ -51,3 +51,7 @@ variable "cert_manager_install" {
   type    = bool
   default = true
 }
+
+variable "namespace_uid" {
+  description = "UID of the Kubernetes namespace app-prod to create a dependency"
+}

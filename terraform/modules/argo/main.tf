@@ -60,6 +60,13 @@ resource "null_resource" "get-kubectl" {
   }
 }
 
+resource "null_resource" "namespace_dependency" {
+  # To make it run every time:
+  triggers = {
+    always_run = var.namespace_uid
+  }
+}
+
 
 resource "null_resource" "demo-application-argocd" {
   count = var.demo_app ? 1 : 0
@@ -69,12 +76,13 @@ resource "null_resource" "demo-application-argocd" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "kubectl delete -f ../modules/argo/hipster.yaml"
+    command = "kubectl delete -f ../modules/argo/hipster.yaml --ignore-not-found=true --force"
   }
 
   depends_on = [
     helm_release.argo-cd,
-    null_resource.get-kubectl
+    null_resource.get-kubectl,
+    null_resource.namespace_dependency
   ]
 }
 
@@ -108,7 +116,7 @@ resource "null_resource" "argocd-ingress" {
 
   provisioner "local-exec" {
     when    = destroy
-    command = "kubectl delete -f ../modules/argo/ingress-app.yaml"
+    command = "kubectl delete -f ../modules/argo/ingress-app.yaml --ignore-not-found=true --force"
   }
 
   depends_on = [

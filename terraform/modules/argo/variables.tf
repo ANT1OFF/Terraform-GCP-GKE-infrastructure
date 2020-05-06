@@ -50,3 +50,6 @@ variable "argocd_ingress" {
   description = "If argocd shall be reachable from argocd.domain"
 }
 
+variable "namespace_uid" {
+  description = "UID of the Kubernetes namespace app-prod to create a dependency"
+}

@@ -66,6 +66,9 @@ module "kubernetes-engine" {
   }
 }
 
+data "google_client_config" "default" {
+}
+
 resource "kubernetes_namespace" "app-prod" {
   metadata {
     name = "prod"
@@ -76,9 +79,6 @@ resource "kubernetes_namespace" "app-testing" {
   metadata {
     name = "test"
   }
-}
-
-data "google_client_config" "default" {
 }
 
 resource "google_project_service" "monitoring" {
