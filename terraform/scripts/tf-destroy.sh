@@ -31,10 +31,15 @@ tf_destroy () {
   #!! temporary fix for some res timing out during destroy
   echo "Hacky fix"
   terraform state rm 'module.argo.kubernetes_namespace.argocd'
+  sleep 1
   terraform state rm 'module.cluster.kubernetes_namespace.app-prod'
+  sleep 1
   terraform state rm 'module.nginx.null_resource.cert-manager-crd[0]'
+  sleep 1
   terraform state rm 'module.argo.null_resource.demo-application-argocd[0]'
+  sleep 1
   terraform state rm 'module.argo.null_resource.argocd-ingress[0]'
+  sleep 1
 
   # Double quoting manual would cause manual mode to fail.
   # shellcheck disable=SC2086
