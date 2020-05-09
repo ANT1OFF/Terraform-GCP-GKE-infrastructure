@@ -39,45 +39,11 @@ definitions:
             - cd /tmp/
             - wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
             - unzip terraform_0.12.24_linux_amd64.zip
-            - curl -sSL -o /tmp/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64
-            - chmod +x /tmp/argocd
             - export PATH="$PATH:/tmp"
 
             - cd ${BITBUCKET_CLONE_DIR}/terraform/scripts/
             - /bin/bash tf-init.sh
             - /bin/bash tf-apply.sh
-    - step: &build-image
-        name: Build Docker image
-        image: openjdk:8-jdk-alpine
-        caches:
-          - docker
-        script:
-          - docker build -t helloworld -f Dockerfile .
-          - docker save --output tmp-image.docker helloworld
-        artifacts:
-          - tmp-image.docker
-
-    - step: &push-image-to-gcp-registry
-        name: Push image to GCP registry
-        image: google/cloud-sdk
-        caches:
-          - docker
-        script:
-          - export PROJECT=bachelor-2020
-
-          - docker load --input ./tmp-image.docker
-          
-          - echo ${GCP_SECRET} > secret.json
-          - gcloud auth activate-service-account --key-file secret.json
-          - gcloud config set project ${PROJECT}
-
-          - export TAG=$(echo "$BITBUCKET_TAG" | sed -e "s/v//g")
-          - export SUFFIX=$([[ ! -z "$TAG" ]] && echo ":$TAG" || echo "")
-          - export IMAGE_NAME=gcr.io/${PROJECT}/hello-world${SUFFIX}
-          - docker tag helloworld ${IMAGE_NAME}
-
-          - cat ./secret.json | docker login -u _json_key --password-stdin https://gcr.io
-          - docker push ${IMAGE_NAME}       
 
 pipelines:
   branches:
