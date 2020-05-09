@@ -4,20 +4,48 @@
 
 
 provider "google" {
-  version     = "~> 3.9.0"
   region      = var.region
   project     = var.project_id
   credentials = file(var.credentials)
 }
 
+provider "google-beta" {
+  region      = var.region
+  project     = var.project_id
+  credentials = file(var.credentials)
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Services and service account
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "google_service_account" "terraform" {
+  account_id   = "terraform"
+  display_name = "Terraform Service Account"
+}
+
+locals {
+  terraform_sa  = "serviceAccount:${google_service_account.terraform.email}"
+}
+
+resource "google_project_iam_member" "terraform" {
+  for_each   = toset(var.sa_roles)
+  role       = each.key
+  member     = local.terraform_sa
+}
 
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE THE CLUSTER
 # ---------------------------------------------------------------------------------------------------------------------
 
+locals {
+  istio_injection = var.istio ? "enabled" : "disabled"
+  istio_auth = var.istio ? "MTLS_PERMISSIVE" : "AUTH_MUTUAL_TLS"
+}
+
 module "kubernetes-engine" {
-  source  = "terraform-google-modules/kubernetes-engine/google"
-  version = "8.1.0"
+  source  = "terraform-google-modules/kubernetes-engine/google//modules/beta-private-cluster"
+  version = "9.0.0"
 
   project_id         = var.project_id
   name               = var.cluster_name
@@ -32,8 +60,12 @@ module "kubernetes-engine" {
   ip_range_services          = "${var.network_subnets}-services"
   horizontal_pod_autoscaling = true
 
-  create_service_account = true
-  grant_registry_access  = true
+  create_service_account   = false
+  service_account          = google_service_account.terraform.email
+  grant_registry_access    = true
+
+  istio = var.istio
+  #istio_auth = local.istio_auth
 
   node_pools = [
     {
@@ -72,6 +104,10 @@ data "google_client_config" "default" {
 resource "kubernetes_namespace" "app-prod" {
   metadata {
     name = "prod"
+
+    labels = {
+      istio-injection = local.istio_injection
+    }
   }
 }
 

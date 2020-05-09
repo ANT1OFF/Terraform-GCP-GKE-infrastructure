@@ -3,7 +3,6 @@
 # ---------------------------------------------------------------------------------------------------------------------
 
 project_id = "bachelor-2020"
-# bucket_name = "b2020-tf-state-dev"
 credentials = "credentials.json" # path relative to *.tf files
 
 

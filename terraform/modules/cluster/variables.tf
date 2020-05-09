@@ -59,3 +59,29 @@ variable "machine_type" {
   default     = "n1-standard-1"
   description = "The name of a Google Compute Engine machine type to use in the node pool"
 }
+
+variable "sa_roles" {
+  type = list(string)
+  default = [
+    "roles/compute.viewer",
+    "roles/container.clusterAdmin",
+    "roles/container.developer",
+    "roles/iam.serviceAccountAdmin",
+    "roles/resourcemanager.projectIamAdmin",
+    "roles/serviceusage.serviceUsageAdmin",
+    "roles/compute.networkAdmin",
+    "roles/storage.objectViewer",   # for pulling images from GCR
+    "roles/monitoring.metricWriter",
+    "roles/logging.logWriter",
+    "roles/cloudtrace.agent",
+    "roles/cloudprofiler.agent",
+    "roles/errorreporting.writer",
+    "roles/clouddebugger.agent",
+  ]
+}
+
+variable "istio" {
+  type = bool 
+  default = false
+  description = "Enable Istio addon"
+}

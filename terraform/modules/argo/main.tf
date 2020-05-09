@@ -2,7 +2,6 @@
 # CONFIGURE PROVIDERS
 # ---------------------------------------------------------------------------------------------------------------------
 provider "google" {
-  version     = "~> 3.9.0"
   region      = var.region
   project     = var.project_id
   credentials = file(var.credentials)

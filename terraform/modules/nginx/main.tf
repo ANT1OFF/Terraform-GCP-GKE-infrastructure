@@ -2,7 +2,6 @@
 # CONFIGURE PROVIDERS
 # ---------------------------------------------------------------------------------------------------------------------
 provider "google" {
-  version     = "~> 3.9.0"
   region      = var.region
   project     = var.project_id
   credentials = file(var.credentials)
@@ -147,7 +146,7 @@ resource "null_resource" "cert-manager-issuer" {
   provisioner "local-exec" {
     when    = destroy
     command = "kubectl delete -f ../modules/nginx/issuer.yaml"
-    #command = "kubectl delete -f ../modules/nginx/issuer.yaml --ignore-not-found=true --force"
+
   }
 
   depends_on = [
