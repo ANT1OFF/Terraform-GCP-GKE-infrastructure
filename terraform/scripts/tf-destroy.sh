@@ -28,7 +28,7 @@ source "${SCRIPTS_DIR}/functions.sh" ":"
 ##########################################################
 tf_destroy () {
 
-  #!! temporary fix for some res timing out during destroy
+  #!! temporary fix for some resources timing out during destroy
   echo "Hacky fix"
   terraform state rm 'module.argo.kubernetes_namespace.argocd'
   sleep 1
