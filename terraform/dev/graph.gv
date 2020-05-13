@@ -1,0 +1,1175 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] module.argo.data.google_client_config.default" [label = "module.argo.data.google_client_config.default", shape = "box"]
+		"[root] module.argo.google_monitoring_uptime_check_config.https" [label = "module.argo.google_monitoring_uptime_check_config.https", shape = "box"]
+		"[root] module.argo.helm_release.argo-cd" [label = "module.argo.helm_release.argo-cd", shape = "box"]
+		"[root] module.argo.helm_release.argocd-rollouts" [label = "module.argo.helm_release.argocd-rollouts", shape = "box"]
+		"[root] module.argo.kubernetes_namespace.argocd" [label = "module.argo.kubernetes_namespace.argocd", shape = "box"]
+		"[root] module.argo.null_resource.argocd-ingress" [label = "module.argo.null_resource.argocd-ingress", shape = "box"]
+		"[root] module.argo.null_resource.demo-application-argocd" [label = "module.argo.null_resource.demo-application-argocd", shape = "box"]
+		"[root] module.argo.null_resource.get-kubectl" [label = "module.argo.null_resource.get-kubectl", shape = "box"]
+		"[root] module.argo.null_resource.namespace_dependency" [label = "module.argo.null_resource.namespace_dependency", shape = "box"]
+		"[root] module.argo.provider.google" [label = "module.argo.provider.google", shape = "diamond"]
+		"[root] module.argo.provider.helm" [label = "module.argo.provider.helm", shape = "diamond"]
+		"[root] module.argo.provider.kubernetes" [label = "module.argo.provider.kubernetes", shape = "diamond"]
+		"[root] module.argo.var.argocd_ingress" [label = "module.argo.var.argocd_ingress", shape = "note"]
+		"[root] module.argo.var.argocd_namespace" [label = "module.argo.var.argocd_namespace", shape = "note"]
+		"[root] module.argo.var.cluster_ca_certificate" [label = "module.argo.var.cluster_ca_certificate", shape = "note"]
+		"[root] module.argo.var.cluster_endpoint" [label = "module.argo.var.cluster_endpoint", shape = "note"]
+		"[root] module.argo.var.cluster_name" [label = "module.argo.var.cluster_name", shape = "note"]
+		"[root] module.argo.var.credentials" [label = "module.argo.var.credentials", shape = "note"]
+		"[root] module.argo.var.demo_app" [label = "module.argo.var.demo_app", shape = "note"]
+		"[root] module.argo.var.namespace_uid" [label = "module.argo.var.namespace_uid", shape = "note"]
+		"[root] module.argo.var.project_id" [label = "module.argo.var.project_id", shape = "note"]
+		"[root] module.argo.var.region" [label = "module.argo.var.region", shape = "note"]
+		"[root] module.cluster.data.google_client_config.default" [label = "module.cluster.data.google_client_config.default", shape = "box"]
+		"[root] module.cluster.google_project_iam_member.terraform" [label = "module.cluster.google_project_iam_member.terraform", shape = "box"]
+		"[root] module.cluster.google_project_service.container" [label = "module.cluster.google_project_service.container", shape = "box"]
+		"[root] module.cluster.google_project_service.logging" [label = "module.cluster.google_project_service.logging", shape = "box"]
+		"[root] module.cluster.google_project_service.monitoring" [label = "module.cluster.google_project_service.monitoring", shape = "box"]
+		"[root] module.cluster.google_service_account.terraform" [label = "module.cluster.google_service_account.terraform", shape = "box"]
+		"[root] module.cluster.kubernetes_namespace.app-prod" [label = "module.cluster.kubernetes_namespace.app-prod", shape = "box"]
+		"[root] module.cluster.kubernetes_namespace.app-testing" [label = "module.cluster.kubernetes_namespace.app-testing", shape = "box"]
+		"[root] module.cluster.kubernetes_secret.secrets" [label = "module.cluster.kubernetes_secret.secrets", shape = "box"]
+		"[root] module.cluster.local.istio_auth" [label = "module.cluster.local.istio_auth", shape = "note"]
+		"[root] module.cluster.local.istio_injection" [label = "module.cluster.local.istio_injection", shape = "note"]
+		"[root] module.cluster.local.terraform_sa" [label = "module.cluster.local.terraform_sa", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.data.google_client_config.default" [label = "module.cluster.module.kubernetes-engine.data.google_client_config.default", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork" [label = "module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_zones.available" [label = "module.cluster.module.kubernetes-engine.data.google_compute_zones.available", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.region" [label = "module.cluster.module.kubernetes-engine.data.google_container_engine_versions.region", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.zone" [label = "module.cluster.module.kubernetes-engine.data.google_container_engine_versions.zone", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress" [label = "module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks" [label = "module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" [label = "module.cluster.module.kubernetes-engine.google_container_cluster.primary", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" [label = "module.cluster.module.kubernetes-engine.google_container_node_pool.pools", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-gcr" [label = "module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-gcr", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-log_writer" [label = "module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-log_writer", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-metric_writer" [label = "module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-metric_writer", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-monitoring_viewer" [label = "module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-monitoring_viewer", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-resourceMetadata-writer" [label = "module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-resourceMetadata-writer", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account" [label = "module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent" [label = "module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns" [label = "module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-nameservers-and-stub-domains" [label = "module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-nameservers-and-stub-domains", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-namservers" [label = "module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-namservers", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.local.autoscalling_resource_limits" [label = "module.cluster.module.kubernetes-engine.local.autoscalling_resource_limits", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_alias_ranges_cidr" [label = "module.cluster.module.kubernetes-engine.local.cluster_alias_ranges_cidr", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_authenticator_security_group" [label = "module.cluster.module.kubernetes-engine.local.cluster_authenticator_security_group", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_ca_certificate" [label = "module.cluster.module.kubernetes-engine.local.cluster_ca_certificate", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_cloudrun_config" [label = "module.cluster.module.kubernetes-engine.local.cluster_cloudrun_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_cloudrun_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_cloudrun_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_dns_cache_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_dns_cache_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint" [label = "module.cluster.module.kubernetes-engine.local.cluster_endpoint", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint_for_nodes" [label = "module.cluster.module.kubernetes-engine.local.cluster_endpoint_for_nodes", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_gce_pd_csi_config" [label = "module.cluster.module.kubernetes-engine.local.cluster_gce_pd_csi_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_horizontal_pod_autoscaling_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_horizontal_pod_autoscaling_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_http_load_balancing_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_http_load_balancing_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_intranode_visibility_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_intranode_visibility_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_istio_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_istio_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_location" [label = "module.cluster.module.kubernetes-engine.local.cluster_location", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_logging_service" [label = "module.cluster.module.kubernetes-engine.local.cluster_logging_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_daily" [label = "module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_daily", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_recurring" [label = "module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_recurring", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer1" [label = "module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer1", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer2" [label = "module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer2", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_map" [label = "module.cluster.module.kubernetes-engine.local.cluster_master_auth_map", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_version" [label = "module.cluster.module.kubernetes-engine.local.cluster_master_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_min_master_version" [label = "module.cluster.module.kubernetes-engine.local.cluster_min_master_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_monitoring_service" [label = "module.cluster.module.kubernetes-engine.local.cluster_monitoring_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_name" [label = "module.cluster.module.kubernetes-engine.local.cluster_name", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_network_policy" [label = "module.cluster.module.kubernetes-engine.local.cluster_network_policy", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_network_policy_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_network_policy_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_network_tag" [label = "module.cluster.module.kubernetes-engine.local.cluster_network_tag", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_node_metadata_config" [label = "module.cluster.module.kubernetes-engine.local.cluster_node_metadata_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_node_pools_names" [label = "module.cluster.module.kubernetes-engine.local.cluster_node_pools_names", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_node_pools_versions" [label = "module.cluster.module.kubernetes-engine.local.cluster_node_pools_versions", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_horizontal_pod_autoscaling_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_horizontal_pod_autoscaling_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_http_load_balancing_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_http_load_balancing_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_intranode_visbility_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_intranode_visbility_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_istio_disabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_istio_disabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_logging_service" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_logging_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_master_auth" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_master_auth", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_master_version" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_master_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_min_master_version" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_min_master_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_monitoring_service" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_monitoring_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_name" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_name", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_network_policy_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_network_policy_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_names" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_names", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_versions" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_versions", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_pod_security_policy_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_pod_security_policy_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_regional_zones" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_regional_zones", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_vertical_pod_autoscaling_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_vertical_pod_autoscaling_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_zonal_zones" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_zonal_zones", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_zones" [label = "module.cluster.module.kubernetes-engine.local.cluster_output_zones", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_peering_name" [label = "module.cluster.module.kubernetes-engine.local.cluster_peering_name", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_pod_security_policy_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_pod_security_policy_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_region" [label = "module.cluster.module.kubernetes-engine.local.cluster_region", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_sandbox_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_sandbox_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_subnet_cidr" [label = "module.cluster.module.kubernetes-engine.local.cluster_subnet_cidr", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_type" [label = "module.cluster.module.kubernetes-engine.local.cluster_type", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_vertical_pod_autoscaling_enabled" [label = "module.cluster.module.kubernetes-engine.local.cluster_vertical_pod_autoscaling_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_workload_identity_config" [label = "module.cluster.module.kubernetes-engine.local.cluster_workload_identity_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_zones" [label = "module.cluster.module.kubernetes-engine.local.cluster_zones", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.custom_kube_dns_config" [label = "module.cluster.module.kubernetes-engine.local.custom_kube_dns_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.default_auto_upgrade" [label = "module.cluster.module.kubernetes-engine.local.default_auto_upgrade", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.location" [label = "module.cluster.module.kubernetes-engine.local.location", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.master_authorized_networks_config" [label = "module.cluster.module.kubernetes-engine.local.master_authorized_networks_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.master_version" [label = "module.cluster.module.kubernetes-engine.local.master_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.master_version_regional" [label = "module.cluster.module.kubernetes-engine.local.master_version_regional", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.master_version_zonal" [label = "module.cluster.module.kubernetes-engine.local.master_version_zonal", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.network_project_id" [label = "module.cluster.module.kubernetes-engine.local.network_project_id", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_locations" [label = "module.cluster.module.kubernetes-engine.local.node_locations", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_pool_names" [label = "module.cluster.module.kubernetes-engine.local.node_pool_names", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools" [label = "module.cluster.module.kubernetes-engine.local.node_pools", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_labels" [label = "module.cluster.module.kubernetes-engine.local.node_pools_labels", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_metadata" [label = "module.cluster.module.kubernetes-engine.local.node_pools_metadata", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_oauth_scopes" [label = "module.cluster.module.kubernetes-engine.local.node_pools_oauth_scopes", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_tags" [label = "module.cluster.module.kubernetes-engine.local.node_pools_tags", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_taints" [label = "module.cluster.module.kubernetes-engine.local.node_pools_taints", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.region" [label = "module.cluster.module.kubernetes-engine.local.region", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.release_channel" [label = "module.cluster.module.kubernetes-engine.local.release_channel", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.service_account" [label = "module.cluster.module.kubernetes-engine.local.service_account", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.service_account_list" [label = "module.cluster.module.kubernetes-engine.local.service_account_list", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.upstream_nameservers_config" [label = "module.cluster.module.kubernetes-engine.local.upstream_nameservers_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.local.zone_count" [label = "module.cluster.module.kubernetes-engine.local.zone_count", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" [label = "module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.null_resource.wait_for_cluster" [label = "module.cluster.module.kubernetes-engine.null_resource.wait_for_cluster", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.output.ca_certificate" [label = "module.cluster.module.kubernetes-engine.output.ca_certificate", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.cloudrun_enabled" [label = "module.cluster.module.kubernetes-engine.output.cloudrun_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.dns_cache_enabled" [label = "module.cluster.module.kubernetes-engine.output.dns_cache_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.endpoint" [label = "module.cluster.module.kubernetes-engine.output.endpoint", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.horizontal_pod_autoscaling_enabled" [label = "module.cluster.module.kubernetes-engine.output.horizontal_pod_autoscaling_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.http_load_balancing_enabled" [label = "module.cluster.module.kubernetes-engine.output.http_load_balancing_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.identity_namespace" [label = "module.cluster.module.kubernetes-engine.output.identity_namespace", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.intranode_visibility_enabled" [label = "module.cluster.module.kubernetes-engine.output.intranode_visibility_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.istio_enabled" [label = "module.cluster.module.kubernetes-engine.output.istio_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.location" [label = "module.cluster.module.kubernetes-engine.output.location", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.logging_service" [label = "module.cluster.module.kubernetes-engine.output.logging_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.master_authorized_networks_config" [label = "module.cluster.module.kubernetes-engine.output.master_authorized_networks_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.master_ipv4_cidr_block" [label = "module.cluster.module.kubernetes-engine.output.master_ipv4_cidr_block", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.master_version" [label = "module.cluster.module.kubernetes-engine.output.master_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.min_master_version" [label = "module.cluster.module.kubernetes-engine.output.min_master_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.monitoring_service" [label = "module.cluster.module.kubernetes-engine.output.monitoring_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.name" [label = "module.cluster.module.kubernetes-engine.output.name", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.network_policy_enabled" [label = "module.cluster.module.kubernetes-engine.output.network_policy_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.node_pools_names" [label = "module.cluster.module.kubernetes-engine.output.node_pools_names", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.node_pools_versions" [label = "module.cluster.module.kubernetes-engine.output.node_pools_versions", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.peering_name" [label = "module.cluster.module.kubernetes-engine.output.peering_name", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.pod_security_policy_enabled" [label = "module.cluster.module.kubernetes-engine.output.pod_security_policy_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.region" [label = "module.cluster.module.kubernetes-engine.output.region", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.release_channel" [label = "module.cluster.module.kubernetes-engine.output.release_channel", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.service_account" [label = "module.cluster.module.kubernetes-engine.output.service_account", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.type" [label = "module.cluster.module.kubernetes-engine.output.type", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.vertical_pod_autoscaling_enabled" [label = "module.cluster.module.kubernetes-engine.output.vertical_pod_autoscaling_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.output.zones" [label = "module.cluster.module.kubernetes-engine.output.zones", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.provider.kubernetes" [label = "module.cluster.module.kubernetes-engine.provider.kubernetes", shape = "diamond"]
+		"[root] module.cluster.module.kubernetes-engine.random_shuffle.available_zones" [label = "module.cluster.module.kubernetes-engine.random_shuffle.available_zones", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.random_string.cluster_service_account_suffix" [label = "module.cluster.module.kubernetes-engine.random_string.cluster_service_account_suffix", shape = "box"]
+		"[root] module.cluster.module.kubernetes-engine.var.add_cluster_firewall_rules" [label = "module.cluster.module.kubernetes-engine.var.add_cluster_firewall_rules", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.authenticator_security_group" [label = "module.cluster.module.kubernetes-engine.var.authenticator_security_group", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.basic_auth_password" [label = "module.cluster.module.kubernetes-engine.var.basic_auth_password", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.basic_auth_username" [label = "module.cluster.module.kubernetes-engine.var.basic_auth_username", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.cloudrun" [label = "module.cluster.module.kubernetes-engine.var.cloudrun", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.cluster_autoscaling" [label = "module.cluster.module.kubernetes-engine.var.cluster_autoscaling", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.cluster_ipv4_cidr" [label = "module.cluster.module.kubernetes-engine.var.cluster_ipv4_cidr", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.cluster_resource_labels" [label = "module.cluster.module.kubernetes-engine.var.cluster_resource_labels", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.configure_ip_masq" [label = "module.cluster.module.kubernetes-engine.var.configure_ip_masq", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.create_service_account" [label = "module.cluster.module.kubernetes-engine.var.create_service_account", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.database_encryption" [label = "module.cluster.module.kubernetes-engine.var.database_encryption", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.default_max_pods_per_node" [label = "module.cluster.module.kubernetes-engine.var.default_max_pods_per_node", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.deploy_using_private_endpoint" [label = "module.cluster.module.kubernetes-engine.var.deploy_using_private_endpoint", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.description" [label = "module.cluster.module.kubernetes-engine.var.description", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.disable_legacy_metadata_endpoints" [label = "module.cluster.module.kubernetes-engine.var.disable_legacy_metadata_endpoints", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.dns_cache" [label = "module.cluster.module.kubernetes-engine.var.dns_cache", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_binary_authorization" [label = "module.cluster.module.kubernetes-engine.var.enable_binary_authorization", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_intranode_visibility" [label = "module.cluster.module.kubernetes-engine.var.enable_intranode_visibility", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_kubernetes_alpha" [label = "module.cluster.module.kubernetes-engine.var.enable_kubernetes_alpha", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_network_egress_export" [label = "module.cluster.module.kubernetes-engine.var.enable_network_egress_export", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_private_endpoint" [label = "module.cluster.module.kubernetes-engine.var.enable_private_endpoint", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_private_nodes" [label = "module.cluster.module.kubernetes-engine.var.enable_private_nodes", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_resource_consumption_export" [label = "module.cluster.module.kubernetes-engine.var.enable_resource_consumption_export", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_shielded_nodes" [label = "module.cluster.module.kubernetes-engine.var.enable_shielded_nodes", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.enable_vertical_pod_autoscaling" [label = "module.cluster.module.kubernetes-engine.var.enable_vertical_pod_autoscaling", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.firewall_inbound_ports" [label = "module.cluster.module.kubernetes-engine.var.firewall_inbound_ports", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.firewall_priority" [label = "module.cluster.module.kubernetes-engine.var.firewall_priority", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.gce_pd_csi_driver" [label = "module.cluster.module.kubernetes-engine.var.gce_pd_csi_driver", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.grant_registry_access" [label = "module.cluster.module.kubernetes-engine.var.grant_registry_access", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.horizontal_pod_autoscaling" [label = "module.cluster.module.kubernetes-engine.var.horizontal_pod_autoscaling", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.http_load_balancing" [label = "module.cluster.module.kubernetes-engine.var.http_load_balancing", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.identity_namespace" [label = "module.cluster.module.kubernetes-engine.var.identity_namespace", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.initial_node_count" [label = "module.cluster.module.kubernetes-engine.var.initial_node_count", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.ip_masq_link_local" [label = "module.cluster.module.kubernetes-engine.var.ip_masq_link_local", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.ip_masq_resync_interval" [label = "module.cluster.module.kubernetes-engine.var.ip_masq_resync_interval", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.ip_range_pods" [label = "module.cluster.module.kubernetes-engine.var.ip_range_pods", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.ip_range_services" [label = "module.cluster.module.kubernetes-engine.var.ip_range_services", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.issue_client_certificate" [label = "module.cluster.module.kubernetes-engine.var.issue_client_certificate", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.istio" [label = "module.cluster.module.kubernetes-engine.var.istio", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.istio_auth" [label = "module.cluster.module.kubernetes-engine.var.istio_auth", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.kubernetes_version" [label = "module.cluster.module.kubernetes-engine.var.kubernetes_version", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.logging_service" [label = "module.cluster.module.kubernetes-engine.var.logging_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.maintenance_end_time" [label = "module.cluster.module.kubernetes-engine.var.maintenance_end_time", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.maintenance_recurrence" [label = "module.cluster.module.kubernetes-engine.var.maintenance_recurrence", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.maintenance_start_time" [label = "module.cluster.module.kubernetes-engine.var.maintenance_start_time", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.master_authorized_networks" [label = "module.cluster.module.kubernetes-engine.var.master_authorized_networks", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.master_ipv4_cidr_block" [label = "module.cluster.module.kubernetes-engine.var.master_ipv4_cidr_block", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.monitoring_service" [label = "module.cluster.module.kubernetes-engine.var.monitoring_service", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.name" [label = "module.cluster.module.kubernetes-engine.var.name", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.network" [label = "module.cluster.module.kubernetes-engine.var.network", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.network_policy" [label = "module.cluster.module.kubernetes-engine.var.network_policy", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.network_policy_provider" [label = "module.cluster.module.kubernetes-engine.var.network_policy_provider", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.network_project_id" [label = "module.cluster.module.kubernetes-engine.var.network_project_id", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.node_metadata" [label = "module.cluster.module.kubernetes-engine.var.node_metadata", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools" [label = "module.cluster.module.kubernetes-engine.var.node_pools", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools_labels" [label = "module.cluster.module.kubernetes-engine.var.node_pools_labels", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools_metadata" [label = "module.cluster.module.kubernetes-engine.var.node_pools_metadata", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools_oauth_scopes" [label = "module.cluster.module.kubernetes-engine.var.node_pools_oauth_scopes", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools_tags" [label = "module.cluster.module.kubernetes-engine.var.node_pools_tags", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools_taints" [label = "module.cluster.module.kubernetes-engine.var.node_pools_taints", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.non_masquerade_cidrs" [label = "module.cluster.module.kubernetes-engine.var.non_masquerade_cidrs", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.pod_security_policy_config" [label = "module.cluster.module.kubernetes-engine.var.pod_security_policy_config", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.project_id" [label = "module.cluster.module.kubernetes-engine.var.project_id", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.region" [label = "module.cluster.module.kubernetes-engine.var.region", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.regional" [label = "module.cluster.module.kubernetes-engine.var.regional", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.registry_project_id" [label = "module.cluster.module.kubernetes-engine.var.registry_project_id", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.release_channel" [label = "module.cluster.module.kubernetes-engine.var.release_channel", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.remove_default_node_pool" [label = "module.cluster.module.kubernetes-engine.var.remove_default_node_pool", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.resource_usage_export_dataset_id" [label = "module.cluster.module.kubernetes-engine.var.resource_usage_export_dataset_id", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.sandbox_enabled" [label = "module.cluster.module.kubernetes-engine.var.sandbox_enabled", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.service_account" [label = "module.cluster.module.kubernetes-engine.var.service_account", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.skip_provisioners" [label = "module.cluster.module.kubernetes-engine.var.skip_provisioners", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.stub_domains" [label = "module.cluster.module.kubernetes-engine.var.stub_domains", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.subnetwork" [label = "module.cluster.module.kubernetes-engine.var.subnetwork", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.upstream_nameservers" [label = "module.cluster.module.kubernetes-engine.var.upstream_nameservers", shape = "note"]
+		"[root] module.cluster.module.kubernetes-engine.var.zones" [label = "module.cluster.module.kubernetes-engine.var.zones", shape = "note"]
+		"[root] module.cluster.output.app_prod_uid" [label = "module.cluster.output.app_prod_uid", shape = "note"]
+		"[root] module.cluster.output.ca_certificate" [label = "module.cluster.output.ca_certificate", shape = "note"]
+		"[root] module.cluster.output.cluster_name" [label = "module.cluster.output.cluster_name", shape = "note"]
+		"[root] module.cluster.output.endpoint" [label = "module.cluster.output.endpoint", shape = "note"]
+		"[root] module.cluster.provider.google" [label = "module.cluster.provider.google", shape = "diamond"]
+		"[root] module.cluster.provider.google-beta" [label = "module.cluster.provider.google-beta", shape = "diamond"]
+		"[root] module.cluster.provider.kubernetes" [label = "module.cluster.provider.kubernetes", shape = "diamond"]
+		"[root] module.cluster.var.cluster_name" [label = "module.cluster.var.cluster_name", shape = "note"]
+		"[root] module.cluster.var.credentials" [label = "module.cluster.var.credentials", shape = "note"]
+		"[root] module.cluster.var.istio" [label = "module.cluster.var.istio", shape = "note"]
+		"[root] module.cluster.var.machine_type" [label = "module.cluster.var.machine_type", shape = "note"]
+		"[root] module.cluster.var.network_name" [label = "module.cluster.var.network_name", shape = "note"]
+		"[root] module.cluster.var.network_subnets" [label = "module.cluster.var.network_subnets", shape = "note"]
+		"[root] module.cluster.var.preemptible" [label = "module.cluster.var.preemptible", shape = "note"]
+		"[root] module.cluster.var.project_id" [label = "module.cluster.var.project_id", shape = "note"]
+		"[root] module.cluster.var.region" [label = "module.cluster.var.region", shape = "note"]
+		"[root] module.cluster.var.sa_roles" [label = "module.cluster.var.sa_roles", shape = "note"]
+		"[root] module.cluster.var.secrets" [label = "module.cluster.var.secrets", shape = "note"]
+		"[root] module.cluster.var.zone_for_cluster" [label = "module.cluster.var.zone_for_cluster", shape = "note"]
+		"[root] module.nginx.data.google_client_config.default" [label = "module.nginx.data.google_client_config.default", shape = "box"]
+		"[root] module.nginx.data.helm_repository.jetstack" [label = "module.nginx.data.helm_repository.jetstack", shape = "box"]
+		"[root] module.nginx.helm_release.cert-manager" [label = "module.nginx.helm_release.cert-manager", shape = "box"]
+		"[root] module.nginx.helm_release.nginx" [label = "module.nginx.helm_release.nginx", shape = "box"]
+		"[root] module.nginx.kubernetes_namespace.cert-manager" [label = "module.nginx.kubernetes_namespace.cert-manager", shape = "box"]
+		"[root] module.nginx.kubernetes_namespace.nginx" [label = "module.nginx.kubernetes_namespace.nginx", shape = "box"]
+		"[root] module.nginx.null_resource.cert-manager-crd" [label = "module.nginx.null_resource.cert-manager-crd", shape = "box"]
+		"[root] module.nginx.null_resource.cert-manager-issuer" [label = "module.nginx.null_resource.cert-manager-issuer", shape = "box"]
+		"[root] module.nginx.null_resource.get-kubectl" [label = "module.nginx.null_resource.get-kubectl", shape = "box"]
+		"[root] module.nginx.null_resource.namespace_dependency" [label = "module.nginx.null_resource.namespace_dependency", shape = "box"]
+		"[root] module.nginx.provider.google" [label = "module.nginx.provider.google", shape = "diamond"]
+		"[root] module.nginx.provider.helm" [label = "module.nginx.provider.helm", shape = "diamond"]
+		"[root] module.nginx.provider.kubernetes" [label = "module.nginx.provider.kubernetes", shape = "diamond"]
+		"[root] module.nginx.var.cert_manager_install" [label = "module.nginx.var.cert_manager_install", shape = "note"]
+		"[root] module.nginx.var.cluster_ca_certificate" [label = "module.nginx.var.cluster_ca_certificate", shape = "note"]
+		"[root] module.nginx.var.cluster_endpoint" [label = "module.nginx.var.cluster_endpoint", shape = "note"]
+		"[root] module.nginx.var.cluster_name" [label = "module.nginx.var.cluster_name", shape = "note"]
+		"[root] module.nginx.var.credentials" [label = "module.nginx.var.credentials", shape = "note"]
+		"[root] module.nginx.var.namespace_uid" [label = "module.nginx.var.namespace_uid", shape = "note"]
+		"[root] module.nginx.var.nginx_namespace" [label = "module.nginx.var.nginx_namespace", shape = "note"]
+		"[root] module.nginx.var.project_id" [label = "module.nginx.var.project_id", shape = "note"]
+		"[root] module.nginx.var.region" [label = "module.nginx.var.region", shape = "note"]
+		"[root] module.nginx.var.vpc_static_ip" [label = "module.nginx.var.vpc_static_ip", shape = "note"]
+		"[root] module.sql.data.google_client_config.default" [label = "module.sql.data.google_client_config.default", shape = "box"]
+		"[root] module.sql.google_sql_database.mydb" [label = "module.sql.google_sql_database.mydb", shape = "box"]
+		"[root] module.sql.google_sql_database_instance.master" [label = "module.sql.google_sql_database_instance.master", shape = "box"]
+		"[root] module.sql.google_sql_database_instance.read-replicas" [label = "module.sql.google_sql_database_instance.read-replicas", shape = "box"]
+		"[root] module.sql.google_sql_user.admin" [label = "module.sql.google_sql_user.admin", shape = "box"]
+		"[root] module.sql.google_sql_user.appuser" [label = "module.sql.google_sql_user.appuser", shape = "box"]
+		"[root] module.sql.kubernetes_deployment.sql-proxy" [label = "module.sql.kubernetes_deployment.sql-proxy", shape = "box"]
+		"[root] module.sql.kubernetes_secret.db-admin" [label = "module.sql.kubernetes_secret.db-admin", shape = "box"]
+		"[root] module.sql.kubernetes_secret.db-app" [label = "module.sql.kubernetes_secret.db-app", shape = "box"]
+		"[root] module.sql.kubernetes_secret.proxy-credentials" [label = "module.sql.kubernetes_secret.proxy-credentials", shape = "box"]
+		"[root] module.sql.kubernetes_service.sql-proxy" [label = "module.sql.kubernetes_service.sql-proxy", shape = "box"]
+		"[root] module.sql.local.db_port" [label = "module.sql.local.db_port", shape = "note"]
+		"[root] module.sql.local.detected_port" [label = "module.sql.local.detected_port", shape = "note"]
+		"[root] module.sql.local.proxy_file_name" [label = "module.sql.local.proxy_file_name", shape = "note"]
+		"[root] module.sql.local.proxy_file_path" [label = "module.sql.local.proxy_file_path", shape = "note"]
+		"[root] module.sql.local.proxy_volume_and_secret_name" [label = "module.sql.local.proxy_volume_and_secret_name", shape = "note"]
+		"[root] module.sql.local.sql_proxy_label" [label = "module.sql.local.sql_proxy_label", shape = "note"]
+		"[root] module.sql.local.sql_proxy_name" [label = "module.sql.local.sql_proxy_name", shape = "note"]
+		"[root] module.sql.provider.google" [label = "module.sql.provider.google", shape = "diamond"]
+		"[root] module.sql.provider.kubernetes" [label = "module.sql.provider.kubernetes", shape = "diamond"]
+		"[root] module.sql.random_password.admin" [label = "module.sql.random_password.admin", shape = "box"]
+		"[root] module.sql.random_password.appuser" [label = "module.sql.random_password.appuser", shape = "box"]
+		"[root] module.sql.random_string.db-suffix" [label = "module.sql.random_string.db-suffix", shape = "box"]
+		"[root] module.sql.var.cluster_ca_certificate" [label = "module.sql.var.cluster_ca_certificate", shape = "note"]
+		"[root] module.sql.var.cluster_endpoint" [label = "module.sql.var.cluster_endpoint", shape = "note"]
+		"[root] module.sql.var.credentials" [label = "module.sql.var.credentials", shape = "note"]
+		"[root] module.sql.var.project_id" [label = "module.sql.var.project_id", shape = "note"]
+		"[root] module.sql.var.region" [label = "module.sql.var.region", shape = "note"]
+		"[root] module.sql.var.sql_admin" [label = "module.sql.var.sql_admin", shape = "note"]
+		"[root] module.sql.var.sql_autoresize" [label = "module.sql.var.sql_autoresize", shape = "note"]
+		"[root] module.sql.var.sql_availability" [label = "module.sql.var.sql_availability", shape = "note"]
+		"[root] module.sql.var.sql_backup_config" [label = "module.sql.var.sql_backup_config", shape = "note"]
+		"[root] module.sql.var.sql_database" [label = "module.sql.var.sql_database", shape = "note"]
+		"[root] module.sql.var.sql_db_name" [label = "module.sql.var.sql_db_name", shape = "note"]
+		"[root] module.sql.var.sql_disk_size" [label = "module.sql.var.sql_disk_size", shape = "note"]
+		"[root] module.sql.var.sql_disk_type" [label = "module.sql.var.sql_disk_type", shape = "note"]
+		"[root] module.sql.var.sql_name" [label = "module.sql.var.sql_name", shape = "note"]
+		"[root] module.sql.var.sql_port" [label = "module.sql.var.sql_port", shape = "note"]
+		"[root] module.sql.var.sql_replica_count" [label = "module.sql.var.sql_replica_count", shape = "note"]
+		"[root] module.sql.var.sql_tier" [label = "module.sql.var.sql_tier", shape = "note"]
+		"[root] module.sql.var.sql_user" [label = "module.sql.var.sql_user", shape = "note"]
+		"[root] module.sql.var.sql_version" [label = "module.sql.var.sql_version", shape = "note"]
+		"[root] module.vpc.google_compute_address.app-ip" [label = "module.vpc.google_compute_address.app-ip", shape = "box"]
+		"[root] module.vpc.google_compute_firewall.fw-egress-allow" [label = "module.vpc.google_compute_firewall.fw-egress-allow", shape = "box"]
+		"[root] module.vpc.google_compute_firewall.fw-egress-deny" [label = "module.vpc.google_compute_firewall.fw-egress-deny", shape = "box"]
+		"[root] module.vpc.google_compute_firewall.fw-ingress-allow" [label = "module.vpc.google_compute_firewall.fw-ingress-allow", shape = "box"]
+		"[root] module.vpc.google_compute_firewall.fw-ingress-deny" [label = "module.vpc.google_compute_firewall.fw-ingress-deny", shape = "box"]
+		"[root] module.vpc.google_dns_managed_zone.domain" [label = "module.vpc.google_dns_managed_zone.domain", shape = "box"]
+		"[root] module.vpc.google_dns_record_set.argocd" [label = "module.vpc.google_dns_record_set.argocd", shape = "box"]
+		"[root] module.vpc.google_dns_record_set.main" [label = "module.vpc.google_dns_record_set.main", shape = "box"]
+		"[root] module.vpc.google_dns_record_set.rollout" [label = "module.vpc.google_dns_record_set.rollout", shape = "box"]
+		"[root] module.vpc.google_dns_record_set.srollout" [label = "module.vpc.google_dns_record_set.srollout", shape = "box"]
+		"[root] module.vpc.module.vpc.module.routes.google_compute_route.route" [label = "module.vpc.module.vpc.module.routes.google_compute_route.route", shape = "box"]
+		"[root] module.vpc.module.vpc.module.routes.local.routes" [label = "module.vpc.module.vpc.module.routes.local.routes", shape = "note"]
+		"[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes" [label = "module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes", shape = "box"]
+		"[root] module.vpc.module.vpc.module.routes.output.routes" [label = "module.vpc.module.vpc.module.routes.output.routes", shape = "note"]
+		"[root] module.vpc.module.vpc.module.routes.var.delete_default_internet_gateway_routes" [label = "module.vpc.module.vpc.module.routes.var.delete_default_internet_gateway_routes", shape = "note"]
+		"[root] module.vpc.module.vpc.module.routes.var.module_depends_on" [label = "module.vpc.module.vpc.module.routes.var.module_depends_on", shape = "note"]
+		"[root] module.vpc.module.vpc.module.routes.var.network_name" [label = "module.vpc.module.vpc.module.routes.var.network_name", shape = "note"]
+		"[root] module.vpc.module.vpc.module.routes.var.project_id" [label = "module.vpc.module.vpc.module.routes.var.project_id", shape = "note"]
+		"[root] module.vpc.module.vpc.module.routes.var.routes" [label = "module.vpc.module.vpc.module.routes.var.routes", shape = "note"]
+		"[root] module.vpc.module.vpc.module.subnets.google_compute_subnetwork.subnetwork" [label = "module.vpc.module.vpc.module.subnets.google_compute_subnetwork.subnetwork", shape = "box"]
+		"[root] module.vpc.module.vpc.module.subnets.local.subnets" [label = "module.vpc.module.vpc.module.subnets.local.subnets", shape = "note"]
+		"[root] module.vpc.module.vpc.module.subnets.output.subnets" [label = "module.vpc.module.vpc.module.subnets.output.subnets", shape = "note"]
+		"[root] module.vpc.module.vpc.module.subnets.var.network_name" [label = "module.vpc.module.vpc.module.subnets.var.network_name", shape = "note"]
+		"[root] module.vpc.module.vpc.module.subnets.var.project_id" [label = "module.vpc.module.vpc.module.subnets.var.project_id", shape = "note"]
+		"[root] module.vpc.module.vpc.module.subnets.var.secondary_ranges" [label = "module.vpc.module.vpc.module.subnets.var.secondary_ranges", shape = "note"]
+		"[root] module.vpc.module.vpc.module.subnets.var.subnets" [label = "module.vpc.module.vpc.module.subnets.var.subnets", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_network.network" [label = "module.vpc.module.vpc.module.vpc.google_compute_network.network", shape = "box"]
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host" [label = "module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host", shape = "box"]
+		"[root] module.vpc.module.vpc.module.vpc.output.network" [label = "module.vpc.module.vpc.module.vpc.output.network", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.output.network_name" [label = "module.vpc.module.vpc.module.vpc.output.network_name", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.output.network_self_link" [label = "module.vpc.module.vpc.module.vpc.output.network_self_link", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.output.project_id" [label = "module.vpc.module.vpc.module.vpc.output.project_id", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.var.auto_create_subnetworks" [label = "module.vpc.module.vpc.module.vpc.var.auto_create_subnetworks", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.var.description" [label = "module.vpc.module.vpc.module.vpc.var.description", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.var.network_name" [label = "module.vpc.module.vpc.module.vpc.var.network_name", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.var.project_id" [label = "module.vpc.module.vpc.module.vpc.var.project_id", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.var.routing_mode" [label = "module.vpc.module.vpc.module.vpc.var.routing_mode", shape = "note"]
+		"[root] module.vpc.module.vpc.module.vpc.var.shared_vpc_host" [label = "module.vpc.module.vpc.module.vpc.var.shared_vpc_host", shape = "note"]
+		"[root] module.vpc.module.vpc.output.network_name" [label = "module.vpc.module.vpc.output.network_name", shape = "note"]
+		"[root] module.vpc.module.vpc.output.network_self_link" [label = "module.vpc.module.vpc.output.network_self_link", shape = "note"]
+		"[root] module.vpc.module.vpc.output.project_id" [label = "module.vpc.module.vpc.output.project_id", shape = "note"]
+		"[root] module.vpc.module.vpc.output.route_names" [label = "module.vpc.module.vpc.output.route_names", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets" [label = "module.vpc.module.vpc.output.subnets", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets_flow_logs" [label = "module.vpc.module.vpc.output.subnets_flow_logs", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets_ips" [label = "module.vpc.module.vpc.output.subnets_ips", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets_names" [label = "module.vpc.module.vpc.output.subnets_names", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets_private_access" [label = "module.vpc.module.vpc.output.subnets_private_access", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets_regions" [label = "module.vpc.module.vpc.output.subnets_regions", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets_secondary_ranges" [label = "module.vpc.module.vpc.output.subnets_secondary_ranges", shape = "note"]
+		"[root] module.vpc.module.vpc.output.subnets_self_links" [label = "module.vpc.module.vpc.output.subnets_self_links", shape = "note"]
+		"[root] module.vpc.module.vpc.var.auto_create_subnetworks" [label = "module.vpc.module.vpc.var.auto_create_subnetworks", shape = "note"]
+		"[root] module.vpc.module.vpc.var.delete_default_internet_gateway_routes" [label = "module.vpc.module.vpc.var.delete_default_internet_gateway_routes", shape = "note"]
+		"[root] module.vpc.module.vpc.var.description" [label = "module.vpc.module.vpc.var.description", shape = "note"]
+		"[root] module.vpc.module.vpc.var.network_name" [label = "module.vpc.module.vpc.var.network_name", shape = "note"]
+		"[root] module.vpc.module.vpc.var.project_id" [label = "module.vpc.module.vpc.var.project_id", shape = "note"]
+		"[root] module.vpc.module.vpc.var.routes" [label = "module.vpc.module.vpc.var.routes", shape = "note"]
+		"[root] module.vpc.module.vpc.var.routing_mode" [label = "module.vpc.module.vpc.var.routing_mode", shape = "note"]
+		"[root] module.vpc.module.vpc.var.secondary_ranges" [label = "module.vpc.module.vpc.var.secondary_ranges", shape = "note"]
+		"[root] module.vpc.module.vpc.var.shared_vpc_host" [label = "module.vpc.module.vpc.var.shared_vpc_host", shape = "note"]
+		"[root] module.vpc.module.vpc.var.subnets" [label = "module.vpc.module.vpc.var.subnets", shape = "note"]
+		"[root] module.vpc.output.network-name" [label = "module.vpc.output.network-name", shape = "note"]
+		"[root] module.vpc.output.network-subnets" [label = "module.vpc.output.network-subnets", shape = "note"]
+		"[root] module.vpc.output.static-ip" [label = "module.vpc.output.static-ip", shape = "note"]
+		"[root] module.vpc.provider.google" [label = "module.vpc.provider.google", shape = "diamond"]
+		"[root] module.vpc.var.argocd_ingress" [label = "module.vpc.var.argocd_ingress", shape = "note"]
+		"[root] module.vpc.var.credentials" [label = "module.vpc.var.credentials", shape = "note"]
+		"[root] module.vpc.var.domain" [label = "module.vpc.var.domain", shape = "note"]
+		"[root] module.vpc.var.firewall_egress_allow" [label = "module.vpc.var.firewall_egress_allow", shape = "note"]
+		"[root] module.vpc.var.firewall_egress_deny" [label = "module.vpc.var.firewall_egress_deny", shape = "note"]
+		"[root] module.vpc.var.firewall_ingress_allow" [label = "module.vpc.var.firewall_ingress_allow", shape = "note"]
+		"[root] module.vpc.var.firewall_ingress_deny" [label = "module.vpc.var.firewall_ingress_deny", shape = "note"]
+		"[root] module.vpc.var.ip_range_pods" [label = "module.vpc.var.ip_range_pods", shape = "note"]
+		"[root] module.vpc.var.ip_range_services" [label = "module.vpc.var.ip_range_services", shape = "note"]
+		"[root] module.vpc.var.ip_range_sub" [label = "module.vpc.var.ip_range_sub", shape = "note"]
+		"[root] module.vpc.var.network_name" [label = "module.vpc.var.network_name", shape = "note"]
+		"[root] module.vpc.var.project_id" [label = "module.vpc.var.project_id", shape = "note"]
+		"[root] module.vpc.var.region" [label = "module.vpc.var.region", shape = "note"]
+		"[root] module.vpc.var.subnet_name" [label = "module.vpc.var.subnet_name", shape = "note"]
+		"[root] provider.null" [label = "provider.null", shape = "diamond"]
+		"[root] provider.random" [label = "provider.random", shape = "diamond"]
+		"[root] var.argocd_ingress" [label = "var.argocd_ingress", shape = "note"]
+		"[root] var.argocd_namespace" [label = "var.argocd_namespace", shape = "note"]
+		"[root] var.cert_manager_install" [label = "var.cert_manager_install", shape = "note"]
+		"[root] var.cluster_name" [label = "var.cluster_name", shape = "note"]
+		"[root] var.credentials" [label = "var.credentials", shape = "note"]
+		"[root] var.demo_app" [label = "var.demo_app", shape = "note"]
+		"[root] var.domain" [label = "var.domain", shape = "note"]
+		"[root] var.firewall_egress_allow" [label = "var.firewall_egress_allow", shape = "note"]
+		"[root] var.firewall_egress_deny" [label = "var.firewall_egress_deny", shape = "note"]
+		"[root] var.firewall_ingress_allow" [label = "var.firewall_ingress_allow", shape = "note"]
+		"[root] var.firewall_ingress_deny" [label = "var.firewall_ingress_deny", shape = "note"]
+		"[root] var.ip_range_pods" [label = "var.ip_range_pods", shape = "note"]
+		"[root] var.ip_range_services" [label = "var.ip_range_services", shape = "note"]
+		"[root] var.ip_range_sub" [label = "var.ip_range_sub", shape = "note"]
+		"[root] var.machine_type" [label = "var.machine_type", shape = "note"]
+		"[root] var.network_name" [label = "var.network_name", shape = "note"]
+		"[root] var.nginx_namespace" [label = "var.nginx_namespace", shape = "note"]
+		"[root] var.preemptible" [label = "var.preemptible", shape = "note"]
+		"[root] var.project_id" [label = "var.project_id", shape = "note"]
+		"[root] var.region" [label = "var.region", shape = "note"]
+		"[root] var.secrets" [label = "var.secrets", shape = "note"]
+		"[root] var.sql_admin" [label = "var.sql_admin", shape = "note"]
+		"[root] var.sql_autoresize" [label = "var.sql_autoresize", shape = "note"]
+		"[root] var.sql_availability" [label = "var.sql_availability", shape = "note"]
+		"[root] var.sql_backup_config" [label = "var.sql_backup_config", shape = "note"]
+		"[root] var.sql_database" [label = "var.sql_database", shape = "note"]
+		"[root] var.sql_db_name" [label = "var.sql_db_name", shape = "note"]
+		"[root] var.sql_disk_size" [label = "var.sql_disk_size", shape = "note"]
+		"[root] var.sql_disk_type" [label = "var.sql_disk_type", shape = "note"]
+		"[root] var.sql_name" [label = "var.sql_name", shape = "note"]
+		"[root] var.sql_port" [label = "var.sql_port", shape = "note"]
+		"[root] var.sql_replica_count" [label = "var.sql_replica_count", shape = "note"]
+		"[root] var.sql_tier" [label = "var.sql_tier", shape = "note"]
+		"[root] var.sql_user" [label = "var.sql_user", shape = "note"]
+		"[root] var.sql_version" [label = "var.sql_version", shape = "note"]
+		"[root] var.subnet_name" [label = "var.subnet_name", shape = "note"]
+		"[root] var.zone_for_cluster" [label = "var.zone_for_cluster", shape = "note"]
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.argo.google_monitoring_uptime_check_config.https"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.argo.helm_release.argocd-rollouts"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.argo.null_resource.argocd-ingress"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.argo.null_resource.demo-application-argocd"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.google_project_iam_member.terraform"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.google_project_service.container"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.google_project_service.logging"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.google_project_service.monitoring"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.kubernetes_namespace.app-testing"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.kubernetes_secret.secrets"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.local.istio_auth"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-gcr"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-resourceMetadata-writer"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-nameservers-and-stub-domains"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-namservers"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_zonal_zones"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.cloudrun_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.dns_cache_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.horizontal_pod_autoscaling_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.http_load_balancing_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.identity_namespace"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.intranode_visibility_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.istio_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.location"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.logging_service"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.master_authorized_networks_config"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.master_ipv4_cidr_block"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.master_version"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.min_master_version"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.monitoring_service"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.network_policy_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.node_pools_names"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.node_pools_versions"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.peering_name"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.pod_security_policy_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.region"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.release_channel"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.service_account"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.type"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.vertical_pod_autoscaling_enabled"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.cluster.module.kubernetes-engine.output.zones"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.nginx.data.helm_repository.jetstack"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.nginx.helm_release.nginx"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.nginx.null_resource.cert-manager-issuer"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.google_sql_database.mydb"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.google_sql_database_instance.read-replicas"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.google_sql_user.admin"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.google_sql_user.appuser"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.kubernetes_deployment.sql-proxy"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.kubernetes_secret.db-admin"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.kubernetes_secret.db-app"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.sql.kubernetes_service.sql-proxy"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_compute_firewall.fw-egress-allow"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_compute_firewall.fw-egress-deny"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_compute_firewall.fw-ingress-allow"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_compute_firewall.fw-ingress-deny"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_dns_record_set.argocd"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_dns_record_set.main"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_dns_record_set.rollout"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.google_dns_record_set.srollout"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.module.vpc.output.network"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.network_self_link"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.project_id"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.route_names"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.subnets"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.subnets_flow_logs"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.subnets_ips"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.subnets_private_access"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.subnets_regions"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.subnets_secondary_ranges"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] module.vpc.module.vpc.output.subnets_self_links"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] var.machine_type"
+		"[root] module.argo.data.google_client_config.default" -> "[root] module.argo.provider.google"
+		"[root] module.argo.google_monitoring_uptime_check_config.https" -> "[root] module.argo.provider.google"
+		"[root] module.argo.google_monitoring_uptime_check_config.https" -> "[root] module.argo.var.demo_app"
+		"[root] module.argo.helm_release.argo-cd" -> "[root] module.argo.kubernetes_namespace.argocd"
+		"[root] module.argo.helm_release.argo-cd" -> "[root] module.argo.provider.helm"
+		"[root] module.argo.helm_release.argocd-rollouts" -> "[root] module.argo.kubernetes_namespace.argocd"
+		"[root] module.argo.helm_release.argocd-rollouts" -> "[root] module.argo.provider.helm"
+		"[root] module.argo.kubernetes_namespace.argocd" -> "[root] module.argo.provider.kubernetes"
+		"[root] module.argo.kubernetes_namespace.argocd" -> "[root] module.argo.var.argocd_namespace"
+		"[root] module.argo.null_resource.argocd-ingress" -> "[root] module.argo.helm_release.argo-cd"
+		"[root] module.argo.null_resource.argocd-ingress" -> "[root] module.argo.null_resource.get-kubectl"
+		"[root] module.argo.null_resource.argocd-ingress" -> "[root] module.argo.var.argocd_ingress"
+		"[root] module.argo.null_resource.demo-application-argocd" -> "[root] module.argo.helm_release.argo-cd"
+		"[root] module.argo.null_resource.demo-application-argocd" -> "[root] module.argo.null_resource.get-kubectl"
+		"[root] module.argo.null_resource.demo-application-argocd" -> "[root] module.argo.null_resource.namespace_dependency"
+		"[root] module.argo.null_resource.demo-application-argocd" -> "[root] module.argo.var.demo_app"
+		"[root] module.argo.null_resource.get-kubectl" -> "[root] module.argo.var.cluster_name"
+		"[root] module.argo.null_resource.get-kubectl" -> "[root] module.argo.var.project_id"
+		"[root] module.argo.null_resource.get-kubectl" -> "[root] module.argo.var.region"
+		"[root] module.argo.null_resource.get-kubectl" -> "[root] provider.null"
+		"[root] module.argo.null_resource.get-kubectl" -> "[root] provisioner.local-exec"
+		"[root] module.argo.null_resource.namespace_dependency" -> "[root] module.argo.var.namespace_uid"
+		"[root] module.argo.provider.google (close)" -> "[root] module.argo.data.google_client_config.default"
+		"[root] module.argo.provider.google (close)" -> "[root] module.argo.google_monitoring_uptime_check_config.https"
+		"[root] module.argo.provider.google" -> "[root] module.argo.var.credentials"
+		"[root] module.argo.provider.google" -> "[root] module.argo.var.project_id"
+		"[root] module.argo.provider.google" -> "[root] module.argo.var.region"
+		"[root] module.argo.provider.helm (close)" -> "[root] module.argo.helm_release.argo-cd"
+		"[root] module.argo.provider.helm (close)" -> "[root] module.argo.helm_release.argocd-rollouts"
+		"[root] module.argo.provider.helm" -> "[root] module.argo.data.google_client_config.default"
+		"[root] module.argo.provider.helm" -> "[root] module.argo.var.cluster_ca_certificate"
+		"[root] module.argo.provider.helm" -> "[root] module.argo.var.cluster_endpoint"
+		"[root] module.argo.provider.kubernetes (close)" -> "[root] module.argo.kubernetes_namespace.argocd"
+		"[root] module.argo.provider.kubernetes" -> "[root] module.argo.data.google_client_config.default"
+		"[root] module.argo.provider.kubernetes" -> "[root] module.argo.var.cluster_ca_certificate"
+		"[root] module.argo.provider.kubernetes" -> "[root] module.argo.var.cluster_endpoint"
+		"[root] module.argo.var.argocd_ingress" -> "[root] var.argocd_ingress"
+		"[root] module.argo.var.argocd_namespace" -> "[root] var.argocd_namespace"
+		"[root] module.argo.var.cluster_ca_certificate" -> "[root] module.cluster.output.ca_certificate"
+		"[root] module.argo.var.cluster_endpoint" -> "[root] module.cluster.output.endpoint"
+		"[root] module.argo.var.cluster_name" -> "[root] module.cluster.output.cluster_name"
+		"[root] module.argo.var.credentials" -> "[root] var.credentials"
+		"[root] module.argo.var.demo_app" -> "[root] var.demo_app"
+		"[root] module.argo.var.namespace_uid" -> "[root] module.cluster.output.app_prod_uid"
+		"[root] module.argo.var.project_id" -> "[root] var.project_id"
+		"[root] module.argo.var.region" -> "[root] var.region"
+		"[root] module.cluster.data.google_client_config.default" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.google_project_iam_member.terraform" -> "[root] module.cluster.local.terraform_sa"
+		"[root] module.cluster.google_project_iam_member.terraform" -> "[root] module.cluster.var.sa_roles"
+		"[root] module.cluster.google_project_service.container" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.google_project_service.logging" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.google_project_service.monitoring" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.google_service_account.terraform" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.kubernetes_namespace.app-prod" -> "[root] module.cluster.local.istio_injection"
+		"[root] module.cluster.kubernetes_namespace.app-prod" -> "[root] module.cluster.provider.kubernetes"
+		"[root] module.cluster.kubernetes_namespace.app-testing" -> "[root] module.cluster.provider.kubernetes"
+		"[root] module.cluster.kubernetes_secret.secrets" -> "[root] module.cluster.provider.kubernetes"
+		"[root] module.cluster.kubernetes_secret.secrets" -> "[root] module.cluster.var.secrets"
+		"[root] module.cluster.local.istio_auth" -> "[root] module.cluster.var.istio"
+		"[root] module.cluster.local.istio_injection" -> "[root] module.cluster.var.istio"
+		"[root] module.cluster.local.terraform_sa" -> "[root] module.cluster.google_service_account.terraform"
+		"[root] module.cluster.module.kubernetes-engine.data.google_client_config.default" -> "[root] module.cluster.provider.google-beta"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork" -> "[root] module.cluster.module.kubernetes-engine.local.network_project_id"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork" -> "[root] module.cluster.module.kubernetes-engine.local.region"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork" -> "[root] module.cluster.module.kubernetes-engine.var.add_cluster_firewall_rules"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork" -> "[root] module.cluster.module.kubernetes-engine.var.subnetwork"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_zones.available" -> "[root] module.cluster.module.kubernetes-engine.local.region"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_zones.available" -> "[root] module.cluster.module.kubernetes-engine.var.project_id"
+		"[root] module.cluster.module.kubernetes-engine.data.google_compute_zones.available" -> "[root] module.cluster.provider.google-beta"
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.region" -> "[root] module.cluster.module.kubernetes-engine.local.location"
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.region" -> "[root] module.cluster.module.kubernetes-engine.var.project_id"
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.region" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.zone" -> "[root] module.cluster.module.kubernetes-engine.data.google_compute_zones.available"
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.zone" -> "[root] module.cluster.module.kubernetes-engine.local.zone_count"
+		"[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.zone" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_alias_ranges_cidr"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint_for_nodes"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_network_tag"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_subnet_cidr"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress" -> "[root] module.cluster.module.kubernetes-engine.var.firewall_priority"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint_for_nodes"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_network_tag"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks" -> "[root] module.cluster.module.kubernetes-engine.var.add_cluster_firewall_rules"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks" -> "[root] module.cluster.module.kubernetes-engine.var.firewall_inbound_ports"
+		"[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks" -> "[root] module.cluster.module.kubernetes-engine.var.firewall_priority"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.autoscalling_resource_limits"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_authenticator_security_group"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_cloudrun_config"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_gce_pd_csi_config"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_daily"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_network_policy"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_node_metadata_config"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_workload_identity_config"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.master_authorized_networks_config"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.master_version"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.network_project_id"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.node_locations"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.release_channel"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.local.service_account"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.basic_auth_password"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.basic_auth_username"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.cluster_ipv4_cidr"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.cluster_resource_labels"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.database_encryption"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.default_max_pods_per_node"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.description"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.dns_cache"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_binary_authorization"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_intranode_visibility"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_kubernetes_alpha"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_network_egress_export"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_private_endpoint"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_private_nodes"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_resource_consumption_export"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_shielded_nodes"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.enable_vertical_pod_autoscaling"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.horizontal_pod_autoscaling"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.http_load_balancing"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.initial_node_count"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.ip_range_pods"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.ip_range_services"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.issue_client_certificate"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.istio"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.istio_auth"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.logging_service"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.maintenance_start_time"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.master_ipv4_cidr_block"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.monitoring_service"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.network"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.pod_security_policy_config"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.remove_default_node_pool"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.resource_usage_export_dataset_id"
+		"[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary" -> "[root] module.cluster.module.kubernetes-engine.var.subnetwork"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_network_tag"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_sandbox_enabled"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.default_auto_upgrade"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.node_pools_labels"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.node_pools_metadata"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.node_pools_oauth_scopes"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.node_pools_tags"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.local.node_pools_taints"
+		"[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools" -> "[root] module.cluster.module.kubernetes-engine.var.disable_legacy_metadata_endpoints"
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-gcr" -> "[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account"
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-gcr" -> "[root] module.cluster.module.kubernetes-engine.var.grant_registry_access"
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-gcr" -> "[root] module.cluster.module.kubernetes-engine.var.registry_project_id"
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-log_writer" -> "[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account"
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-metric_writer" -> "[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-log_writer"
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-monitoring_viewer" -> "[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-metric_writer"
+		"[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-resourceMetadata-writer" -> "[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-monitoring_viewer"
+		"[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account" -> "[root] module.cluster.module.kubernetes-engine.random_string.cluster_service_account_suffix"
+		"[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account" -> "[root] module.cluster.module.kubernetes-engine.var.create_service_account"
+		"[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account" -> "[root] module.cluster.module.kubernetes-engine.var.name"
+		"[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account" -> "[root] module.cluster.module.kubernetes-engine.var.project_id"
+		"[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account" -> "[root] module.cluster.provider.google"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent" -> "[root] module.cluster.module.kubernetes-engine.provider.kubernetes"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent" -> "[root] module.cluster.module.kubernetes-engine.var.configure_ip_masq"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent" -> "[root] module.cluster.module.kubernetes-engine.var.ip_masq_link_local"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent" -> "[root] module.cluster.module.kubernetes-engine.var.ip_masq_resync_interval"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent" -> "[root] module.cluster.module.kubernetes-engine.var.non_masquerade_cidrs"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns" -> "[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns" -> "[root] module.cluster.module.kubernetes-engine.provider.kubernetes"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-nameservers-and-stub-domains" -> "[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-nameservers-and-stub-domains" -> "[root] module.cluster.module.kubernetes-engine.provider.kubernetes"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-namservers" -> "[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap"
+		"[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-namservers" -> "[root] module.cluster.module.kubernetes-engine.provider.kubernetes"
+		"[root] module.cluster.module.kubernetes-engine.local.autoscalling_resource_limits" -> "[root] module.cluster.module.kubernetes-engine.var.cluster_autoscaling"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_alias_ranges_cidr" -> "[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_authenticator_security_group" -> "[root] module.cluster.module.kubernetes-engine.var.authenticator_security_group"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_ca_certificate" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_map"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_cloudrun_config" -> "[root] module.cluster.module.kubernetes-engine.var.cloudrun"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_cloudrun_enabled" -> "[root] module.cluster.module.kubernetes-engine.var.cloudrun"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_dns_cache_enabled" -> "[root] module.cluster.module.kubernetes-engine.var.dns_cache"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint" -> "[root] module.cluster.module.kubernetes-engine.var.deploy_using_private_endpoint"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint_for_nodes" -> "[root] module.cluster.module.kubernetes-engine.var.master_ipv4_cidr_block"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_gce_pd_csi_config" -> "[root] module.cluster.module.kubernetes-engine.var.gce_pd_csi_driver"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_horizontal_pod_autoscaling_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_horizontal_pod_autoscaling_enabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_http_load_balancing_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_http_load_balancing_enabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_intranode_visibility_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_intranode_visbility_enabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_istio_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_istio_disabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_location" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_logging_service" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_logging_service"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_daily" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_recurring"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_recurring" -> "[root] module.cluster.module.kubernetes-engine.var.maintenance_end_time"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_maintenance_window_is_recurring" -> "[root] module.cluster.module.kubernetes-engine.var.maintenance_recurrence"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer1" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_master_auth"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer2" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer1"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_map" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_master_auth_list_layer2"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_master_version" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_master_version"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_min_master_version" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_min_master_version"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_monitoring_service" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_monitoring_service"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_name" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_name"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_network_policy" -> "[root] module.cluster.module.kubernetes-engine.var.network_policy"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_network_policy" -> "[root] module.cluster.module.kubernetes-engine.var.network_policy_provider"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_network_policy_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_network_policy_enabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_network_tag" -> "[root] module.cluster.module.kubernetes-engine.var.name"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_node_metadata_config" -> "[root] module.cluster.module.kubernetes-engine.var.node_metadata"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_node_pools_names" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_names"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_node_pools_versions" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_versions"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_horizontal_pod_autoscaling_enabled" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_http_load_balancing_enabled" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_intranode_visbility_enabled" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_istio_disabled" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_logging_service" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_master_auth" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_master_version" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_min_master_version" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_monitoring_service" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_name" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_network_policy_enabled" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_names" -> "[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_node_pools_versions" -> "[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_pod_security_policy_enabled" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_regional_zones" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_vertical_pod_autoscaling_enabled" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_zonal_zones" -> "[root] module.cluster.module.kubernetes-engine.local.zone_count"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_output_zones" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_regional_zones"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_peering_name" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_pod_security_policy_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_pod_security_policy_enabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_region" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_location"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_sandbox_enabled" -> "[root] module.cluster.module.kubernetes-engine.var.sandbox_enabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_subnet_cidr" -> "[root] module.cluster.module.kubernetes-engine.data.google_compute_subnetwork.gke_subnetwork"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_type" -> "[root] module.cluster.module.kubernetes-engine.var.regional"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_vertical_pod_autoscaling_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_vertical_pod_autoscaling_enabled"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_workload_identity_config" -> "[root] module.cluster.module.kubernetes-engine.var.identity_namespace"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_workload_identity_config" -> "[root] module.cluster.module.kubernetes-engine.var.project_id"
+		"[root] module.cluster.module.kubernetes-engine.local.cluster_zones" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_output_zones"
+		"[root] module.cluster.module.kubernetes-engine.local.custom_kube_dns_config" -> "[root] module.cluster.module.kubernetes-engine.var.stub_domains"
+		"[root] module.cluster.module.kubernetes-engine.local.default_auto_upgrade" -> "[root] module.cluster.module.kubernetes-engine.var.regional"
+		"[root] module.cluster.module.kubernetes-engine.local.location" -> "[root] module.cluster.module.kubernetes-engine.var.region"
+		"[root] module.cluster.module.kubernetes-engine.local.location" -> "[root] module.cluster.module.kubernetes-engine.var.regional"
+		"[root] module.cluster.module.kubernetes-engine.local.location" -> "[root] module.cluster.module.kubernetes-engine.var.zones"
+		"[root] module.cluster.module.kubernetes-engine.local.master_authorized_networks_config" -> "[root] module.cluster.module.kubernetes-engine.var.master_authorized_networks"
+		"[root] module.cluster.module.kubernetes-engine.local.master_version" -> "[root] module.cluster.module.kubernetes-engine.local.master_version_regional"
+		"[root] module.cluster.module.kubernetes-engine.local.master_version" -> "[root] module.cluster.module.kubernetes-engine.local.master_version_zonal"
+		"[root] module.cluster.module.kubernetes-engine.local.master_version_regional" -> "[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.region"
+		"[root] module.cluster.module.kubernetes-engine.local.master_version_regional" -> "[root] module.cluster.module.kubernetes-engine.var.kubernetes_version"
+		"[root] module.cluster.module.kubernetes-engine.local.master_version_zonal" -> "[root] module.cluster.module.kubernetes-engine.data.google_container_engine_versions.zone"
+		"[root] module.cluster.module.kubernetes-engine.local.master_version_zonal" -> "[root] module.cluster.module.kubernetes-engine.var.kubernetes_version"
+		"[root] module.cluster.module.kubernetes-engine.local.network_project_id" -> "[root] module.cluster.module.kubernetes-engine.var.network_project_id"
+		"[root] module.cluster.module.kubernetes-engine.local.network_project_id" -> "[root] module.cluster.module.kubernetes-engine.var.project_id"
+		"[root] module.cluster.module.kubernetes-engine.local.node_locations" -> "[root] module.cluster.module.kubernetes-engine.random_shuffle.available_zones"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pool_names" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools" -> "[root] module.cluster.module.kubernetes-engine.local.node_pool_names"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_labels" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_labels" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools_labels"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_metadata" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_metadata" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools_metadata"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_oauth_scopes" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_oauth_scopes" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools_oauth_scopes"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_tags" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_tags" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools_tags"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_taints" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools"
+		"[root] module.cluster.module.kubernetes-engine.local.node_pools_taints" -> "[root] module.cluster.module.kubernetes-engine.var.node_pools_taints"
+		"[root] module.cluster.module.kubernetes-engine.local.region" -> "[root] module.cluster.module.kubernetes-engine.var.region"
+		"[root] module.cluster.module.kubernetes-engine.local.region" -> "[root] module.cluster.module.kubernetes-engine.var.regional"
+		"[root] module.cluster.module.kubernetes-engine.local.region" -> "[root] module.cluster.module.kubernetes-engine.var.zones"
+		"[root] module.cluster.module.kubernetes-engine.local.release_channel" -> "[root] module.cluster.module.kubernetes-engine.var.release_channel"
+		"[root] module.cluster.module.kubernetes-engine.local.service_account" -> "[root] module.cluster.module.kubernetes-engine.local.service_account_list"
+		"[root] module.cluster.module.kubernetes-engine.local.service_account" -> "[root] module.cluster.module.kubernetes-engine.var.service_account"
+		"[root] module.cluster.module.kubernetes-engine.local.service_account_list" -> "[root] module.cluster.module.kubernetes-engine.google_service_account.cluster_service_account"
+		"[root] module.cluster.module.kubernetes-engine.local.upstream_nameservers_config" -> "[root] module.cluster.module.kubernetes-engine.var.upstream_nameservers"
+		"[root] module.cluster.module.kubernetes-engine.local.zone_count" -> "[root] module.cluster.module.kubernetes-engine.var.zones"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] module.cluster.module.kubernetes-engine.data.google_client_config.default"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_ca_certificate"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] module.cluster.module.kubernetes-engine.local.custom_kube_dns_config"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] module.cluster.module.kubernetes-engine.local.upstream_nameservers_config"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] module.cluster.module.kubernetes-engine.var.skip_provisioners"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] provider.null"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap" -> "[root] provisioner.local-exec"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.wait_for_cluster" -> "[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.wait_for_cluster" -> "[root] module.cluster.module.kubernetes-engine.var.skip_provisioners"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.wait_for_cluster" -> "[root] provider.null"
+		"[root] module.cluster.module.kubernetes-engine.null_resource.wait_for_cluster" -> "[root] provisioner.local-exec"
+		"[root] module.cluster.module.kubernetes-engine.output.ca_certificate" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_ca_certificate"
+		"[root] module.cluster.module.kubernetes-engine.output.cloudrun_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_cloudrun_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.dns_cache_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_dns_cache_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.endpoint" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_endpoint"
+		"[root] module.cluster.module.kubernetes-engine.output.endpoint" -> "[root] module.cluster.module.kubernetes-engine.null_resource.wait_for_cluster"
+		"[root] module.cluster.module.kubernetes-engine.output.horizontal_pod_autoscaling_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_horizontal_pod_autoscaling_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.http_load_balancing_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_http_load_balancing_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.identity_namespace" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.output.intranode_visibility_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_intranode_visibility_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.istio_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_istio_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.location" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_location"
+		"[root] module.cluster.module.kubernetes-engine.output.logging_service" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_logging_service"
+		"[root] module.cluster.module.kubernetes-engine.output.master_authorized_networks_config" -> "[root] module.cluster.module.kubernetes-engine.google_container_cluster.primary"
+		"[root] module.cluster.module.kubernetes-engine.output.master_ipv4_cidr_block" -> "[root] module.cluster.module.kubernetes-engine.var.master_ipv4_cidr_block"
+		"[root] module.cluster.module.kubernetes-engine.output.master_version" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_master_version"
+		"[root] module.cluster.module.kubernetes-engine.output.min_master_version" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_min_master_version"
+		"[root] module.cluster.module.kubernetes-engine.output.monitoring_service" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_monitoring_service"
+		"[root] module.cluster.module.kubernetes-engine.output.name" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_name"
+		"[root] module.cluster.module.kubernetes-engine.output.network_policy_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_network_policy_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.node_pools_names" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_node_pools_names"
+		"[root] module.cluster.module.kubernetes-engine.output.node_pools_versions" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_node_pools_versions"
+		"[root] module.cluster.module.kubernetes-engine.output.peering_name" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_peering_name"
+		"[root] module.cluster.module.kubernetes-engine.output.pod_security_policy_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_pod_security_policy_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.region" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_region"
+		"[root] module.cluster.module.kubernetes-engine.output.release_channel" -> "[root] module.cluster.module.kubernetes-engine.var.release_channel"
+		"[root] module.cluster.module.kubernetes-engine.output.service_account" -> "[root] module.cluster.module.kubernetes-engine.local.service_account"
+		"[root] module.cluster.module.kubernetes-engine.output.type" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_type"
+		"[root] module.cluster.module.kubernetes-engine.output.vertical_pod_autoscaling_enabled" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_vertical_pod_autoscaling_enabled"
+		"[root] module.cluster.module.kubernetes-engine.output.zones" -> "[root] module.cluster.module.kubernetes-engine.local.cluster_zones"
+		"[root] module.cluster.module.kubernetes-engine.provider.kubernetes (close)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.ip-masq-agent"
+		"[root] module.cluster.module.kubernetes-engine.provider.kubernetes (close)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns"
+		"[root] module.cluster.module.kubernetes-engine.provider.kubernetes (close)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-nameservers-and-stub-domains"
+		"[root] module.cluster.module.kubernetes-engine.provider.kubernetes (close)" -> "[root] module.cluster.module.kubernetes-engine.kubernetes_config_map.kube-dns-upstream-namservers"
+		"[root] module.cluster.module.kubernetes-engine.provider.kubernetes" -> "[root] module.cluster.module.kubernetes-engine.data.google_client_config.default"
+		"[root] module.cluster.module.kubernetes-engine.provider.kubernetes" -> "[root] module.cluster.provider.kubernetes"
+		"[root] module.cluster.module.kubernetes-engine.random_shuffle.available_zones" -> "[root] module.cluster.module.kubernetes-engine.data.google_compute_zones.available"
+		"[root] module.cluster.module.kubernetes-engine.random_shuffle.available_zones" -> "[root] provider.random"
+		"[root] module.cluster.module.kubernetes-engine.random_string.cluster_service_account_suffix" -> "[root] provider.random"
+		"[root] module.cluster.module.kubernetes-engine.var.ip_range_pods" -> "[root] module.cluster.var.network_subnets"
+		"[root] module.cluster.module.kubernetes-engine.var.ip_range_services" -> "[root] module.cluster.var.network_subnets"
+		"[root] module.cluster.module.kubernetes-engine.var.istio" -> "[root] module.cluster.var.istio"
+		"[root] module.cluster.module.kubernetes-engine.var.name" -> "[root] module.cluster.var.cluster_name"
+		"[root] module.cluster.module.kubernetes-engine.var.network" -> "[root] module.cluster.var.network_name"
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools" -> "[root] module.cluster.var.machine_type"
+		"[root] module.cluster.module.kubernetes-engine.var.node_pools" -> "[root] module.cluster.var.preemptible"
+		"[root] module.cluster.module.kubernetes-engine.var.project_id" -> "[root] module.cluster.var.project_id"
+		"[root] module.cluster.module.kubernetes-engine.var.region" -> "[root] module.cluster.var.region"
+		"[root] module.cluster.module.kubernetes-engine.var.service_account" -> "[root] module.cluster.google_service_account.terraform"
+		"[root] module.cluster.module.kubernetes-engine.var.subnetwork" -> "[root] module.cluster.var.network_subnets"
+		"[root] module.cluster.module.kubernetes-engine.var.zones" -> "[root] module.cluster.var.zone_for_cluster"
+		"[root] module.cluster.output.app_prod_uid" -> "[root] module.cluster.kubernetes_namespace.app-prod"
+		"[root] module.cluster.output.ca_certificate" -> "[root] module.cluster.module.kubernetes-engine.output.ca_certificate"
+		"[root] module.cluster.output.cluster_name" -> "[root] module.cluster.module.kubernetes-engine.output.name"
+		"[root] module.cluster.output.endpoint" -> "[root] module.cluster.module.kubernetes-engine.output.endpoint"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.data.google_client_config.default"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.google_project_iam_member.terraform"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.google_project_service.container"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.google_project_service.logging"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.google_project_service.monitoring"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.module.kubernetes-engine.google_compute_firewall.intra_egress"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.module.kubernetes-engine.google_compute_firewall.master_webhooks"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-gcr"
+		"[root] module.cluster.provider.google (close)" -> "[root] module.cluster.module.kubernetes-engine.google_project_iam_member.cluster_service_account-resourceMetadata-writer"
+		"[root] module.cluster.provider.google" -> "[root] module.cluster.var.credentials"
+		"[root] module.cluster.provider.google" -> "[root] module.cluster.var.project_id"
+		"[root] module.cluster.provider.google" -> "[root] module.cluster.var.region"
+		"[root] module.cluster.provider.google-beta (close)" -> "[root] module.cluster.module.kubernetes-engine.data.google_client_config.default"
+		"[root] module.cluster.provider.google-beta (close)" -> "[root] module.cluster.module.kubernetes-engine.google_container_node_pool.pools"
+		"[root] module.cluster.provider.google-beta" -> "[root] module.cluster.var.credentials"
+		"[root] module.cluster.provider.google-beta" -> "[root] module.cluster.var.project_id"
+		"[root] module.cluster.provider.google-beta" -> "[root] module.cluster.var.region"
+		"[root] module.cluster.provider.kubernetes (close)" -> "[root] module.cluster.kubernetes_namespace.app-prod"
+		"[root] module.cluster.provider.kubernetes (close)" -> "[root] module.cluster.kubernetes_namespace.app-testing"
+		"[root] module.cluster.provider.kubernetes (close)" -> "[root] module.cluster.kubernetes_secret.secrets"
+		"[root] module.cluster.provider.kubernetes" -> "[root] module.cluster.data.google_client_config.default"
+		"[root] module.cluster.provider.kubernetes" -> "[root] module.cluster.module.kubernetes-engine.output.ca_certificate"
+		"[root] module.cluster.provider.kubernetes" -> "[root] module.cluster.module.kubernetes-engine.output.endpoint"
+		"[root] module.cluster.var.cluster_name" -> "[root] var.cluster_name"
+		"[root] module.cluster.var.credentials" -> "[root] var.credentials"
+		"[root] module.cluster.var.network_name" -> "[root] module.vpc.output.network-name"
+		"[root] module.cluster.var.network_subnets" -> "[root] module.vpc.output.network-subnets"
+		"[root] module.cluster.var.preemptible" -> "[root] var.preemptible"
+		"[root] module.cluster.var.project_id" -> "[root] var.project_id"
+		"[root] module.cluster.var.region" -> "[root] var.region"
+		"[root] module.cluster.var.secrets" -> "[root] var.secrets"
+		"[root] module.cluster.var.zone_for_cluster" -> "[root] var.zone_for_cluster"
+		"[root] module.nginx.data.google_client_config.default" -> "[root] module.nginx.provider.google"
+		"[root] module.nginx.data.helm_repository.jetstack" -> "[root] module.nginx.provider.helm"
+		"[root] module.nginx.data.helm_repository.jetstack" -> "[root] module.nginx.var.cert_manager_install"
+		"[root] module.nginx.helm_release.cert-manager" -> "[root] module.nginx.null_resource.cert-manager-crd"
+		"[root] module.nginx.helm_release.cert-manager" -> "[root] module.nginx.provider.helm"
+		"[root] module.nginx.helm_release.nginx" -> "[root] module.nginx.kubernetes_namespace.nginx"
+		"[root] module.nginx.helm_release.nginx" -> "[root] module.nginx.provider.helm"
+		"[root] module.nginx.helm_release.nginx" -> "[root] module.nginx.var.vpc_static_ip"
+		"[root] module.nginx.kubernetes_namespace.cert-manager" -> "[root] module.nginx.provider.kubernetes"
+		"[root] module.nginx.kubernetes_namespace.cert-manager" -> "[root] module.nginx.var.cert_manager_install"
+		"[root] module.nginx.kubernetes_namespace.nginx" -> "[root] module.nginx.provider.kubernetes"
+		"[root] module.nginx.kubernetes_namespace.nginx" -> "[root] module.nginx.var.nginx_namespace"
+		"[root] module.nginx.null_resource.cert-manager-crd" -> "[root] module.nginx.kubernetes_namespace.cert-manager"
+		"[root] module.nginx.null_resource.cert-manager-crd" -> "[root] module.nginx.null_resource.get-kubectl"
+		"[root] module.nginx.null_resource.cert-manager-issuer" -> "[root] module.nginx.helm_release.cert-manager"
+		"[root] module.nginx.null_resource.cert-manager-issuer" -> "[root] module.nginx.null_resource.namespace_dependency"
+		"[root] module.nginx.null_resource.get-kubectl" -> "[root] module.nginx.var.cert_manager_install"
+		"[root] module.nginx.null_resource.get-kubectl" -> "[root] module.nginx.var.cluster_name"
+		"[root] module.nginx.null_resource.get-kubectl" -> "[root] module.nginx.var.project_id"
+		"[root] module.nginx.null_resource.get-kubectl" -> "[root] module.nginx.var.region"
+		"[root] module.nginx.null_resource.get-kubectl" -> "[root] provider.null"
+		"[root] module.nginx.null_resource.get-kubectl" -> "[root] provisioner.local-exec"
+		"[root] module.nginx.null_resource.namespace_dependency" -> "[root] module.nginx.var.namespace_uid"
+		"[root] module.nginx.provider.google (close)" -> "[root] module.nginx.data.google_client_config.default"
+		"[root] module.nginx.provider.google" -> "[root] module.nginx.var.credentials"
+		"[root] module.nginx.provider.google" -> "[root] module.nginx.var.project_id"
+		"[root] module.nginx.provider.google" -> "[root] module.nginx.var.region"
+		"[root] module.nginx.provider.helm (close)" -> "[root] module.nginx.data.helm_repository.jetstack"
+		"[root] module.nginx.provider.helm (close)" -> "[root] module.nginx.helm_release.cert-manager"
+		"[root] module.nginx.provider.helm (close)" -> "[root] module.nginx.helm_release.nginx"
+		"[root] module.nginx.provider.helm" -> "[root] module.nginx.data.google_client_config.default"
+		"[root] module.nginx.provider.helm" -> "[root] module.nginx.var.cluster_ca_certificate"
+		"[root] module.nginx.provider.helm" -> "[root] module.nginx.var.cluster_endpoint"
+		"[root] module.nginx.provider.kubernetes (close)" -> "[root] module.nginx.kubernetes_namespace.cert-manager"
+		"[root] module.nginx.provider.kubernetes (close)" -> "[root] module.nginx.kubernetes_namespace.nginx"
+		"[root] module.nginx.provider.kubernetes" -> "[root] module.nginx.data.google_client_config.default"
+		"[root] module.nginx.provider.kubernetes" -> "[root] module.nginx.var.cluster_ca_certificate"
+		"[root] module.nginx.provider.kubernetes" -> "[root] module.nginx.var.cluster_endpoint"
+		"[root] module.nginx.var.cert_manager_install" -> "[root] var.cert_manager_install"
+		"[root] module.nginx.var.cluster_ca_certificate" -> "[root] module.cluster.output.ca_certificate"
+		"[root] module.nginx.var.cluster_endpoint" -> "[root] module.cluster.output.endpoint"
+		"[root] module.nginx.var.cluster_name" -> "[root] module.cluster.output.cluster_name"
+		"[root] module.nginx.var.credentials" -> "[root] var.credentials"
+		"[root] module.nginx.var.namespace_uid" -> "[root] module.cluster.output.app_prod_uid"
+		"[root] module.nginx.var.nginx_namespace" -> "[root] var.nginx_namespace"
+		"[root] module.nginx.var.project_id" -> "[root] var.project_id"
+		"[root] module.nginx.var.region" -> "[root] var.region"
+		"[root] module.nginx.var.vpc_static_ip" -> "[root] module.vpc.output.static-ip"
+		"[root] module.sql.data.google_client_config.default" -> "[root] module.sql.provider.google"
+		"[root] module.sql.google_sql_database.mydb" -> "[root] module.sql.google_sql_database_instance.master"
+		"[root] module.sql.google_sql_database.mydb" -> "[root] module.sql.var.sql_db_name"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.provider.google"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.random_string.db-suffix"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_autoresize"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_availability"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_backup_config"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_database"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_disk_size"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_disk_type"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_name"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_tier"
+		"[root] module.sql.google_sql_database_instance.master" -> "[root] module.sql.var.sql_version"
+		"[root] module.sql.google_sql_database_instance.read-replicas" -> "[root] module.sql.google_sql_database_instance.master"
+		"[root] module.sql.google_sql_database_instance.read-replicas" -> "[root] module.sql.var.sql_replica_count"
+		"[root] module.sql.google_sql_user.admin" -> "[root] module.sql.google_sql_database_instance.master"
+		"[root] module.sql.google_sql_user.admin" -> "[root] module.sql.random_password.admin"
+		"[root] module.sql.google_sql_user.admin" -> "[root] module.sql.var.sql_admin"
+		"[root] module.sql.google_sql_user.appuser" -> "[root] module.sql.google_sql_database_instance.master"
+		"[root] module.sql.google_sql_user.appuser" -> "[root] module.sql.random_password.appuser"
+		"[root] module.sql.google_sql_user.appuser" -> "[root] module.sql.var.sql_user"
+		"[root] module.sql.kubernetes_deployment.sql-proxy" -> "[root] module.sql.google_sql_database_instance.master"
+		"[root] module.sql.kubernetes_deployment.sql-proxy" -> "[root] module.sql.kubernetes_secret.proxy-credentials"
+		"[root] module.sql.kubernetes_deployment.sql-proxy" -> "[root] module.sql.local.db_port"
+		"[root] module.sql.kubernetes_deployment.sql-proxy" -> "[root] module.sql.local.sql_proxy_label"
+		"[root] module.sql.kubernetes_secret.db-admin" -> "[root] module.sql.provider.kubernetes"
+		"[root] module.sql.kubernetes_secret.db-admin" -> "[root] module.sql.random_password.admin"
+		"[root] module.sql.kubernetes_secret.db-admin" -> "[root] module.sql.var.sql_admin"
+		"[root] module.sql.kubernetes_secret.db-admin" -> "[root] module.sql.var.sql_database"
+		"[root] module.sql.kubernetes_secret.db-app" -> "[root] module.sql.local.db_port"
+		"[root] module.sql.kubernetes_secret.db-app" -> "[root] module.sql.local.sql_proxy_name"
+		"[root] module.sql.kubernetes_secret.db-app" -> "[root] module.sql.provider.kubernetes"
+		"[root] module.sql.kubernetes_secret.db-app" -> "[root] module.sql.random_password.appuser"
+		"[root] module.sql.kubernetes_secret.db-app" -> "[root] module.sql.var.sql_database"
+		"[root] module.sql.kubernetes_secret.db-app" -> "[root] module.sql.var.sql_db_name"
+		"[root] module.sql.kubernetes_secret.db-app" -> "[root] module.sql.var.sql_user"
+		"[root] module.sql.kubernetes_secret.proxy-credentials" -> "[root] module.sql.local.proxy_file_path"
+		"[root] module.sql.kubernetes_secret.proxy-credentials" -> "[root] module.sql.local.proxy_volume_and_secret_name"
+		"[root] module.sql.kubernetes_secret.proxy-credentials" -> "[root] module.sql.provider.kubernetes"
+		"[root] module.sql.kubernetes_secret.proxy-credentials" -> "[root] module.sql.var.sql_database"
+		"[root] module.sql.kubernetes_service.sql-proxy" -> "[root] module.sql.local.db_port"
+		"[root] module.sql.kubernetes_service.sql-proxy" -> "[root] module.sql.local.sql_proxy_label"
+		"[root] module.sql.kubernetes_service.sql-proxy" -> "[root] module.sql.local.sql_proxy_name"
+		"[root] module.sql.kubernetes_service.sql-proxy" -> "[root] module.sql.provider.kubernetes"
+		"[root] module.sql.kubernetes_service.sql-proxy" -> "[root] module.sql.var.sql_database"
+		"[root] module.sql.local.db_port" -> "[root] module.sql.local.detected_port"
+		"[root] module.sql.local.db_port" -> "[root] module.sql.var.sql_port"
+		"[root] module.sql.local.detected_port" -> "[root] module.sql.var.sql_version"
+		"[root] module.sql.local.proxy_file_path" -> "[root] module.sql.local.proxy_file_name"
+		"[root] module.sql.provider.google (close)" -> "[root] module.sql.data.google_client_config.default"
+		"[root] module.sql.provider.google (close)" -> "[root] module.sql.google_sql_database.mydb"
+		"[root] module.sql.provider.google (close)" -> "[root] module.sql.google_sql_database_instance.read-replicas"
+		"[root] module.sql.provider.google (close)" -> "[root] module.sql.google_sql_user.admin"
+		"[root] module.sql.provider.google (close)" -> "[root] module.sql.google_sql_user.appuser"
+		"[root] module.sql.provider.google" -> "[root] module.sql.var.credentials"
+		"[root] module.sql.provider.google" -> "[root] module.sql.var.project_id"
+		"[root] module.sql.provider.google" -> "[root] module.sql.var.region"
+		"[root] module.sql.provider.kubernetes (close)" -> "[root] module.sql.kubernetes_deployment.sql-proxy"
+		"[root] module.sql.provider.kubernetes (close)" -> "[root] module.sql.kubernetes_secret.db-admin"
+		"[root] module.sql.provider.kubernetes (close)" -> "[root] module.sql.kubernetes_secret.db-app"
+		"[root] module.sql.provider.kubernetes (close)" -> "[root] module.sql.kubernetes_service.sql-proxy"
+		"[root] module.sql.provider.kubernetes" -> "[root] module.sql.data.google_client_config.default"
+		"[root] module.sql.provider.kubernetes" -> "[root] module.sql.var.cluster_ca_certificate"
+		"[root] module.sql.provider.kubernetes" -> "[root] module.sql.var.cluster_endpoint"
+		"[root] module.sql.random_password.admin" -> "[root] provider.random"
+		"[root] module.sql.random_password.appuser" -> "[root] provider.random"
+		"[root] module.sql.random_string.db-suffix" -> "[root] provider.random"
+		"[root] module.sql.var.cluster_ca_certificate" -> "[root] module.cluster.output.ca_certificate"
+		"[root] module.sql.var.cluster_endpoint" -> "[root] module.cluster.output.endpoint"
+		"[root] module.sql.var.credentials" -> "[root] var.credentials"
+		"[root] module.sql.var.project_id" -> "[root] var.project_id"
+		"[root] module.sql.var.region" -> "[root] var.region"
+		"[root] module.sql.var.sql_admin" -> "[root] var.sql_admin"
+		"[root] module.sql.var.sql_autoresize" -> "[root] var.sql_autoresize"
+		"[root] module.sql.var.sql_availability" -> "[root] var.sql_availability"
+		"[root] module.sql.var.sql_backup_config" -> "[root] var.sql_backup_config"
+		"[root] module.sql.var.sql_database" -> "[root] var.sql_database"
+		"[root] module.sql.var.sql_db_name" -> "[root] var.sql_db_name"
+		"[root] module.sql.var.sql_disk_size" -> "[root] var.sql_disk_size"
+		"[root] module.sql.var.sql_disk_type" -> "[root] var.sql_disk_type"
+		"[root] module.sql.var.sql_name" -> "[root] var.sql_name"
+		"[root] module.sql.var.sql_port" -> "[root] var.sql_port"
+		"[root] module.sql.var.sql_replica_count" -> "[root] var.sql_replica_count"
+		"[root] module.sql.var.sql_tier" -> "[root] var.sql_tier"
+		"[root] module.sql.var.sql_user" -> "[root] var.sql_user"
+		"[root] module.sql.var.sql_version" -> "[root] var.sql_version"
+		"[root] module.vpc.google_compute_address.app-ip" -> "[root] module.vpc.provider.google"
+		"[root] module.vpc.google_compute_firewall.fw-egress-allow" -> "[root] module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.google_compute_firewall.fw-egress-allow" -> "[root] module.vpc.var.firewall_egress_allow"
+		"[root] module.vpc.google_compute_firewall.fw-egress-deny" -> "[root] module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.google_compute_firewall.fw-egress-deny" -> "[root] module.vpc.var.firewall_egress_deny"
+		"[root] module.vpc.google_compute_firewall.fw-ingress-allow" -> "[root] module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.google_compute_firewall.fw-ingress-allow" -> "[root] module.vpc.var.firewall_ingress_allow"
+		"[root] module.vpc.google_compute_firewall.fw-ingress-deny" -> "[root] module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.google_compute_firewall.fw-ingress-deny" -> "[root] module.vpc.var.firewall_ingress_deny"
+		"[root] module.vpc.google_dns_managed_zone.domain" -> "[root] module.vpc.provider.google"
+		"[root] module.vpc.google_dns_managed_zone.domain" -> "[root] module.vpc.var.domain"
+		"[root] module.vpc.google_dns_record_set.argocd" -> "[root] module.vpc.google_compute_address.app-ip"
+		"[root] module.vpc.google_dns_record_set.argocd" -> "[root] module.vpc.google_dns_managed_zone.domain"
+		"[root] module.vpc.google_dns_record_set.argocd" -> "[root] module.vpc.var.argocd_ingress"
+		"[root] module.vpc.google_dns_record_set.main" -> "[root] module.vpc.google_compute_address.app-ip"
+		"[root] module.vpc.google_dns_record_set.main" -> "[root] module.vpc.google_dns_managed_zone.domain"
+		"[root] module.vpc.google_dns_record_set.rollout" -> "[root] module.vpc.google_compute_address.app-ip"
+		"[root] module.vpc.google_dns_record_set.rollout" -> "[root] module.vpc.google_dns_managed_zone.domain"
+		"[root] module.vpc.google_dns_record_set.srollout" -> "[root] module.vpc.google_compute_address.app-ip"
+		"[root] module.vpc.google_dns_record_set.srollout" -> "[root] module.vpc.google_dns_managed_zone.domain"
+		"[root] module.vpc.module.vpc.module.routes.google_compute_route.route" -> "[root] module.vpc.module.vpc.module.routes.local.routes"
+		"[root] module.vpc.module.vpc.module.routes.google_compute_route.route" -> "[root] module.vpc.module.vpc.module.routes.var.module_depends_on"
+		"[root] module.vpc.module.vpc.module.routes.google_compute_route.route" -> "[root] module.vpc.module.vpc.module.routes.var.project_id"
+		"[root] module.vpc.module.vpc.module.routes.local.routes" -> "[root] module.vpc.module.vpc.module.routes.var.network_name"
+		"[root] module.vpc.module.vpc.module.routes.local.routes" -> "[root] module.vpc.module.vpc.module.routes.var.routes"
+		"[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes" -> "[root] module.vpc.module.vpc.module.routes.google_compute_route.route"
+		"[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes" -> "[root] module.vpc.module.vpc.module.routes.var.delete_default_internet_gateway_routes"
+		"[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes" -> "[root] provider.null"
+		"[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes" -> "[root] provisioner.local-exec"
+		"[root] module.vpc.module.vpc.module.routes.output.routes" -> "[root] module.vpc.module.vpc.module.routes.google_compute_route.route"
+		"[root] module.vpc.module.vpc.module.routes.var.delete_default_internet_gateway_routes" -> "[root] module.vpc.module.vpc.var.delete_default_internet_gateway_routes"
+		"[root] module.vpc.module.vpc.module.routes.var.module_depends_on" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.module.routes.var.network_name" -> "[root] module.vpc.module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.module.vpc.module.routes.var.project_id" -> "[root] module.vpc.module.vpc.var.project_id"
+		"[root] module.vpc.module.vpc.module.routes.var.routes" -> "[root] module.vpc.module.vpc.var.routes"
+		"[root] module.vpc.module.vpc.module.subnets.google_compute_subnetwork.subnetwork" -> "[root] module.vpc.module.vpc.module.subnets.local.subnets"
+		"[root] module.vpc.module.vpc.module.subnets.google_compute_subnetwork.subnetwork" -> "[root] module.vpc.module.vpc.module.subnets.var.network_name"
+		"[root] module.vpc.module.vpc.module.subnets.google_compute_subnetwork.subnetwork" -> "[root] module.vpc.module.vpc.module.subnets.var.project_id"
+		"[root] module.vpc.module.vpc.module.subnets.google_compute_subnetwork.subnetwork" -> "[root] module.vpc.module.vpc.module.subnets.var.secondary_ranges"
+		"[root] module.vpc.module.vpc.module.subnets.local.subnets" -> "[root] module.vpc.module.vpc.module.subnets.var.subnets"
+		"[root] module.vpc.module.vpc.module.subnets.output.subnets" -> "[root] module.vpc.module.vpc.module.subnets.google_compute_subnetwork.subnetwork"
+		"[root] module.vpc.module.vpc.module.subnets.var.network_name" -> "[root] module.vpc.module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.module.vpc.module.subnets.var.project_id" -> "[root] module.vpc.module.vpc.var.project_id"
+		"[root] module.vpc.module.vpc.module.subnets.var.secondary_ranges" -> "[root] module.vpc.module.vpc.var.secondary_ranges"
+		"[root] module.vpc.module.vpc.module.subnets.var.subnets" -> "[root] module.vpc.module.vpc.var.subnets"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_network.network" -> "[root] module.vpc.module.vpc.module.vpc.var.auto_create_subnetworks"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_network.network" -> "[root] module.vpc.module.vpc.module.vpc.var.description"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_network.network" -> "[root] module.vpc.module.vpc.module.vpc.var.network_name"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_network.network" -> "[root] module.vpc.module.vpc.module.vpc.var.project_id"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_network.network" -> "[root] module.vpc.module.vpc.module.vpc.var.routing_mode"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_network.network" -> "[root] module.vpc.provider.google"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host" -> "[root] module.vpc.module.vpc.module.vpc.google_compute_network.network"
+		"[root] module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host" -> "[root] module.vpc.module.vpc.module.vpc.var.shared_vpc_host"
+		"[root] module.vpc.module.vpc.module.vpc.output.network" -> "[root] module.vpc.module.vpc.module.vpc.google_compute_network.network"
+		"[root] module.vpc.module.vpc.module.vpc.output.network_name" -> "[root] module.vpc.module.vpc.module.vpc.google_compute_network.network"
+		"[root] module.vpc.module.vpc.module.vpc.output.network_self_link" -> "[root] module.vpc.module.vpc.module.vpc.google_compute_network.network"
+		"[root] module.vpc.module.vpc.module.vpc.output.project_id" -> "[root] module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host"
+		"[root] module.vpc.module.vpc.module.vpc.var.auto_create_subnetworks" -> "[root] module.vpc.module.vpc.var.auto_create_subnetworks"
+		"[root] module.vpc.module.vpc.module.vpc.var.description" -> "[root] module.vpc.module.vpc.var.description"
+		"[root] module.vpc.module.vpc.module.vpc.var.network_name" -> "[root] module.vpc.module.vpc.var.network_name"
+		"[root] module.vpc.module.vpc.module.vpc.var.project_id" -> "[root] module.vpc.module.vpc.var.project_id"
+		"[root] module.vpc.module.vpc.module.vpc.var.routing_mode" -> "[root] module.vpc.module.vpc.var.routing_mode"
+		"[root] module.vpc.module.vpc.module.vpc.var.shared_vpc_host" -> "[root] module.vpc.module.vpc.var.shared_vpc_host"
+		"[root] module.vpc.module.vpc.output.network_name" -> "[root] module.vpc.module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.module.vpc.output.network_self_link" -> "[root] module.vpc.module.vpc.module.vpc.output.network_self_link"
+		"[root] module.vpc.module.vpc.output.project_id" -> "[root] module.vpc.module.vpc.module.vpc.output.project_id"
+		"[root] module.vpc.module.vpc.output.route_names" -> "[root] module.vpc.module.vpc.module.routes.output.routes"
+		"[root] module.vpc.module.vpc.output.subnets" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.output.subnets_flow_logs" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.output.subnets_ips" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.output.subnets_names" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.output.subnets_private_access" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.output.subnets_regions" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.output.subnets_secondary_ranges" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.output.subnets_self_links" -> "[root] module.vpc.module.vpc.module.subnets.output.subnets"
+		"[root] module.vpc.module.vpc.var.network_name" -> "[root] module.vpc.var.network_name"
+		"[root] module.vpc.module.vpc.var.project_id" -> "[root] module.vpc.var.project_id"
+		"[root] module.vpc.module.vpc.var.secondary_ranges" -> "[root] module.vpc.var.ip_range_pods"
+		"[root] module.vpc.module.vpc.var.secondary_ranges" -> "[root] module.vpc.var.ip_range_services"
+		"[root] module.vpc.module.vpc.var.secondary_ranges" -> "[root] module.vpc.var.subnet_name"
+		"[root] module.vpc.module.vpc.var.subnets" -> "[root] module.vpc.var.ip_range_sub"
+		"[root] module.vpc.module.vpc.var.subnets" -> "[root] module.vpc.var.region"
+		"[root] module.vpc.module.vpc.var.subnets" -> "[root] module.vpc.var.subnet_name"
+		"[root] module.vpc.output.network-name" -> "[root] module.vpc.module.vpc.output.network_name"
+		"[root] module.vpc.output.network-subnets" -> "[root] module.vpc.module.vpc.output.subnets_names"
+		"[root] module.vpc.output.static-ip" -> "[root] module.vpc.google_compute_address.app-ip"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_compute_firewall.fw-egress-allow"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_compute_firewall.fw-egress-deny"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_compute_firewall.fw-ingress-allow"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_compute_firewall.fw-ingress-deny"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_dns_record_set.argocd"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_dns_record_set.main"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_dns_record_set.rollout"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.google_dns_record_set.srollout"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.module.vpc.module.routes.google_compute_route.route"
+		"[root] module.vpc.provider.google (close)" -> "[root] module.vpc.module.vpc.module.vpc.google_compute_shared_vpc_host_project.shared_vpc_host"
+		"[root] module.vpc.provider.google" -> "[root] module.vpc.var.credentials"
+		"[root] module.vpc.provider.google" -> "[root] module.vpc.var.project_id"
+		"[root] module.vpc.provider.google" -> "[root] module.vpc.var.region"
+		"[root] module.vpc.var.argocd_ingress" -> "[root] var.argocd_ingress"
+		"[root] module.vpc.var.credentials" -> "[root] var.credentials"
+		"[root] module.vpc.var.domain" -> "[root] var.domain"
+		"[root] module.vpc.var.firewall_egress_allow" -> "[root] var.firewall_egress_allow"
+		"[root] module.vpc.var.firewall_egress_deny" -> "[root] var.firewall_egress_deny"
+		"[root] module.vpc.var.firewall_ingress_allow" -> "[root] var.firewall_ingress_allow"
+		"[root] module.vpc.var.firewall_ingress_deny" -> "[root] var.firewall_ingress_deny"
+		"[root] module.vpc.var.ip_range_pods" -> "[root] var.ip_range_pods"
+		"[root] module.vpc.var.ip_range_services" -> "[root] var.ip_range_services"
+		"[root] module.vpc.var.ip_range_sub" -> "[root] var.ip_range_sub"
+		"[root] module.vpc.var.network_name" -> "[root] var.network_name"
+		"[root] module.vpc.var.project_id" -> "[root] var.project_id"
+		"[root] module.vpc.var.region" -> "[root] var.region"
+		"[root] module.vpc.var.subnet_name" -> "[root] var.subnet_name"
+		"[root] provider.null (close)" -> "[root] module.argo.null_resource.argocd-ingress"
+		"[root] provider.null (close)" -> "[root] module.argo.null_resource.demo-application-argocd"
+		"[root] provider.null (close)" -> "[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap"
+		"[root] provider.null (close)" -> "[root] module.nginx.null_resource.cert-manager-issuer"
+		"[root] provider.null (close)" -> "[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes"
+		"[root] provider.random (close)" -> "[root] module.cluster.module.kubernetes-engine.random_shuffle.available_zones"
+		"[root] provider.random (close)" -> "[root] module.cluster.module.kubernetes-engine.random_string.cluster_service_account_suffix"
+		"[root] provider.random (close)" -> "[root] module.sql.random_password.admin"
+		"[root] provider.random (close)" -> "[root] module.sql.random_password.appuser"
+		"[root] provider.random (close)" -> "[root] module.sql.random_string.db-suffix"
+		"[root] provisioner.local-exec (close)" -> "[root] module.argo.null_resource.argocd-ingress"
+		"[root] provisioner.local-exec (close)" -> "[root] module.argo.null_resource.demo-application-argocd"
+		"[root] provisioner.local-exec (close)" -> "[root] module.cluster.module.kubernetes-engine.null_resource.delete_default_kube_dns_configmap"
+		"[root] provisioner.local-exec (close)" -> "[root] module.nginx.null_resource.cert-manager-issuer"
+		"[root] provisioner.local-exec (close)" -> "[root] module.vpc.module.vpc.module.routes.null_resource.delete_default_internet_gateway_routes"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] module.argo.provider.google (close)"
+		"[root] root" -> "[root] module.argo.provider.helm (close)"
+		"[root] root" -> "[root] module.argo.provider.kubernetes (close)"
+		"[root] root" -> "[root] module.cluster.module.kubernetes-engine.provider.kubernetes (close)"
+		"[root] root" -> "[root] module.cluster.provider.google (close)"
+		"[root] root" -> "[root] module.cluster.provider.google-beta (close)"
+		"[root] root" -> "[root] module.cluster.provider.kubernetes (close)"
+		"[root] root" -> "[root] module.nginx.provider.google (close)"
+		"[root] root" -> "[root] module.nginx.provider.helm (close)"
+		"[root] root" -> "[root] module.nginx.provider.kubernetes (close)"
+		"[root] root" -> "[root] module.sql.provider.google (close)"
+		"[root] root" -> "[root] module.sql.provider.kubernetes (close)"
+		"[root] root" -> "[root] module.vpc.provider.google (close)"
+		"[root] root" -> "[root] provider.null (close)"
+		"[root] root" -> "[root] provider.random (close)"
+		"[root] root" -> "[root] provisioner.local-exec (close)"
+	}
+}
+
