@@ -1,14 +1,12 @@
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| google | ~> 3.9.0 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| google | ~> 3.9.0 |
+| google | n/a |
 | kubernetes | n/a |
 | random | n/a |
 

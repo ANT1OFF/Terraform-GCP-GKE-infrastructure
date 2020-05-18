@@ -1,14 +1,12 @@
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| google | ~> 3.9.0 |
+No requirements.
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| google | ~> 3.9.0 |
+| google | n/a |
 
 ## Inputs
 
@@ -33,7 +31,7 @@
 
 | Name | Description |
 |------|-------------|
-| network-name | Name of network |
-| network-subnets | network-subnets |
-| static-ip | static ip |
+| network-name | Name of the created VPC network |
+| network-subnets | Names of the created subnets |
+| static-ip | Static IP allocated by the module |
 
