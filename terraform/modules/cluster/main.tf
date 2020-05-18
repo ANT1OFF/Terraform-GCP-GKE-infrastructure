@@ -25,13 +25,13 @@ resource "google_service_account" "terraform" {
 }
 
 locals {
-  terraform_sa  = "serviceAccount:${google_service_account.terraform.email}"
+  terraform_sa = "serviceAccount:${google_service_account.terraform.email}"
 }
 
 resource "google_project_iam_member" "terraform" {
-  for_each   = toset(var.sa_roles)
-  role       = each.key
-  member     = local.terraform_sa
+  for_each = toset(var.sa_roles)
+  role     = each.key
+  member   = local.terraform_sa
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ resource "google_project_iam_member" "terraform" {
 
 locals {
   istio_injection = var.istio ? "enabled" : "disabled"
-  istio_auth = var.istio ? "MTLS_PERMISSIVE" : "AUTH_MUTUAL_TLS"
+  istio_auth      = var.istio ? "MTLS_PERMISSIVE" : "AUTH_MUTUAL_TLS"
 }
 
 module "kubernetes-engine" {
@@ -60,9 +60,9 @@ module "kubernetes-engine" {
   ip_range_services          = "${var.network_subnets}-services"
   horizontal_pod_autoscaling = true
 
-  create_service_account   = false
-  service_account          = google_service_account.terraform.email
-  grant_registry_access    = true
+  create_service_account = false
+  service_account        = google_service_account.terraform.email
+  grant_registry_access  = true
 
   istio = var.istio
   #istio_auth = local.istio_auth

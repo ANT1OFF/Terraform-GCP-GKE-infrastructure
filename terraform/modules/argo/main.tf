@@ -86,15 +86,15 @@ resource "null_resource" "demo-application-argocd" {
 }
 
 resource "google_monitoring_uptime_check_config" "https" {
-  count = var.demo_app ? 1 : 0
+  count        = var.demo_app ? 1 : 0
   display_name = "https-hipster-shop-uptime-check"
   timeout      = "60s"
   period       = "60s"
 
   http_check {
-    path = "/"
-    port = "443"
-    use_ssl = true
+    path         = "/"
+    port         = "443"
+    use_ssl      = true
     validate_ssl = true
   }
 

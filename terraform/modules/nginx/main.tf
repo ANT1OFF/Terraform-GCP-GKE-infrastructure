@@ -150,7 +150,7 @@ resource "null_resource" "cert-manager-issuer" {
   }
 
   depends_on = [
-    kubernetes_namespace.cert-manager, 
+    kubernetes_namespace.cert-manager,
     null_resource.get-kubectl,
     helm_release.cert-manager,
     null_resource.namespace_dependency

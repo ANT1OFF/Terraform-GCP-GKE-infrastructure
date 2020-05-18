@@ -2,7 +2,7 @@
 # REQUIRED VARIABLES
 # ---------------------------------------------------------------------------------------------------------------------
 
-project_id = "bachelor-2020"
+project_id  = "example-project-id"
 credentials = "credentials.json" # path relative to *.tf files
 
 
@@ -14,7 +14,7 @@ credentials = "credentials.json" # path relative to *.tf files
 region = "europe-west1"
 
 # VPC
-domain            = "fonn.es"
+domain            = "example.com"
 network_name      = "vpc-network"
 subnet_name       = "sub-02"
 ip_range_sub      = "10.0.0.0/17"
@@ -23,7 +23,7 @@ ip_range_services = "192.168.64.0/18"
 
 # GKE
 cluster_name = "tf-gke-cluster"
-preemptible  = true
+preemptible  = false
 secrets = {
   secretkey = "secret value"
 }
@@ -36,10 +36,10 @@ demo_app       = true
 cert_manager_install = true
 
 # SQL
-sql_database   = false
+sql_database   = true
 sql_autoresize = true
 sql_version    = "POSTGRES_11"
-# sql_availability = "REGIONAL"
+sql_availability = "ZONAL"
 sql_replica_count = 0
 sql_backup_config = {
   binary_log_enabled = false # MySQL only

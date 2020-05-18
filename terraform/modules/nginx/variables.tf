@@ -35,12 +35,15 @@ variable "nginx_namespace" {
 }
 
 variable "vpc_static_ip" {
+  description = "Static IP allocated by the VPC module"
 }
 
 variable "cluster_endpoint" {
+  description = "Cluster endpoint"
 }
 
 variable "cluster_ca_certificate" {
+  description = "Cluster ca certificate (base64 encoded)"
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -50,6 +53,7 @@ variable "cluster_ca_certificate" {
 variable "cert_manager_install" {
   type    = bool
   default = true
+  description = "Whether or not to install Cert-Manager"
 }
 
 variable "namespace_uid" {

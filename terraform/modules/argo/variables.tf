@@ -34,14 +34,17 @@ variable "argocd_namespace" {
 }
 
 variable "cluster_endpoint" {
+  description = "Cluster endpoint"
 }
 
 variable "cluster_ca_certificate" {
+  description = "Cluster ca certificate (base64 encoded)"
 }
 
 variable "demo_app" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether or not to deploy the demo application"
 }
 
 variable "argocd_ingress" {

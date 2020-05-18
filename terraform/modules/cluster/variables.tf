@@ -70,7 +70,7 @@ variable "sa_roles" {
     "roles/resourcemanager.projectIamAdmin",
     "roles/serviceusage.serviceUsageAdmin",
     "roles/compute.networkAdmin",
-    "roles/storage.objectViewer",   # for pulling images from GCR
+    "roles/storage.objectViewer", # for pulling images from GCR
     "roles/monitoring.metricWriter",
     "roles/logging.logWriter",
     "roles/cloudtrace.agent",
@@ -81,7 +81,7 @@ variable "sa_roles" {
 }
 
 variable "istio" {
-  type = bool 
-  default = false
+  type        = bool
+  default     = false
   description = "Enable Istio addon"
 }
