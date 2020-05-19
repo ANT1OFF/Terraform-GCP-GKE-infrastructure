@@ -9,7 +9,6 @@ The repo aims to automate deployment of complex applications to GCPs' Kubernetes
   - [Prerequisites](#prerequisites)
   - [Quick start](#quick-start)
   - [What it deploys](#what-it-deploys)
-  - [Configuration](#configuration)
   - [TODOs](#todos)
   - [Authors](#authors)
 
@@ -50,9 +49,6 @@ The Terraform configuration can be configured to deploy the following:
 - Cert-Manager with Let's Encrypt issuer
 - ArgoCD along with Argo Rollouts for CD of applications
 - Google Hipster Shop as a demo application
-
-## Configuration
-
 
 
 ## TODOs
