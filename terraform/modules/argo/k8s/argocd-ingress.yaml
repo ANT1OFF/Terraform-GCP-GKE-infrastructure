@@ -12,7 +12,7 @@ metadata:
     
 spec:
   rules:
-  - host: argocd.fonn.es
+  - host: argocd.example.com
     http:
       paths:
       - backend:
@@ -21,5 +21,5 @@ spec:
         path: /
   tls:
   - hosts:
-    - argocd.fonn.es
+    - argocd.example.com
     secretName: argocd-secret # do not change, this is provided by Argo CD

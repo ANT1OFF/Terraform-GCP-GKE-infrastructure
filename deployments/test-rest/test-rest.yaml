@@ -51,11 +51,6 @@ spec:
                 secretKeyRef:
                   name: db-secrets
                   key: DB_NAME
-            - name: DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: db-secrets
-                  key: DB_NAME
             # [END cloudsql_secrets]
           volumeMounts:
             - name: test-rest-config-file

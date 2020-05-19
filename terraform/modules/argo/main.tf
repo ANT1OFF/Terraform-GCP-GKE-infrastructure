@@ -102,7 +102,7 @@ resource "google_monitoring_uptime_check_config" "https" {
     type = "uptime_url"
     labels = {
       project_id = var.project_id
-      host       = "fonn.es"
+      host       = "example.com"
     }
   }
 }
@@ -126,7 +126,7 @@ resource "helm_release" "argocd-rollouts" {
 # DEPLOY ARGOCD INGRESS
 # ---------------------------------------------------------------------------------------------------------------------
 
-# TODO: the argocd ingress object has host argocd.fonn.es hardcoded 
+# TODO: the argocd ingress object has host argocd.example.com hardcoded 
 # use some sort of templating (helm) that allows this to be configured from the var.domain in terraform
 resource "null_resource" "argocd-ingress" {
   count = var.argocd_ingress ? 1 : 0
