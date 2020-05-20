@@ -67,7 +67,7 @@ main() {
     fi
 
     if ! tf_apply; then
-      err "tf_init failed, exiting"
+      err "tf_apply failed, exiting"
       exit 1
     fi
   done
